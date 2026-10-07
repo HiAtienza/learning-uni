@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="570" viewBox="0 0 1080 570" role="img" aria-labelledby="title desc"><title id="title">Figure 6: Whole records set the page capacity</title><desc id="desc">Registry model • 4096 bytes per page • 350 bytes per record • no extra overhead</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="570" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 06</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Whole records set the page capacity</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Registry model • 4096 bytes per page • 350 bytes per record • no extra overhead</text>
+<text x="36" y="160" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#117D83">UNSPANNED · each record stays within one page</text>
+<rect x="36.0" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="79.06640625" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">1</text>
+<rect x="122.1328125" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="165.19921875" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">2</text>
+<rect x="208.265625" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="251.33203125" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">3</text>
+<rect x="294.3984375" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="337.46484375" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">4</text>
+<rect x="380.53125" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="423.59765625" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">5</text>
+<rect x="466.6640625" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="509.73046875" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">6</text>
+<rect x="552.796875" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="595.86328125" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">7</text>
+<rect x="638.9296875" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="681.99609375" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">8</text>
+<rect x="725.0625" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="768.12890625" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">9</text>
+<rect x="811.1953125" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="854.26171875" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">10</text>
+<rect x="897.328125" y="188" width="84.1328125" height="67" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="940.39453125" y="228" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">11</text>
+<rect x="983.4609375" y="188" width="60.5390625" height="67" rx="4" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="1013.73046875" y="228" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#9B6500">246</text>
+<text x="36" y="288" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#117D83">11 × 350 = 3850 bytes used</text>
+<text x="600" y="288" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#9B6500">Tail 246 &lt; next record 350</text>
+<line x1="520" y1="304" x2="520" y2="333" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="36" y="366" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#172B42">Record 12 starts on another page.</text>
+<text x="36" y="412" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#3864B0">SPANNED ALTERNATIVE · a different storage contract</text>
+<rect x="36" y="434" width="470" height="59" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="271" y="470" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#172B42">Page A tail: first fragment (246 bytes)</text>
+<line x1="515" y1="465" x2="557" y2="465" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="570" y="434" width="474" height="59" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="807" y="470" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#172B42">Page B: remaining fragment (104 bytes)</text>
+<line x1="36" y1="514" x2="1044" y2="514" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="545" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Spanned fragment counts illustrate payload only; continuation metadata would require its own space.</text></svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="735" viewBox="0 0 1080 735" role="img" aria-labelledby="title desc"><title id="title">Figure 11: Sparse lookup needs compatible file order</title><desc id="desc">Compare a valid block-minimum directory with an incomplete sampled secondary directory.</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="735" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 11</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Sparse lookup needs compatible file order</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Compare a valid block-minimum directory with an incomplete sampled secondary directory.</text>
+<text x="36" y="162" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#117D83">VALID · unique data keys are ordered</text>
+<rect x="36" y="185" width="316" height="48" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="194" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">Representative 10</text>
+<line x1="194" y1="239" x2="194" y2="268" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="36" y="276" width="316" height="58" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="194" y="311" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">D0: 10, 14, 19</text>
+<rect x="382" y="185" width="316" height="48" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="540" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">Representative 23</text>
+<line x1="540" y1="239" x2="540" y2="268" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="382" y="276" width="316" height="58" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="540" y="311" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">D1: 23, 28, 35</text>
+<rect x="728" y="185" width="316" height="48" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="886" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#172B42">Representative 40</text>
+<line x1="886" y1="239" x2="886" y2="268" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="728" y="276" width="316" height="58" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="886" y="311" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">D2: 40, 47</text>
+<text x="36" y="375" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="start" fill="#117D83">Target 28 → largest representative ≤ 28 is 23 → inspect D1 → found</text>
+<line x1="36" y1="403" x2="1044" y2="403" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="440" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#AB4444">INCOMPLETE · data are name-ordered, IDs are not</text>
+<rect x="36" y="464" width="488" height="60" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="280" y="501" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">D0: (Ana,90), (Ben,20)</text>
+<rect x="550" y="464" width="494" height="60" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="797" y="501" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">D1: (Cara,70), (Dan,10)</text>
+<text x="36" y="568" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="start" fill="#172B42">Sorted sampled IDs: 70 → D1, 90 → D0</text>
+<text x="36" y="607" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="start" fill="#AB4444">Target ID 20 exists in D0, but sampling supplies no complete route to it.</text>
+<text x="36" y="644" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#52657B">Use complete secondary coverage, or change the file ordering and access model.</text>
+<line x1="36" y1="679" x2="1044" y2="679" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="710" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Duplicate runs require additional handling • Missing from a sparse directory does not mean absent from data.</text></svg>

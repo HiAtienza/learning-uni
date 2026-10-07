@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="500" viewBox="0 0 1080 500" role="img" aria-labelledby="title desc"><title id="title">Figure 3: A read is three costs added together</title><desc id="desc">Tutorial Q2 • 7200 rpm • 128 sectors/track • 4 sectors per transfer block</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="500" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 03</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">A read is three costs added together</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Tutorial Q2 • 7200 rpm • 128 sectors/track • 4 sectors per transfer block</text>
+<text x="40" y="173" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="start" fill="#52657B">APPROXIMATE WORST</text>
+<rect x="40" y="188" width="366" height="65" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="223.0" y="227" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">Seek 17.384 ms</text>
+<rect x="426" y="188" width="314" height="65" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="583.0" y="227" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">Wait 8.3333 ms</text>
+<rect x="760" y="188" width="280" height="65" rx="10" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="900.0" y="227" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">Transfer 0.2604 ms</text>
+<text x="406" y="227" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#52657B">+</text>
+<text x="750" y="227" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#52657B">+</text>
+<text x="40" y="313" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="start" fill="#52657B">COURSE AVERAGE</text>
+<rect x="40" y="328" width="366" height="65" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="223.0" y="367" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">Seek 8.692 ms</text>
+<rect x="426" y="328" width="314" height="65" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="583.0" y="367" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">Wait 4.1667 ms</text>
+<rect x="760" y="328" width="280" height="65" rx="10" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="900.0" y="367" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#172B42">Transfer 0.2604 ms</text>
+<text x="406" y="367" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#52657B">+</text>
+<text x="750" y="367" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#52657B">+</text>
+<text x="40" y="292" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="start" fill="#117D83">Positioning is averaged; the requested block is still transferred in full.</text>
+<line x1="36" y1="444" x2="1044" y2="444" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="475" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Widths are schematic • Average total ≈ 13.1191 ms; it is not half the worst total.</text></svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="510" viewBox="0 0 1080 510" role="img" aria-labelledby="title desc"><title id="title">Figure 5: Mirroring and striping solve different problems</title><desc id="desc">Read page labels as identities: same label = copy; different label = different data.</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="510" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 05</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Mirroring and striping solve different problems</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Read page labels as identities: same label = copy; different label = different data.</text>
+<rect x="35" y="148" width="490" height="282" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="59" y="182" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#117D83">MIRRORING</text>
+<text x="60" y="244" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#172B42">Disk A</text>
+<rect x="170" y="209" width="140" height="56" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="240" y="244" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 1</text>
+<rect x="330" y="209" width="140" height="56" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="400" y="244" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 2</text>
+<text x="60" y="326" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#172B42">Disk B</text>
+<rect x="170" y="291" width="140" height="56" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="240" y="326" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 1</text>
+<rect x="330" y="291" width="140" height="56" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="400" y="326" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 2</text>
+<text x="59" y="399" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#117D83">If A fails: B retains pages 1 and 2.</text>
+<rect x="555" y="148" width="490" height="282" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="579" y="182" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#117D83">PURE STRIPING</text>
+<text x="580" y="244" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#172B42">Disk A</text>
+<rect x="690" y="209" width="140" height="56" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="760" y="244" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 1</text>
+<rect x="850" y="209" width="140" height="56" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="920" y="244" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 3</text>
+<text x="580" y="326" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#172B42">Disk B</text>
+<rect x="690" y="291" width="140" height="56" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="760" y="326" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 2</text>
+<rect x="850" y="291" width="140" height="56" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="920" y="326" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Page 4</text>
+<text x="579" y="399" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#AB4444">If A fails: pages 1 and 3 are lost.</text>
+<line x1="36" y1="454" x2="1044" y2="454" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="485" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Independent-device failure assumed • A logical deletion may affect every mirrored copy.</text></svg>

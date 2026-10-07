@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="760" viewBox="0 0 1080 760" role="img" aria-labelledby="title desc"><title id="title">Figure 9: Slotted page: move bytes, keep surviving slots</title><desc id="desc">4096-byte page • 64-byte header • three retained 8-byte slots • records pack from the end</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="760" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 09</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Slotted page: move bytes, keep surviving slots</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">4096-byte page • 64-byte header • three retained 8-byte slots • records pack from the end</text>
+<text x="36" y="183" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">1  INITIAL</text>
+<rect x="36" y="205" width="148" height="57" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="110" y="229" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#172B42">Header + slots</text>
+<text x="110" y="250" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">[0,88)</text>
+<rect x="195" y="205" width="338.6167664670659" height="57" rx="4" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="365.30838323353294" y="229" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">Free</text>
+<text x="365.30838323353294" y="250" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1608 B</text>
+<rect x="535.6167664670659" y="205" width="209.82634730538922" height="57" rx="4" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="641.5299401197605" y="229" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">C</text>
+<text x="641.5299401197605" y="250" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1000 B</text>
+<rect x="747.443113772455" y="205" width="167.46107784431138" height="57" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="832.1736526946107" y="229" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">B</text>
+<text x="832.1736526946107" y="250" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">800 B</text>
+<rect x="916.9041916167664" y="205" width="125.09580838323353" height="57" rx="4" fill="#EBE7F6" stroke="#CED8E5"/>
+<text x="980.4520958083832" y="229" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">A</text>
+<text x="980.4520958083832" y="250" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">600 B</text>
+<text x="36" y="289" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">C: [1696,2696) · slot 2 → (1696,1000)</text>
+<text x="36" y="313" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">2  DELETE B</text>
+<rect x="36" y="335" width="148" height="57" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="110" y="359" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#172B42">Header + slots</text>
+<text x="110" y="380" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">[0,88)</text>
+<rect x="195" y="335" width="338.6167664670659" height="57" rx="4" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="365.30838323353294" y="359" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">Free</text>
+<text x="365.30838323353294" y="380" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1608 B</text>
+<rect x="535.6167664670659" y="335" width="209.82634730538922" height="57" rx="4" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="641.5299401197605" y="359" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">C</text>
+<text x="641.5299401197605" y="380" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1000 B</text>
+<rect x="747.443113772455" y="335" width="167.46107784431138" height="57" rx="4" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="832.1736526946107" y="359" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">Hole</text>
+<text x="832.1736526946107" y="380" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">800 B</text>
+<rect x="916.9041916167664" y="335" width="125.09580838323353" height="57" rx="4" fill="#EBE7F6" stroke="#CED8E5"/>
+<text x="980.4520958083832" y="359" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">A</text>
+<text x="980.4520958083832" y="380" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">600 B</text>
+<text x="36" y="419" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Slot 1 is retained, marked free · 2408 total free bytes in two regions</text>
+<text x="36" y="443" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">3  COMPACT</text>
+<rect x="36" y="465" width="148" height="57" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="110" y="489" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#172B42">Header + slots</text>
+<text x="110" y="510" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">[0,88)</text>
+<rect x="195" y="465" width="508.07784431137725" height="57" rx="4" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="450.0389221556886" y="489" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">Free</text>
+<text x="450.0389221556886" y="510" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">2408 B</text>
+<rect x="705.0778443113772" y="465" width="209.82634730538922" height="57" rx="4" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="810.9910179640718" y="489" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">C</text>
+<text x="810.9910179640718" y="510" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1000 B</text>
+<rect x="916.9041916167664" y="465" width="125.09580838323353" height="57" rx="4" fill="#EBE7F6" stroke="#CED8E5"/>
+<text x="980.4520958083832" y="489" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">A</text>
+<text x="980.4520958083832" y="510" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">600 B</text>
+<text x="36" y="549" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">C moves to [2496,3496) · update slot 2 → (2496,1000)</text>
+<text x="36" y="573" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">4  REUSE SLOT 1</text>
+<rect x="36" y="595" width="148" height="57" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="110" y="619" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#172B42">Header + slots</text>
+<text x="110" y="640" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">[0,88)</text>
+<rect x="195" y="595" width="169.1556886227545" height="57" rx="4" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="280.57784431137725" y="619" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">Free</text>
+<text x="280.57784431137725" y="640" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">808 B</text>
+<rect x="366.1556886227545" y="595" width="336.92215568862275" height="57" rx="4" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="535.6167664670659" y="619" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">D</text>
+<text x="535.6167664670659" y="640" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1600 B</text>
+<rect x="705.0778443113772" y="595" width="209.82634730538922" height="57" rx="4" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="810.9910179640718" y="619" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">C</text>
+<text x="810.9910179640718" y="640" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">1000 B</text>
+<rect x="916.9041916167664" y="595" width="125.09580838323353" height="57" rx="4" fill="#EBE7F6" stroke="#CED8E5"/>
+<text x="980.4520958083832" y="619" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#172B42">A</text>
+<text x="980.4520958083832" y="640" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#52657B">600 B</text>
+<text x="36" y="679" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">D: [896,2496) · slot 1 → (896,1600) · free space = 808 bytes</text>
+<line x1="36" y1="704" x2="1044" y2="704" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="735" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Byte order is left → right • Data/free widths are proportional; the 88-byte prefix is enlarged.</text></svg>

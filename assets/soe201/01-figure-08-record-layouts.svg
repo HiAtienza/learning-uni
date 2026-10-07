@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc"><title id="title">Figure 8: Record layout: fixed fields or variable descriptors</title><desc id="desc">Field offsets locate bytes inside a record. A page slot locates the whole record.</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="620" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 08</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Record layout: fixed fields or variable descriptors</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Field offsets locate bytes inside a record. A page slot locates the whole record.</text>
+<text x="36" y="161" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#117D83">FIXED-LENGTH · predetermined field boundaries</text>
+<rect x="36" y="182" width="227" height="54" rx="5" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="151.0" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#172B42">ID: fixed width</text>
+<rect x="266" y="182" width="407" height="54" rx="5" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="471.0" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#172B42">Name: reserved width</text>
+<rect x="676" y="182" width="365" height="54" rx="5" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="860.0" y="216" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#172B42">Address: reserved width</text>
+<text x="36" y="284" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#117D83">VARIABLE-LENGTH · fixed prefix, variable field bytes</text>
+<text x="36" y="315" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#52657B">Before</text>
+<rect x="36" y="328" width="540" height="70" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="54" y="357" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#172B42">16-byte prefix: descriptors + null metadata</text>
+<text x="54" y="383" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#117D83">name (16,3)    address (19,4)</text>
+<rect x="596" y="328" width="120" height="70" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="656" y="370" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#172B42">Ana</text>
+<rect x="736" y="328" width="200" height="70" rx="10" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="756" y="370" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#172B42">Hall</text>
+<text x="596" y="423" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="start" fill="#52657B">16</text>
+<text x="736" y="423" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="start" fill="#52657B">19</text>
+<text x="952" y="423" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end" fill="#52657B">23 = end</text>
+<text x="36" y="441" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#52657B">After</text>
+<rect x="36" y="454" width="540" height="70" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="54" y="483" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#172B42">16-byte prefix: descriptors + null metadata</text>
+<text x="54" y="509" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#117D83">name (16,3)    address (19,6)</text>
+<rect x="596" y="454" width="120" height="70" rx="10" fill="#E6EDF9" stroke="#CED8E5"/>
+<text x="656" y="496" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#172B42">Ana</text>
+<rect x="736" y="454" width="265" height="70" rx="10" fill="#FFF0CC" stroke="#CED8E5"/>
+<text x="756" y="496" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#172B42">Hall-B</text>
+<text x="596" y="549" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="start" fill="#52657B">16</text>
+<text x="736" y="549" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="start" fill="#52657B">19</text>
+<text x="1007" y="549" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end" fill="#52657B">25 = end</text>
+<line x1="36" y1="564" x2="1044" y2="564" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="595" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Variable example uses one byte per character • A NULL marker is distinct from a present empty string.</text></svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="600" viewBox="0 0 1080 600" role="img" aria-labelledby="title desc"><title id="title">Figure 2: Disk geometry: position has two dimensions</title><desc id="desc">Radial position selects a track. Angular position selects a sector.</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="600" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 02</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Disk geometry: position has two dimensions</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Radial position selects a track. Angular position selects a sector.</text>
+<rect x="30" y="140" width="495" height="380" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<rect x="545" y="140" width="505" height="380" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="55" y="176" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#117D83">TOP VIEW · one recording surface</text>
+<ellipse cx="235" cy="342" rx="151" ry="151" fill="#FFFFFF" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="235" cy="342" rx="126" ry="126" fill="none" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="235" cy="342" rx="101" ry="101" fill="none" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="235" cy="342" rx="76" ry="76" fill="none" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="235" cy="342" rx="38" ry="38" fill="none" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="235" cy="342" rx="126" ry="126" fill="none" stroke="#117D83" stroke-width="8"/>
+<line x1="273.0" y1="342.0" x2="386.0" y2="342.0" stroke="#CED8E5" stroke-width="2"/>
+<line x1="267.9089653438087" y1="361.0" x2="365.7698359714502" y2="417.5" stroke="#CED8E5" stroke-width="2"/>
+<line x1="254.0" y1="374.9089653438087" x2="310.5" y2="472.7698359714502" stroke="#CED8E5" stroke-width="2"/>
+<line x1="235.0" y1="380.0" x2="235.0" y2="493.0" stroke="#CED8E5" stroke-width="2"/>
+<line x1="216.0" y1="374.9089653438087" x2="159.50000000000003" y2="472.7698359714502" stroke="#CED8E5" stroke-width="2"/>
+<line x1="202.0910346561913" y1="361.0" x2="104.23016402854975" y2="417.5" stroke="#CED8E5" stroke-width="2"/>
+<line x1="197.0" y1="342.0" x2="84.0" y2="342.0" stroke="#CED8E5" stroke-width="2"/>
+<line x1="202.09103465619134" y1="323.0" x2="104.23016402854978" y2="266.5" stroke="#CED8E5" stroke-width="2"/>
+<line x1="215.99999999999997" y1="309.09103465619137" x2="159.49999999999994" y2="211.2301640285498" stroke="#CED8E5" stroke-width="2"/>
+<line x1="235.0" y1="304.0" x2="234.99999999999997" y2="191.0" stroke="#CED8E5" stroke-width="2"/>
+<line x1="254.0" y1="309.0910346561913" x2="310.5" y2="211.23016402854978" stroke="#CED8E5" stroke-width="2"/>
+<line x1="267.90896534380863" y1="323.0" x2="365.7698359714502" y2="266.49999999999994" stroke="#CED8E5" stroke-width="2"/>
+<path d="M355.37753112603696,272.5 A139,139 0 0 1 374.0,342.0 L348.0,342.0 A113,113 0 0 0 332.8608706276416,285.5 Z" fill="#FFF0CC" stroke="#9B6500" stroke-width="2"/>
+<ellipse cx="235" cy="342" rx="25" ry="25" fill="#E6EDF9" stroke="#52657B" stroke-width="2"/>
+<line x1="120" y1="234" x2="70" y2="213" stroke="#117D83" stroke-width="2"/>
+<text x="55" y="209" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#172B42">Platter</text>
+<line x1="332" y1="421" x2="382" y2="446" stroke="#117D83" stroke-width="2"/>
+<text x="385" y="451" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">Track</text>
+<line x1="365" y1="312" x2="403" y2="284" stroke="#9B6500" stroke-width="2"/>
+<text x="398" y="275" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#9B6500">Sector</text>
+<text x="565" y="176" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" text-anchor="start" fill="#117D83">SIDE VIEW · aligned recording surfaces</text>
+<ellipse cx="786" cy="410" rx="187" ry="43" fill="#FFFFFF" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="786" cy="410" rx="117" ry="27" fill="none" stroke="#117D83" stroke-width="5"/>
+<ellipse cx="786" cy="335" rx="187" ry="43" fill="#FFFFFF" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="786" cy="335" rx="117" ry="27" fill="none" stroke="#117D83" stroke-width="5"/>
+<ellipse cx="786" cy="260" rx="187" ry="43" fill="#FFFFFF" stroke="#CED8E5" stroke-width="2"/>
+<ellipse cx="786" cy="260" rx="117" ry="27" fill="none" stroke="#117D83" stroke-width="5"/>
+<line x1="669" y1="260" x2="669" y2="410" stroke="#117D83" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="903" y1="260" x2="903" y2="410" stroke="#117D83" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="786" y="477" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#117D83">Equal-radius tracks form a cylinder</text>
+<line x1="36" y1="544" x2="1044" y2="544" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="575" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Schematic geometry • A cylinder spans surfaces; it is not a sector or one platter.</text></svg>

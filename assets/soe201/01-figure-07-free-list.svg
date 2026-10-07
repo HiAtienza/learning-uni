@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="570" viewBox="0 0 1080 570" role="img" aria-labelledby="title desc"><title id="title">Figure 7: Reuse a slot without losing the free list</title><desc id="desc">Fixed-size slots • deletion adds to the front • insertion takes the first free slot</desc><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52657B"/></marker></defs><rect width="1080" height="570" rx="18" fill="#F5F7FB"/>
+<text x="36" y="35" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" text-anchor="start" fill="#117D83">SOE201  /  PHYSICAL STORAGE  /  FIGURE 07</text>
+<text x="36" y="76" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" text-anchor="start" fill="#172B42">Reuse a slot without losing the free list</text>
+<text x="36" y="109" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#52657B">Fixed-size slots • deletion adds to the front • insertion takes the first free slot</text>
+<text x="36" y="165" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">1  INITIAL</text>
+<rect x="36" y="190" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="85" y="222" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Header</text>
+<line x1="135" y1="216" x2="154" y2="216" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="157" y="190" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="206" y="222" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">1</text>
+<line x1="256" y1="216" x2="275" y2="216" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="278" y="190" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="327" y="222" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">4</text>
+<line x1="377" y1="216" x2="396" y2="216" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="399" y="190" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="448" y="222" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">6</text>
+<line x1="498" y1="216" x2="517" y2="216" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="520" y="190" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="569" y="222" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">End</text>
+<text x="800" y="207" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Slot 3 is occupied.</text>
+<text x="36" y="290" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">2  DELETE 3</text>
+<rect x="36" y="315" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="85" y="347" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Header</text>
+<line x1="135" y1="341" x2="154" y2="341" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="157" y="315" width="98" height="52" rx="10" fill="#E6F3F1" stroke="#CED8E5"/>
+<text x="206" y="347" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">3</text>
+<line x1="256" y1="341" x2="275" y2="341" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="278" y="315" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="327" y="347" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">1</text>
+<line x1="377" y1="341" x2="396" y2="341" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="399" y="315" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="448" y="347" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">4</text>
+<line x1="498" y1="341" x2="517" y2="341" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="520" y="315" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="569" y="347" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">6</text>
+<line x1="619" y1="341" x2="638" y2="341" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="641" y="315" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="690" y="347" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">End</text>
+<text x="800" y="332" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Set 3.next = 1</text>
+<text x="800" y="355" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start" fill="#52657B">then head = 3.</text>
+<text x="36" y="415" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" text-anchor="start" fill="#117D83">3  INSERT</text>
+<rect x="36" y="440" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="85" y="472" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">Header</text>
+<line x1="135" y1="466" x2="154" y2="466" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="157" y="440" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="206" y="472" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">1</text>
+<line x1="256" y1="466" x2="275" y2="466" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="278" y="440" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="327" y="472" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">4</text>
+<line x1="377" y1="466" x2="396" y2="466" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="399" y="440" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="448" y="472" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">6</text>
+<line x1="498" y1="466" x2="517" y2="466" stroke="#52657B" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="520" y="440" width="98" height="52" rx="10" fill="#FFFFFF" stroke="#CED8E5"/>
+<text x="569" y="472" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" text-anchor="middle" fill="#172B42">End</text>
+<text x="800" y="457" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Save 3.next</text>
+<text x="800" y="480" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start" fill="#52657B">head = 1</text>
+<text x="800" y="502" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start" fill="#52657B">write into slot 3.</text>
+<line x1="36" y1="514" x2="1044" y2="514" stroke="#CED8E5" stroke-width="2"/>
+<text x="36" y="545" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#52657B">Logical update sequence • The remaining free chain must stay reachable before slot bytes are overwritten.</text></svg>
