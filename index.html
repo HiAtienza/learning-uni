@@ -4,9 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#102b38" />
+    <script>
+      // Overlap the one requested course download with module parsing.
+      (() => {
+        const requested = new URLSearchParams(location.hash.slice(1)).get('course') || 'SOE203';
+        const code = ['SOE203', 'ADS205', 'SOE201'].includes(requested) ? requested : requested === 'CORE' ? '' : 'SOE203';
+        if (!code) return;
+        window.learningUniPreload = { code, data: fetch('/learning-uni/data/courses/' + code + '.json')
+          .then(response => response.ok ? response.json() : undefined).catch(() => undefined) };
+      })();
+    </script>
     <title>Learning Uni · Study workspace</title>
-    <script type="module" crossorigin src="/learning-uni/assets/index-B4NQHx95.js"></script>
-    <link rel="stylesheet" crossorigin href="/learning-uni/assets/index-_zkT1QT9.css">
+    <script type="module" crossorigin src="/learning-uni/assets/index-Ultd1Zet.js"></script>
+    <link rel="modulepreload" crossorigin href="/learning-uni/assets/markdown-ZY2xSylG.js">
+    <link rel="stylesheet" crossorigin href="/learning-uni/assets/index-B95dJ-pg.css">
   </head>
   <body>
     <div id="app"></div>
