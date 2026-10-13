@@ -9,19 +9,21 @@ Explica esta unidad en español claro, paso a paso, para alguien que aprende de 
 ## Verified original file snapshots
 - Week 4 - Tutorial Questions.docx · SHA-256 f284f9d3fcf3c340f0157aea122c5f0cc4dbe13d222eb3328430264d535e2d45
 - Week 4 - Additional Tutorial Questions.docx · SHA-256 8ec3fcbf47af815f7116858d37b867214ea319dae9745391887885b6adb39d07
+- Week 4 - Tutorial Questions w Answers.docx · SHA-256 979c7f08e22764c2347a2be8c3e39db2ebb4ab81e440035adf405f47f76b4dda
+- Week 4 - Additional Tutorial Questions w Answers.docx · SHA-256 a017855aa76b38a5f380881f7623a170dd50728a245f46e5d13937b62021c00d
 
 ## Source material
 
 ### Snapshot: content/reviewed/SOE203/04-tutorial/tutor.md
-SHA-256: 01c46130041486c351e7ddbc2a11176697ef926e9e69219c436b69472ed099bf
+SHA-256: 07323c0e1f5366403b09089ac74591522b0777364df272fd6595c11254c36957
 
 # Requirements tutorial clinic
 
-Source-grounded web edition: **Week 4 - Tutorial Questions.docx (six questions)** and **Week 4 - Additional Tutorial Questions.docx (eight questions)**, read in full. Use Unit 04 as the conceptual reference. These answer explanations are local teaching reasoning, not an official marking scheme.
+Source-grounded web edition: **Week 4 - Tutorial Questions.docx (six questions)** and **Week 4 - Additional Tutorial Questions.docx (eight questions)**, read in full. Use Unit 04 as the conceptual reference. Both supplied Week 4 answer sheets have now been inspected and reconciled. Collapsed solutions distinguish a faithful supplied-answer summary from local commentary; neither is an official exam marking scheme.
 
 ## Your route through this tutorial
 
-Work through all fourteen tasks in Recall & practice. Each has an adjacent hint and complete explanation. First attempt from memory, then compare the scope, unresolved criteria and reasoning. Original DOCX files are preserved in Source library.
+Work through all fourteen tasks in Recall & practice. Each has an adjacent hint and complete explanation. First attempt from memory, then compare the supplied answer, its scope and unresolved criteria. Both earlier question-only files and the new answer DOCX files are preserved in Source library.
 
 ## 1. Classical Waterfall and evolving requirements
 
@@ -33,28 +35,40 @@ The parking budget addresses only one aspect. Check technical feasibility, opera
 
 ## 3. Convert a wish into testable behavior
 
-Flight alerts, unusual withdrawals, approaching drivers and unlocked doors each need a trigger, defined conditions, response and acceptance criteria. User requirements express stakeholder goals; system requirements elaborate behavior. Terms such as instantly, exactly and unusual remain unresolved until criteria are agreed. Suggested criteria in solutions are proposals, not supplied instructor values. Source: Tutorial Q4; Additional Q1–3.
+Flight alerts, unusual withdrawals, approaching drivers and unlocked doors each need a trigger, defined conditions, response and acceptance criteria. User requirements express stakeholder goals; system requirements elaborate behavior. Terms such as instantly, exactly and unusual remain unresolved until criteria are agreed. The new sheets supply example values: flight 30 seconds, bank 3× average/10 seconds, driver updates every 5 seconds, and geofence/door notification within 30 seconds. Treat them as values in these supplied examples, not universal requirements; the sources leave some measurement and sensor semantics open. Source: Tutorial Q4; Additional Q1–3.
 
 ## 4. Separate functions and quality expectations
 
-Search, filtering, workout sync and offline downloading describe functions. Timing expectations constrain them under agreed conditions. FURPS Performance covers those timing concerns; security is grouped under Functionality in the supplied course framework; concurrent-save integrity concerns Reliability. FURPS categories do not replace functional/quality analysis. Source: Tutorial Q5; Additional Q4–8.
+Search, filtering, workout sync and offline downloading describe functions. Supplied targets are search 2 seconds/95%, workout sync completion 2 seconds, product filtering 1.5 seconds/95%, and download initiation with visible progress within 1 second. Completion and initiation are distinct events; normal load still needs definition. FURPS Performance covers those timing concerns; security is grouped under Functionality in the supplied course framework; concurrent-save integrity concerns Reliability. FURPS categories do not replace functional/quality analysis. Source: Tutorial Q5; Additional Q4–8.
 
 ## 5. Reason about interactions
 
-The 500 ms signed-answer problem is a possible resource/latency conflict. Mark the interaction, explain a concrete mechanism, propose a design and identify what needs testing. Deferring signing changes what acceptance means and requires agreed semantics; it cannot silently weaken the original requirement. Source: Tutorial Q6.
+The 500 ms signed-answer problem is a possible resource/latency conflict. Mark the interaction, explain a concrete mechanism, propose a design and identify what needs testing. The supplied Q6 answer proposes acknowledging receipt before signing completes, then asynchronous signing/audit. Preserve that proposal while distinguishing receipt from signed acceptance and requiring explicit failure/recovery semantics; it cannot silently weaken the original requirement. Source: Tutorial Q6.
 
 ## Review
 
-Explain one requirement without using vague speed or accuracy language. Identify at least one criterion still requiring stakeholder agreement. Compare your complete fourteen attempts with the local worked reasoning, then revisit the cards marked for review. No official thresholds or exam predictions are supplied here.
+Explain one requirement without using vague speed or accuracy language. Identify at least one criterion still requiring stakeholder agreement. Compare your complete fourteen attempts with the local worked reasoning, then revisit the cards marked for review. Supplied example thresholds are now visible; they are not measured results, official exam marks or predictions.
+
+## Week 4 supplied answers — Boundaries worth checking
+
+[[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Main answer sheet]]: six unchanged questions with new answers. [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Additional answer sheet]]: eight unchanged questions with new answers. Their numbers are answer-example requirements; the original question text did not prescribe them.
+
+- Main Q4: the answer reacts to departure-time changes, not only delays; it combines an Interactor need with a Domain data trigger.
+- Main Q6: a −1 matrix entry indicates a likely conflict, not measured impossibility. Its asynchronous-signing trade-off needs explicit acknowledgement semantics.
+- Additional Q6: one second applies to starting the download with progress, not finishing an entire episode.
+- Additional Q7: “more than 5” consecutive failures within 10 minutes triggers a 30-minute lock plus identity re-verification; preserve the strict boundary and the supplied Functionality label.
+- Additional Q8: Reliability is the source category; preserving all edits is an acceptance property, not proof that a merge algorithm has been implemented.
+
+Use the fourteen original practice identities to revisit saved answers. Existing ratings and written attempts remain your records; revised source explanations do not reset them or establish new mastery.
 
 
 
 ### Snapshot: content/reviewed/SOE203/04-tutorial/practice.md
-SHA-256: 8f4f3232fc2f2fb7a27b619a23112d1ab4ba959c96df39a6c84b89f4a5760f76
+SHA-256: e6700efa8940974d2ba6601f533706c7b089b6d3bbee83b3e9019d602bc5e346
 
 # Requirements tutorial clinic: recall and practice
 
-Web tutor edition. New practice below is **SUPPLEMENTARY PRACTICE**, not an official assignment or marking scheme. Sources: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes. Attempt before opening help.
+Web tutor edition. The fourteen original tasks now include **SUPPLIED COURSE ANSWER — not an exam marking scheme**, followed by separately labelled local commentary. Atomic recall retains its earlier source lines and IDs. No official marks or learner mastery are inferred. Sources: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes. Attempt before opening help.
 
 ## Atomic Recall
 
@@ -98,7 +112,7 @@ Web tutor edition. New practice below is **SUPPLEMENTARY PRACTICE**, not an offi
 
 ### Practice 1 — Upfront requirements
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 Chapter 3 studied Agile, where requirements evolve sprint by sprint. Chapter 4 studies Waterfall, where an entire Requirements Engineering phase is completed and approved before design begins. Explain, in your own words, why Waterfall requires this upfront investment while Agile does not, and what risk Waterfall is trying to avoid by doing so.
 
@@ -108,13 +122,15 @@ Source: Week 4 - Tutorial Questions.docx, Question 1.
 > Ask when misunderstanding becomes expensive and when requirements are revisited.
 
 > [!success]- Solution
-> Classical Waterfall completes and approves a broad requirements baseline before downstream design, reducing the risk of building against misunderstood/incomplete needs and expensive later rework. Agile still elicits, specifies and validates requirements, but revisits and elaborates them in increments/sprints using feedback. Neither model guarantees that change disappears. The worksheet phrasing is a comparison of approaches, not a claim that all real projects follow strict one-pass phases.
+> **SUPPLIED COURSE ANSWER (faithful summary):** Upfront investment reduces downstream rework because design, code and testing depend on the approved SRS. The supplied comparison describes Waterfall upfront/sign-off/change control versus Agile incremental refinement and working-software feedback.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, tutorial Q1.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Week 4 - Tutorial Questions w Answers.docx]], Question 1.
+>
+> **LOCAL COMMENTARY:** The answer is a course comparison, not a claim that Agile has no early planning or Waterfall can never change.
 
 ### Practice 2 — Feasibility gap
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A Feasibility Report for a new campus parking-reservation system concludes: “The budget covers a two-semester development team, so the project should proceed.” Identify what's missing from this feasibility judgment.
 
@@ -124,13 +140,15 @@ Source: Week 4 - Tutorial Questions.docx, Question 2.
 > Test technical, operational and schedule feasibility as well as finance.
 
 > [!success]- Solution
-> Check whether the technology/integration/data access can support the functions; whether users/processes can adopt it; whether staffing and milestones fit two semesters; and relevant constraints/risks. Having funding does not establish these. State evidence needed for each and assess before a proceed decision.
+> **SUPPLIED COURSE ANSWER (faithful summary):** Check organizational objectives, engineering with current technology within budget and schedule, and integration with existing/legacy infrastructure. The budget statement establishes only part of that judgment.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, tutorial Q2.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Week 4 - Tutorial Questions w Answers.docx]], Question 2.
+>
+> **LOCAL COMMENTARY:** Two semesters is not by itself a schedule-feasibility demonstration; operational fit remains useful local elaboration.
 
 ### Practice 3 — Elicitation challenge
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 Name and explain one elicitation challenge, and explain how a specific technique helps resolve that challenge.
 
@@ -140,13 +158,15 @@ Source: Week 4 - Tutorial Questions.docx, Question 3.
 > Connect the technique to the cause, not just its name.
 
 > [!success]- Solution
-> Example: stakeholders describe the formal process but omit tacit workarounds. Observation/ethnography of actual parking operations reveals interruptions and exceptions; interviews then validate the inferred needs. Alternative: conflicting stakeholder priorities can be clarified in a facilitated workshop with explicit scenarios and negotiated trade-offs. These are labelled answer examples.
+> **SUPPLIED COURSE ANSWER (faithful summary):** The sheet offers four challenge/technique pairs: tacit knowledge → ethnography/shadowing; domain jargon → shared domain glossary; unrealistic wish lists → feasibility/cost-value matrix; political conflicts → multi-perspective workshops.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, tutorial Q3.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Week 4 - Tutorial Questions w Answers.docx]], Question 3.
+>
+> **LOCAL COMMENTARY:** Any chosen pair must explain how the technique addresses that specific cause.
 
 ### Practice 4 — Flight delay and viewpoints
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder says: “I want to know instantly if my flight gets delayed.” Write one User Requirement and one corresponding System Requirement derived from it. Then state which of the three VOA viewpoints — Interactor, Indirect, or Domain — each requirement primarily represents, and why.
 
@@ -156,13 +176,15 @@ Source: Week 4 - Tutorial Questions.docx, Question 4.
 > Keep stakeholder goal separate from system detail; delivery thresholds need agreement.
 
 > [!success]- Solution
-> User: The passenger shall be notified when their flight is delayed. System proposal: WHEN an authoritative flight-status update changes a subscribed flight to delayed, the app shall send the subscribed passenger an alert identifying the flight and updated departure information within an agreed maximum latency. The passenger goal is an interactor view. The system behavior primarily serves that view; a system requirement is not automatically a domain viewpoint. Domain constraints would include authoritative airline status rules, and indirect interests could include operations/compliance. Instant is unresolved until measurable criteria and source freshness are agreed.
+> **SUPPLIED COURSE ANSWER (faithful summary):** UR: notify the passenger when the booked flight’s departure time changes. SR: WHEN departure time is updated in the airline operations system, push a notification to the registered device within 30 seconds. The UR is Interactor; the SR serves that need and also reflects Domain through its authoritative airline-data trigger.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, tutorial Q4.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Week 4 - Tutorial Questions w Answers.docx]], Question 4.
+>
+> **LOCAL COMMENTARY:** The 30-second value is in the supplied answer. “Departure time changes” is broader than only delays; data freshness and the intended event scope still need definition. A system requirement is not automatically a Domain viewpoint.
 
 ### Practice 5 — Course search and FURPS
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder statement blends a feature with a quality expectation: “The mobile app should let me search for a course and get results back right away.” Split this into a Functional Requirement and a Non-Functional Requirement, and identify which FURPS+ category the NFR belongs to. Then, in one or two sentences, explain why FURPS+'s F category is not simply a synonym for a Functional Requirement.
 
@@ -172,13 +194,15 @@ Source: Week 4 - Tutorial Questions.docx, Question 5.
 > One statement describes a function; the other constrains response time.
 
 > [!success]- Solution
-> FR: The app shall allow users to search the course catalog using defined criteria. NFR proposal: Under an agreed load/dataset/network condition, search results shall be returned within an agreed latency threshold. Category Performance. FURPS Functionality groups functional capabilities and associated feature/security concerns; it does not make every concern in F a behavior specification or replace FR/NFR analysis. No official numeric threshold is supplied.
+> **SUPPLIED COURSE ANSWER (faithful summary):** FR: search by course name or code and show matching results. NFR: return results within 2 seconds for 95% of queries under normal load; category Performance. FURPS Functionality is a category bucket; an FR is a particular requirement statement.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, tutorial Q5.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Week 4 - Tutorial Questions w Answers.docx]], Question 5.
+>
+> **LOCAL COMMENTARY:** These numbers come from the answer sheet. Define normal load, query workload and timing endpoints before treating them as an executable acceptance procedure.
 
 ### Practice 6 — Signing versus 500 ms
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 Two requirements are proposed for an online exam system: (1) “Every submitted answer shall be recorded with a tamper-evident cryptographic signature,” and (2) “The system shall accept and confirm a submitted answer within 500 milliseconds.” Using a Matrix-Based Interaction Analysis approach, explain whether these two requirements are likely to conflict, and if so, suggest one architectural trade-off that could resolve it.
 
@@ -188,13 +212,15 @@ Source: Week 4 - Tutorial Questions.docx, Question 6.
 > Separate a plausible resource conflict from a demonstrated impossibility.
 
 > [!success]- Solution
-> Matrix entry: possible negative interaction because signing/persistence consumes the same latency budget; conflict is not inevitable without measurements. A proposed design uses efficient signing/key management and durable transactional recording before acknowledgement, then moves nonessential work asynchronously. If signing is deferred, define whether acknowledgement means durable accepted or merely queued; that change requires stakeholder agreement and may violate the original signed-record requirement. Benchmark under specified load; do not remove tamper evidence to meet latency silently.
+> **SUPPLIED COURSE ANSWER (faithful summary):** The sheet assigns a likely −1 interaction: signing and secure-log I/O compete with the 500 ms response budget, especially near deadlines. Its proposed trade-off acknowledges receipt before signing finishes, then computes/appends the signature asynchronously and audits that step.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, tutorial Q6.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Tutorial Questions w Answers.docx|Week 4 - Tutorial Questions w Answers.docx]], Question 6.
+>
+> **LOCAL COMMENTARY:** This is the supplied proposal, not a demonstrated implementation or guarantee. Distinguish receipt from durable signed acceptance; specify pending/failure/retry/recovery behavior. Confirm the changed acknowledgement semantics against both original requirements rather than silently weakening tamper evidence.
 
 ### Practice 7 — Unusual bank withdrawal
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder says: "I want to be alerted the moment there's a large, unusual withdrawal from my account." Write one User Requirement and one corresponding System Requirement derived from it.
 
@@ -204,13 +230,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 1.
 > Large/unusual need defined rules; the event source and latency matter.
 
 > [!success]- Solution
-> User: The account holder shall be alerted to withdrawals meeting the agreed unusual/large criteria. System proposal: WHEN a withdrawal satisfies configured, approved amount/anomaly rules, the system shall notify the holder via agreed channels with relevant transaction details within an agreed latency. Amount threshold, anomaly rule, false-positive policy, channel and latency remain to be agreed.
+> **SUPPLIED COURSE ANSWER (faithful summary):** UR: alert the holder about an unusually large withdrawal. SR: WHEN a withdrawal exceeds 3 times the account’s average monthly withdrawal amount, send push and SMS within 10 seconds of transaction processing.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q1.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 1.
+>
+> **LOCAL COMMENTARY:** The supplied example fixes the multiplier, channels and latency; averaging period/calculation and zero-history behavior remain unspecified.
 
 ### Practice 8 — Driver location
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder says: "I want to see exactly where my driver is before they arrive." Write one User Requirement and one corresponding System Requirement derived from it.
 
@@ -220,13 +248,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 2.
 > A sampled location is not infinitely accurate or continuously fresh.
 
 > [!success]- Solution
-> User: The customer shall view the approaching driver location. System proposal: The app shall show the latest authorized driver position and its update timestamp on a map, refreshing under agreed frequency/accuracy conditions before arrival. Define stale/offline behavior and permission boundaries. Exactly requires an agreed accuracy tolerance; no particular GPS precision is promised by the source.
+> **SUPPLIED COURSE ANSWER (faithful summary):** UR: show the assigned driver from ride acceptance until pickup. SR: WHILE the ride is in “driver en route”, update the position on the rider’s map every 5 seconds.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q2.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 2.
+>
+> **LOCAL COMMENTARY:** Five-second updates are the supplied value; they do not establish exact location accuracy or define stale/offline handling.
 
 ### Practice 9 — Unlocked door
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder says: "I want to know right away if my front door is left unlocked after I leave the house." Write one User Requirement and one corresponding System Requirement derived from it.
 
@@ -236,13 +266,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 3.
 > Departure and unlocked detection both need reliable defined evidence.
 
 > [!success]- Solution
-> User: The resident shall be notified if the door remains unlocked after departure. System proposal: WHEN the agreed departure signal is detected AND the door sensor reports unlocked after an agreed grace period, the system shall notify the resident within agreed latency and identify the door. Departure signal, sensor error/offline handling, grace period and latency remain unresolved.
+> **SUPPLIED COURSE ANSWER (faithful summary):** UR: notify the homeowner about an unlocked door after leaving. SR: WHEN the homeowner’s phone exits the home geofence and the sensor reports unlocked, push a notification within 30 seconds.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q3.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 3.
+>
+> **LOCAL COMMENTARY:** The sheet supplies the geofence trigger and latency; sensor/geofence reliability and false departure handling remain separate acceptance questions. A grace period is local commentary, not in this answer.
 
 ### Practice 10 — Workout sync
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder statement blends a feature with a quality expectation: "The fitness app should let me log a workout and have it sync to my watch without any lag." Split this into a Functional Requirement and a Non-Functional Requirement, and identify which FURPS+ category the NFR belongs to.
 
@@ -252,13 +284,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 4.
 > Do not discard the sync function while separating performance.
 
 > [!success]- Solution
-> FR: Let the user record a workout and synchronize it to the paired authorized watch. NFR: Under specified connectivity/data/load conditions, sync completes within an agreed latency, with visible pending/failure state. FURPS Performance for the timing concern. No official zero-lag guarantee or threshold exists.
+> **SUPPLIED COURSE ANSWER (faithful summary):** FR: log a workout and sync it to the connected smartwatch. NFR: complete sync within 2 seconds of logging; category Performance.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q4.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 4.
+>
+> **LOCAL COMMENTARY:** This is a completion target, unlike the download-start target below. Define connectivity, data volume and failure/pending behavior separately.
 
 ### Practice 11 — Price filtering
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder statement blends a feature with a quality expectation: "The store app should let me filter products by price and show me the results without the page feeling slow." Split this into a Functional Requirement and a Non-Functional Requirement, and identify which FURPS+ category the NFR belongs to.
 
@@ -268,13 +302,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 5.
 > Specify results behavior separately from response time.
 
 > [!success]- Solution
-> FR: Filter displayed products by a chosen price range. NFR: Under agreed dataset/device/network/load conditions, display filtered results within an agreed response-time threshold. FURPS Performance. Feeling slow needs measurable acceptance criteria, not an invented numeric requirement.
+> **SUPPLIED COURSE ANSWER (faithful summary):** FR: filter the product list by specified price range. NFR: display results within 1.5 seconds for 95% of filter requests under normal load; category Performance.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q5.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 5.
+>
+> **LOCAL COMMENTARY:** Keep the percentile as well as the latency. Dataset, device, load and event endpoints still need an agreed measurement procedure.
 
 ### Practice 12 — Offline episode
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder statement blends a feature with a quality expectation: "The app should let me download an episode for offline viewing and have it ready almost instantly." Split this into a Functional Requirement and a Non-Functional Requirement, and identify which FURPS+ category the NFR belongs to.
 
@@ -284,13 +320,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 6.
 > Offline playback and download completion are different observable events.
 
 > [!success]- Solution
-> FR: Allow an authorized user to download an eligible episode and play it offline. NFR: Under defined content-size/network/device conditions, download completes within an agreed threshold or supplies agreed progress/availability feedback. FURPS Performance for completion speed. Cannot guarantee instant transfer independent of episode size and connectivity.
+> **SUPPLIED COURSE ANSWER (faithful summary):** FR: download an episode for offline viewing. NFR: begin downloading with visible progress within 1 second of the tap; category Performance.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q6.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 6.
+>
+> **LOCAL COMMENTARY:** The supplied target is download initiation with feedback, not complete transfer within one second. Offline availability still depends on completing the download.
 
 ### Practice 13 — Bank transfer security
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder statement blends a feature with a quality expectation: "The banking app should let customers transfer money between accounts, but there's no way anyone should be able to guess or brute-force their way into someone else's account." Split this into a Functional Requirement and a Non-Functional Requirement, and identify which FURPS+ category the NFR belongs to.
 
@@ -300,13 +338,15 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 7.
 > Security belongs to the course FURPS Functionality grouping; also define concrete controls.
 
 > [!success]- Solution
-> FR: Allow authenticated authorized customers to transfer between eligible accounts. Quality/security requirement: Resist credential guessing with agreed authentication, rate limiting and monitoring criteria under a defined threat model; verify these controls and failure behavior. In the course FURPS grouping, security is in Functionality (F); this does not mean that broad security assurance equals a single functional behavior. No absolute guarantee that compromise is impossible is justified.
+> **SUPPLIED COURSE ANSWER (faithful summary):** FR: allow an authenticated customer to transfer between their own linked accounts. NFR: IF more than 5 consecutive failed logins occur for an account within 10 minutes, THEN lock it for 30 minutes and require identity re-verification before further attempts. The sheet labels this unwanted-behavior EARS and Functionality.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q7.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 7.
+>
+> **LOCAL COMMENTARY:** “More than 5” means the condition is met on the sixth consecutive failure within the window. This concrete security response does not establish an absolute guarantee against all compromise; retain the source’s FURPS classification.
 
 ### Practice 14 — Concurrent editor
 
-**ORIGINAL COURSE EXERCISE — supplementary worked reasoning.**
+**ORIGINAL COURSE EXERCISE — supplied answer with local commentary.**
 
 A stakeholder statement blends a feature with a quality expectation: "The shared document editor should let two people edit the same page at once, but it must never silently lose one person's changes when both save around the same time." Split this into a Functional Requirement and a Non-Functional Requirement, and identify which FURPS+ category the NFR belongs to.
 
@@ -316,7 +356,9 @@ Source: Week 4 - Additional Tutorial Questions.docx, Question 8.
 > State conflict behavior and correctness properties.
 
 > [!success]- Solution
-> FR: Support simultaneous edits by two authorized users to the same document. NFR: Concurrent saves shall preserve committed changes or explicitly surface unresolved conflicts, under defined concurrent-operation and failure cases. FURPS Reliability for data integrity; implementation could also have functional conflict-resolution requirements. Never silently lose is an acceptance property requiring concurrency/failure tests, not just a fast response.
+> **SUPPLIED COURSE ANSWER (faithful summary):** FR: two or more users edit the same page concurrently. NFR: WHEN they save within the same editing session, preserve all users’ changes without discarding input; category Reliability.
 >
-> Source: Week 4 - Tutorial Questions.docx / Week 4 - Additional Tutorial Questions.docx; Unit 04 reviewed notes, additional Q8.
+> Source: [[10_UNIVERSITY_CS/Software Engineering 1/Sources/Learning Mall 2026-10-12/Week 4 - Additional Tutorial Questions w Answers.docx|Week 4 - Additional Tutorial Questions w Answers.docx]], Question 8.
+>
+> **LOCAL COMMENTARY:** The answer expands the prompt’s two users to two or more. The preservation property still needs conflict/failure tests and agreed resolution semantics; no specific merge algorithm is supplied.
 
