@@ -3,9 +3,9 @@
   "code": "ADS205",
   "title": "Decision, Computation and Language",
   "vaultPrefix": "10_UNIVERSITY_CS/ADS205/",
-  "generatedAt": "2026-10-13T06:15:27.897Z",
+  "generatedAt": "2026-10-13T09:22:25.524Z",
   "evidence": {
-    "scope": "Web scope: Units 01–04 (strings/proofs, automata, regex and pumping lemma), reconciled to the 12 October vault revisions. Unit 05 CFG/CFL is available in the vault but not imported into this web edition. Historical exam observations remain tied to an unavailable original corpus; no new counts or predictions.",
+    "scope": "Web scope: Units 01–05, including Unit 05 CFG/CFL from verified Lecture 4 and Tutorial 4 (7 October snapshot). Vault notes remain unchanged. Historical exam observations remain tied to an unavailable original corpus; no new counts or predictions.",
     "overviewSha256": "88253ba3fa709a16ef3bb5361caf06c6cabd5f918336eefe1c3b2d0efe802b8a"
   },
   "units": [
@@ -62,6 +62,20 @@
           "Choose a member of the language whose length is at least the promised p.",
           "Consider every legal split using the bounds on y and xy.",
           "Choose a failing exponent and prove nonmembership; do not infer regularity from successful examples."
+        ]
+      }
+    },
+    {
+      "id": "05",
+      "title": "Context-Free Grammars and Languages",
+      "short": "Grammars & languages",
+      "folder": "Unit 05 - Context-Free Grammars and Languages",
+      "guide": {
+        "goal": "Derive terminal words, justify a CFG’s exact language and distinguish structure from replacement order.",
+        "successCriteria": [
+          "Prove both language inclusions using a recursive invariant and base case.",
+          "Read ordered parse-tree leaves and distinguish two schedules from two trees.",
+          "Compose renamed grammars and encode operator precedence and association."
         ]
       }
     }
@@ -322,6 +336,61 @@
       "origin": "course",
       "hash": "96a38e2f6fff227c2341f8395e50c6327b8f0cd96bd731b393cae9cc73dfa658",
       "markdown": "---\ntitle: \"The Pumping Lemma - Exercises\"\ncourse: ADS205\ntype: exercises\nstatus: reviewed\nstudy_status: untested\nlanguage: en\ncssclasses:\n  - university-study\n---\n\n# Exercises\n\n[[10_UNIVERSITY_CS/ADS205/Unit 04 - The Pumping Lemma/01 Notes|Notes]]\n\nAttempt each problem without help. Open its hint only when stuck, then compare your reasoning with the adjacent solution. Original tasks retain their source IDs; supplementary practice is labelled.\n\n## L3 equal counts — Unbounded matching blocks\n\n**Source:** ORIGINAL COURSE EXERCISE — Lecture 3 Regular Expression and Pumping Lemma.pdf, PDF pp. 36–37.\n\nProve $L=\\{0^n1^n\\mid n\\geq0\\}$ is not regular.\n\n> [!tip]- Hint\n> Choose a word whose first p symbols are all zero. Describe every possible legal y, rather than choosing one.\n\n> [!success]- Solution\n> **Step 1 — Assumption and witness.** Assume regularity and let $p\\geq1$ be its pumping length. Choose $w=0^p1^p\\in L$, of length $2p\\geq p$.\n> \n> **Step 2 — All legal splits.** Any $w=xyz$ with $|xy|\\leq p$ and $|y|\\geq1$ has $x=0^a$, $y=0^b$ and $z=0^{p-a-b}1^p$, where $a\\geq0$, $b\\geq1$, $a+b\\leq p$.\n> \n> **Step 3 — Contradiction.** Pump twice: $xy^2z=0^{p+b}1^p$. Since $b>0$, the zero count exceeds the one count, so the word is outside $L$. This defeats every valid split and contradicts the lemma. Hence $L$ is not regular. The remaining zeros in z repair the source's restricted displayed split.\n\n## L3 square lengths — Unary squares\n\n**Source:** ORIGINAL COURSE EXERCISE — Lecture 3 Regular Expression and Pumping Lemma.pdf, PDF pp. 38–39.\n\nProve $S=\\{0^{n^2}\\mid n\\geq0\\}$ is not regular.\n\n> [!tip]- Hint\n> The pumped length must lie strictly between two consecutive squares. Bound the increase using the split conditions.\n\n> [!success]- Solution\n> Assume $S$ regular and let $p\\geq1$ be a pumping length. Choose $w=0^{p^2}\\in S$, with $|w|=p^2\\geq p$. For any permitted split, write $y=0^b$ with $1\\leq b\\leq p$. Pump to $xy^2z$, whose length is $p^2+b$.\n> \n> Because $1\\leq b\\leq p$,\n> \n> $$p^2<p^2+b\\leq p^2+p<(p+1)^2.$$\n> \n> The last inequality follows from $(p+1)^2-(p^2+p)=p+1>0$. Consecutive integer squares leave no other square between them, so the new length is not a square. Every split fails for $i=2$, contradicting the lemma. Thus S is not regular. The upper bound supplies the missing part of the printed argument.\n\n## L3 Q&A — What does the lemma establish?\n\n**Source:** ORIGINAL COURSE EXERCISE — Lecture 3 Regular Expression and Pumping Lemma.pdf, PDF p. 41.\n\n1. If you cannot find a regex for a language, have you proved it nonregular?\n2. Why do we pump long strings?\n3. If all pumped versions of one string stay in L, is L regular?\n4. Is $0^n1^n$ a regular expression?\n\n> [!tip]- Hint\n> Separate an existence claim about all machines from your search, and a theorem about every long word from one example.\n\n> [!success]- Solution\n> 1. **No.** Failure to construct one does not rule out every possible expression or machine. Supply a nonregularity proof.\n> 2. A length of at least $p$ forces $p+1$ visits among $p$ DFA states, so a nonempty loop exists within the first $p$ transitions. Short words lack this guarantee.\n> 3. **No conclusion of regularity follows.** One successful word and split do not meet the lemma's requirements for every sufficiently long member. Moreover the lemma is a necessary condition, not a provided converse regularity criterion.\n> 4. If $n$ is fixed, the specific finite word can be written as a regex by concatenating n zeros and n ones. If $n$ ranges over all nonnegative integers with the two counts constrained equal, $0^n1^n$ is not an ordinary regex in the course's grammar; the language it describes is nonregular by the first proof.\n\n## Practice — Find the unjustified choice\n\n**Source:** SUPPLEMENTARY PRACTICE — proof diagnosis based on the supplied lemma.\n\nA student says: “Assume a pumping length p for the equal-count language. Choose $w=0^p1^p$, split $x=\\varepsilon,y=0,z=0^{p-1}1^p$, and pump down. The new word is outside the language, so the language is not regular.” Identify the logical gap and repair it.\n\n> [!tip]- Hint\n> The chosen split is legal, but the theorem says some split can pump. What about the others?\n\n> [!success]- Solution\n> The student refutes only one split; another could satisfy the lemma. Repair by taking an arbitrary legal split, writing $y=0^b$ with $1\\leq b\\leq p$, and observing that pumping down produces $0^{p-b}1^p$. Since $b\\geq1$, this leaves the language for every split. The same witness now supports a valid contradiction.\n\n## Practice transfer — Repair a square-length inference\n\n**Source:** SUPPLEMENTARY PRACTICE — proof diagnosis based on the supplied lemma.\n\nA proof says “the new length is greater than $p^2$, so it is not a square.” Explain why this is invalid and provide the missing inequality for the lecture witness.\n\n> [!tip]- Hint\n> A number larger than p² might equal (p+1)². Show why the permitted increment cannot reach it.\n\n> [!success]- Solution\n> The lower bound does not rule out later squares; for example $(p+1)^2>p^2$ is itself a square. Here the loop length b obeys $b\\leq p$, so $p^2+b\\leq p^2+p<(p+1)^2$. Together with $b\\geq1$, this traps the length strictly between consecutive squares. Both bounds are essential.\n\n## T3 P1 — What one pumpable word does not show\n\n**ORIGINAL COURSE EXERCISE:** current Tutorial 3 PDF pp.1–2, P1.4–5; solution notebook cell 4. (4) If one long word pumps for every i≥0, does that prove regularity? (5) Why only discuss words of length at least p? P1.1–3 are in Unit 03.\n\n> [!tip]- Hint\n> Compare a single successful example with the lemma's quantifiers, and count visits rather than distinct states.\n\n> [!success]- Solution\n> **4.** No. One word does not establish the necessary property for every sufficiently long language member, and the lemma is not a sufficient regularity criterion.\n>\n> **5.** Take a p-state DFA. Reading the first p symbols gives p+1 visits, including the initial state, so at least two visits coincide. Their intervening nonempty input labels a loop with $|xy|\\le p$. A shorter run need not repeat a state.\n\n## T3 P4 — Order and ownership\n\n**ORIGINAL COURSE EXERCISE:** Tutorial 3 PDF p.3, P4; solution notebook cell 7. Arrange these actions: choose a language member depending on p; choose exponent i; assume regularity; consider every valid decomposition; obtain p; show a pumped nonmember. Identify who controls p, s, the split and i.\n\n> [!tip]- Hint\n> An existentially promised split may be chosen helpfully for the purported regular language, not conveniently for your counterexample.\n\n> [!success]- Solution\n> Order: assume regularity → obtain the promised p → choose $s\\in L$, $|s|\\ge p$ → consider an arbitrary legal split $s=xyz$, $|xy|\\le p$, $|y|>0$ → choose i≥0, possibly depending on that split → prove $xy^iz\\notin L$.\n>\n> The lemma supplies p; the prover chooses s; an adversary may choose any legal split; the prover chooses i last. We must defeat every such split. Quantified refutation: for each proposed p, exhibit a member s for which every legal split has some failing exponent.\n\n## T3 P5 — Diagnose both proposed proofs\n\n**ORIGINAL COURSE EXERCISE:** Tutorial 3 PDF pp.3–4, P5, solution notebook cell 8. For $L=\\{0^n1^n:n\\ge0\\}$, judge each argument, identify/explain its invalid step and repair it.\n**A:** assume p, choose $s=0^p1^{p+1}$ because its length is at least p, take a legal split, infer $y=0^t$, pump down to $0^{p-t}1^{p+1}\\notin L$, conclude nonregularity.\n**B:** choose $s=0^p1^p$, choose $x=\\varepsilon,y=0,z=0^{p-1}1^p$, pump down to $0^{p-1}1^p\\notin L$, conclude nonregularity.\n\n> [!tip]- Hint\n> Audit the witness's membership before auditing decomposition ownership.\n\n> [!success]- Solution\n> **A is invalid:** $0^p1^{p+1}\\notin L$. The lemma only promises a pumpable split for sufficiently long **members**, not arbitrary long inputs. Correcting its length alone is insufficient.\n>\n> **B is incomplete:** its chosen split is legal but not the only legal split. A regular language might have a different split that pumps forever.\n>\n> **Repair both:** assume p≥1; choose $s=0^p1^p\\in L$, length 2p≥p. Let any legal split have $x=0^a,y=0^t,z=0^{p-a-t}1^p$, with $a\\ge0,t\\ge1,a+t\\le p$. Pump i=0 to obtain $0^{p-t}1^p$, outside L because counts differ. This holds for every permitted a,t and contradicts the promised split. Hence L is nonregular.\n\n## T3 P6 — Similar definitions, different languages\n\n**ORIGINAL COURSE EXERCISE:** Tutorial 3 PDF pp.4–5, P6.1–2; solution notebook cell 9. For some k≥1, define $B=\\{1^kw:w\\in\\{0,1\\}^*\\text{ contains at least k ones}\\}$ and $C=\\{1^kw:w\\in\\{0,1\\}^*\\text{ contains at most k ones}\\}$. (1) Find a simple regex for B. (2) Give a pumping proof that C is not regular.\n**Interpretation disclosed:** k is existentially chosen per word, matching the supplied solution; a single fixed global k would change the task.\n\n> [!tip]- Hint\n> For B, can k=1 represent every word that has any admissible k? For C, use a separator 0 so the first block cannot absorb the later ones.\n\n> [!success]- Solution\n> **1 — Both inclusions for B.** If $s=1^kw$ and w contains at least k ones, the first symbol is 1 and at least one later 1 exists. Thus s is denoted by $1(0\\cup1)^*1(0\\cup1)^*$. Conversely, a word denoted by that expression has a first 1 and a suffix with at least one 1; choose k=1. This proves the regex equality.\n>\n> **2 — Witness for C.** Assume regularity and obtain p≥1. Take $s=1^p01^p\\in C$ with k=p and length 2p+1≥p.\n>\n> **Every split:** $y=1^t$, $1\\le t\\le p$, since $|xy|\\le p$. Pump i=0 to get $s'=1^{p-t}01^p$.\n>\n> **Every possible new representation:** any admissible k' must be at most p−t; the suffix then contains at least p ones, so it cannot contain at most k'. If p=t, s' begins with 0 and no k'≥1 exists. Thus s' is not in C for every split. Contradiction: C is not regular.\n>\n> The source's final “k>p” is stronger than necessary; the actual membership constraint would require k≥p, incompatible with k≤p−t<p. The proof explicitly checks alternate factorizations rather than assuming the original k persists.\n>\n> The optional notebook experiment compiles B's regex, not C; finite software checks cannot prove C's nonregularity.\n"
+    },
+    {
+      "id": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+      "relative": "content/reviewed/ADS205/05/tutor.md",
+      "kind": "tutor",
+      "unit": "05",
+      "origin": "project",
+      "basedOn": {
+        "relative": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes.md",
+        "origin": "course",
+        "hash": "54775c5dad37bb1e6875fa8a50fa8a69fcdd3fccc0b00432685ff4ff6b9448ab"
+      },
+      "hash": "049e5a8f1ab6ee69d01af19bea32aa8062ec93f6161b8bd4aec9b5f9f965c5f2",
+      "markdown": "---\ntitle: \"Context-Free Grammars and Languages · Tutor Notes\"\ncourse: ADS205\ntype: tutor-notes\nstatus: reviewed\nstudy_status: untested\nlanguage: en\ncssclasses: [university-study]\n---\n\n# Context-Free Grammars and Languages\n\n[[10_UNIVERSITY_CS/ADS205/Tutor Mode/00 Start Here|Tutor Start Here]] · [[10_UNIVERSITY_CS/ADS205/Tutor Mode/Unit 05 - Context-Free Grammars and Languages/02 Recall and Exam Practice|Recall and Practice]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/01 Notes|Ordinary reference]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/03 Lab|Lab]]\n\n## In 60 Seconds\n\nA grammar is a finite recipe for generating words. Variables mark unfinished work; terminals make up finished words. Recursion can express matched counts or nesting that a finite automaton cannot track without bound. A derivation lists replacements, whereas a parse tree records their structure. Different grammars may generate the same language, yet disagree on grouping. After this unit, derive a word, justify a CFG's exact language, combine grammars and encode precedence/association rather than assuming that rule order gives them.[^l4]\n\nThe connected ideas are ==generation==, ==terminal yield==, ==recursive invariant==, ==structural ambiguity== and ==precedence levels==. You will use Unit 01's set reasoning and Unit 02's DFA semantics; Unit 04 supplies the equal-count/nonregular contrast.\n\n## Concept Preview\n\n> [!note] Concept — A reusable production\n> **Plain-language meaning:** A variable can be replaced by a finite RHS wherever it occurs; its neighbours are not a condition.\n> **Why it matters:** One rule may be reused to create an unbounded family of finite words.\n> **Connects to:** recursion, base cases and CFG tuples.\n> **Source:** Lecture 4 PDF pp.5–8.\n\n> [!note] Concept — Generated language\n> **Plain-language meaning:** Collect only terminal words obtainable from the designated start, not unfinished forms.\n> **Why it matters:** A correct rule set with a different start may generate a different language.\n> **Connects to:** membership witnesses and both-direction proofs.\n> **Source:** Lecture 4 p.11; Tutorial 4 pp.1–2, P1–P2.\n\n> [!note] Concept — Ordered parse tree\n> **Plain-language meaning:** The tree records nested choices; reading leaves left to right gives the word.\n> **Why it matters:** Replacement schedules can differ without changing the tree.\n> **Connects to:** leftmost/rightmost derivations and ambiguity.\n> **Source:** Lecture 4 pp.22–24; Tutorial 4 pp.3–4, P5.\n\n> [!note] Concept — Grammar composition\n> **Plain-language meaning:** A new start selects one grammar, joins two, or repeatedly chooses a factor.\n> **Why it matters:** It proves CFL closure under union, concatenation and star.\n> **Connects to:** disjoint variable names and finite concatenations.\n> **Source:** Lecture 4 pp.14–19.\n\n> [!note] Concept — Expression structure\n> **Plain-language meaning:** Separate variables give precedence levels; recursion direction gives association.\n> **Why it matters:** Equal terminal strings may hide different grouping.\n> **Connects to:** grammar versus language ambiguity.\n> **Source:** Lecture 4 pp.20–24; Tutorial 4 pp.4–7, P6–P7.\n\n## Exam Evidence Snapshot\n\n**The original hashed exam PDF is unavailable.** New teaching coverage, not newly inspected paper evidence. The original mixed/partial exam PDF is currently unavailable; historical CFG questions were previously excluded for lack of teaching sources. Lecture 4 now supplies some of that theory, but exact question/mark mapping must be reinspected from surviving captures before assigning CFG counts or priorities. No new HIGH/MEDIUM tier, marks or exam-frequency denominator is fabricated. Handbook outcomes describe objectives, not topic-frequency predictions.\n\nThis unit currently supplies **SOURCE-BASED PRACTICE — EXAM QUESTION FORMAT UNCONFIRMED**. [[10_UNIVERSITY_CS/ADS205/Tutor Mode/_System/past-paper-intelligence|Historical evidence and availability limits]] remain separate. The rest of the supported topic is not optional simply because new assessment mapping is pending.\n\n## Before You Start\n\nRecall string concatenation and the difference between “produce one example” and “prove two sets equal”.\n\n> [!question] Does exhibiting a grammar derivation of 0011 prove its entire language is exactly $\\{0^n1^n:n\\ge0\\}$?\n\n> [!success]- Check your answer\n> No. It proves one membership witness. We must show every completed derivation has the required form and every target word has a derivation.\n> Source: L4 pp.5–11; pedagogical interpretation of the grammar construction.\n\n## A motivating question — A generator and a parser\n\n**Synthetic case grounded in T4.** A processor needs (a) exactly a^n b^n including epsilon and (b) a unique intended structure for a+a+a and a↑b↑c. Can a finite grammar do both? Success requires a general language argument and a structural argument; matching one output is not enough.\n\n| Question | What you need |\n|---|---|\n| Why do counts match? | recursive invariant and base rule |\n| Why does order match? | insertion around the remaining variable |\n| Do two schedules mean ambiguity? | tree versus chronology |\n| Which operator groups first? | precedence and association |\n\n## Let the unfinished middle carry the dependency\n\nStart with $S\\to aSb\\mid\\varepsilon$. Intuitively, every unfinished middle receives one new a on its left and b on its right. Formally, after n recursive steps the form is $a^nSb^n$; that is the invariant. Choosing epsilon removes the only variable and leaves $a^nb^n$.\n\nFor aaabbb, keep the unfinished S visible:\n$S\\Rightarrow aSb\\Rightarrow aaSbb\\Rightarrow aaaSbbb\\Rightarrow aaabbb$.\nBefore the last step we have a **sentential form**, not a word in the language, because S is not a terminal. “⇒*” allows zero or more replacement steps, whereas “→” declares a rule. These arrows answer different questions.[^t4]\n\nWhy is the language exact? No derivation can insert b to the left of a, and every recursive application adds the same count. Conversely, any desired n can be achieved by n recursive choices and one terminating choice. Both inclusions matter. Therefore aabbb and abab fail for different reasons: unequal counts versus incorrect order.\n\nThis grammar is unambiguous: the target length fixes the number of recursive layers and each layer has only one S to expand. That does not mean all recursive grammars are unambiguous.\n\n> [!question] Explain it yourself\n> Why does S→0S11 generate two ones per zero without storing a numerical counter?\n\n> [!success]- Check your explanation\n> Each recursive layer adds one 0 before the remaining variable and two 1s after it. After n layers the invariant is $0^nS1^{2n}$; termination removes S.\n> Source: Tutorial 4 PDF p.3, P4.\n\n## See a tree rather than just a sequence\n\nFor S→00S1|ε, the word 000011 requires two recursive layers. The ordered children at each layer are 0,0,S,1, not merely a set of symbols.\n\n![[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/Attachments/parse-tree.svg]]\n\n**Figure 1 — Structure fixes the terminal yield**\n\n**Read it:** descend through the middle S nodes, then read all terminal leaves from left to right, omitting epsilon.\n**Key takeaway:** the yield is 000011; the leftmost and rightmost derivations coincide because one variable remains at each step.\n**Provenance:** technical redraw of Tutorial 4 P5, pp.3–4; tutor-local copy avoids ordinary-output aliasing.\n\nContrast the pedagogical grammar S→AB, A→a, B→b. S⇒AB⇒aB⇒ab and S⇒AB⇒Ab⇒ab apply choices in different orders, but both trees have S above ordered children A and B. This is not ambiguity. To prove ambiguity, exhibit **two structures** or **two distinct leftmost derivations**, not a leftmost and a rightmost schedule for one structure.\n\n## Compose whole languages by composing starts\n\nLet renamed CFGs generate A and B. Introduce fresh X. X→S_A|S_B selects one whole derivation for union. X→S_A S_B puts two independent derivations next to each other for concatenation. X→S_A X|ε chooses a finite sequence of A-words for star. Old rules remain available; renaming variables prevents cross-expansion.[^l4closure]\n\nThe star construction handles zero factors explicitly through X→ε. It also handles epsilon in A: extra empty factors may yield another description, not another distinct terminal word. Construction correctness is about the generated set, not necessarily uniqueness.\n\nEvery DFA can also become a CFG: assign A_q to each state, add A_q→aA_r for each q— a→r transition and A_f→ε for accepting f. The variable records the state reached after the generated prefix. Epsilon termination is possible exactly at an accepting state. Thus **regular ⇒ context-free**, not conversely. Equal-count words supply the counterexample to the converse.[^l4regular]\n\n## Why grouping cannot be guessed from the printed word\n\nFor S→S+S|a, a+a+a has trees (a+a)+a and a+(a+a). One expands the left subtree at the top split; the other the right. Both can be written as different leftmost derivations, so this is genuine grammar ambiguity. A left-recursive replacement S→S+a|a has the same terminal language $a(+a)^n$ but fixes left grouping.[^t4ambiguity]\n\n**A second problem before its solution:** the reference E/T/F grammar handles + and *, but how can ↑ bind tighter and group rightward? Adding ↑ at E's level would not enforce stronger precedence. Insert P between T and F:\nE→E+T|T; T→T*P|P; P→F↑P|F; F→(E)|a|b|c.\n\nReading from the top: E combines complete products, T complete powers, P complete factors. Deeper structure is grouped inside an outer operand, so a*b↑c means a*(b↑c). The expandable P is to the right of ↑, so a↑b↑c means a↑(b↑c). This says nothing about the direction in which a parser must expand variables during derivation. The reference F lacks c; the supplied P7 solution explicitly adds it to support its example words.\n\n## Return to the motivating question\n\n**Generator:** S→aSb|ε generates all and only $a^nb^n$ by the invariant/converse argument. Epsilon is included through the base; terminal order is maintained through wrapping.\n\n**Parser:** S→S+a|a removes the two possible + groupings while preserving the word set. For a↑b↑c, the P-level right recursion determines a↑(b↑c). The same production hierarchy gives multiplication higher precedence than addition. Neither a unique tree for one tested word nor one successful tool run proves unambiguity for every unrelated grammar.\n\n## Definitions and distinctions\n\n| Pair | Decisive distinction | Source |\n|---|---|---|\n| Variable / terminal | unfinished placeholder / finished-word symbol | L4 pp.6–8 |\n| Production / derivation | allowed rewrite / actual application | L4 p.11 |\n| Sentential form / language member | may contain variables / terminal word from start | T4 pp.1–2 |\n| CFG / CFL | finite description / generated set | L4 p.11 |\n| Two schedules / two trees | chronology can differ / structural alternatives | T4 P1.3, P6 |\n| Ambiguous grammar / inherently ambiguous language | this description has ambiguity / every CFG description has it | T4 p.8 |\n| Precedence / association | relative operator levels / grouping among same-level operators | T4 P7 |\n\n## Source traps to keep visible\n\nThe forum request for 01010101 under S→RR, R→0R1|ε has no derivation: only two balanced 0^n1^n blocks are available. The student question had no visible lecturer answer at capture. T4 P1's non-CFL subset is a stated source counterexample, not a result proved by regular pumping here. The source establishes CFL union/concatenation/star closure but not a new intersection/complement proof. These are limits, not an invitation to guess missing course material.\n\n## Review\n\n### Full Understanding\n\nReturn to the mechanisms above, then [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/01 Notes|the full reference]] for exact closure and language arguments.\n\n## 5-Minute Review\n\nA CFG is (V,Σ,R,S), with one variable per rule's left side. Define an invariant for recursive generation and prove both inclusions. Parse trees preserve RHS order; derivation schedules do not by themselves establish ambiguity. Translate DFA states into variables, with epsilon only at accepting states. Rename variables before combining starts. To prove ambiguity, find one word with two trees; to encode expressions, separate precedence levels and place recursion on the association side.\n\n## 60-Second Recall\n\n- Four CFG components\n- Production versus derivation arrows\n- Terminal membership condition\n- Recursive invariant and base case\n- Tree versus schedule\n- Fresh-start closure rules\n- DFA-to-grammar termination\n- Precedence versus association\n\n[^l4]: [[10_UNIVERSITY_CS/ADS205/Original Sources/LM Core 2026-10-07/Lecture 4 Context-Free Languages.pdf|Lecture 4 Context-Free Languages.pdf]], PDF pp.5–26.\n[^t4]: [[10_UNIVERSITY_CS/ADS205/Original Sources/LM Core 2026-10-07/Tutorial 4 - Context-Free Grammars.pdf|Tutorial 4 - Context-Free Grammars.pdf]], PDF pp.1–3, P1–P4.\n[^l4closure]: Lecture 4 PDF pp.14–19; explicit renaming prerequisite for safe combination.\n[^l4regular]: Lecture 4 PDF pp.12–13; Unit 04's original equal-count proof.\n[^t4ambiguity]: Tutorial 4 PDF pp.4–7, P6–P7; lecture pp.20–24.\n"
+    },
+    {
+      "id": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/02 Recall and Exam Practice",
+      "relative": "content/reviewed/ADS205/05/practice.md",
+      "kind": "practice",
+      "unit": "05",
+      "origin": "project",
+      "basedOn": {
+        "relative": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/02 Recall and Exam Practice.md",
+        "origin": "course",
+        "hash": "d926876f6eeee1ea37d8b22301463816c11242c56b6487a14071b6df41933486"
+      },
+      "hash": "d926876f6eeee1ea37d8b22301463816c11242c56b6487a14071b6df41933486",
+      "markdown": "---\ntitle: \"Context-Free Grammars and Languages · Recall and Exam Practice\"\ncourse: ADS205\ntype: tutor-practice\nstatus: reviewed\nstudy_status: untested\nlanguage: en\ncssclasses: [university-study]\n---\n\n# Recall and practice\n\n[[10_UNIVERSITY_CS/ADS205/Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes|Tutor Notes]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises|Original exercises]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/03 Lab|Lab]]\n\n**SOURCE-BASED PRACTICE — EXAM QUESTION FORMAT UNCONFIRMED.** No newly verified CFG paper-count or marking evidence is available. Every generated problem below is SUPPLEMENTARY PRACTICE; it carries no official marks. Attempt with references closed; use a hint before comparing full reasoning.\n\n## Atomic recall\n\n### Card 01 — What makes a production context-free?\n\n> [!success]- Answer\n> Its left side is one variable; replacement does not require a particular surrounding context.\n>\n> Source: Lecture 4 pp.7–8.\n\n### Card 02 — What are the four components of a CFG?\n\n> [!success]- Answer\n> Finite variables V, finite terminals Σ, finite rules R and a designated start variable S∈V.\n>\n> Source: Tutorial 4 p.1.\n\n### Card 03 — What does the production arrow declare?\n\n> [!success]- Answer\n> An allowed replacement rule, rather than an actual derivation step.\n>\n> Source: Lecture 4 p.11.\n\n### Card 04 — What does the starred derivation relation permit?\n\n> [!success]- Answer\n> Zero or more derivation steps.\n>\n> Source: Tutorial 4 p.1.\n\n### Card 05 — When is a derived form a language member?\n\n> [!success]- Answer\n> When it contains only terminals and is derived from the designated start variable.\n>\n> Source: Tutorial 4 pp.1–2, P1.4.\n\n### Card 06 — What form appears after n recursive uses of S→aSb?\n\n> [!success]- Answer\n> The sentential form aⁿSbⁿ.\n>\n> Source: Tutorial 4 p.2, P2.\n\n### Card 07 — What is read from the leaves of an ordered parse tree?\n\n> [!success]- Answer\n> The terminal word in left-to-right order, ignoring epsilon leaves.\n>\n> Source: Lecture 4 p.23; Tutorial 4 P5.\n\n### Card 08 — What must a leftmost derivation expand next?\n\n> [!success]- Answer\n> The leftmost remaining variable.\n>\n> Source: Tutorial 4 p.1.\n\n### Card 09 — What demonstrates grammar ambiguity?\n\n> [!success]- Answer\n> One terminal word with two distinct parse trees, equivalently two distinct leftmost derivations.\n>\n> Source: Tutorial 4 pp.1,4, P6.\n\n### Card 10 — Why rename variables when combining CFGs?\n\n> [!success]- Answer\n> To prevent rules of one grammar from expanding variables of the other.\n>\n> Source: Lecture 4 pp.14–19; explicit construction condition.\n\n### Card 11 — Where do epsilon termination rules occur in a DFA-derived grammar?\n\n> [!success]- Answer\n> At variables corresponding to accepting DFA states.\n>\n> Source: Lecture 4 p.13.\n\n### Card 12 — Which side recursively expands for right-associative exponentiation?\n\n> [!success]- Answer\n> The right operand: P→F↑P.\n>\n> Source: Tutorial 4 p.6, P7.\n\n## Guided then independent practice\n\n### Problem — A shortened derivation\n\n**SUPPLEMENTARY PRACTICE**, T4 P2 principles. Under S→aSb|ε, write a derivation of aabb and explain what forbids aab.\n\n> [!tip]- Hint\n> Count recursive layers before terminating, then compare the two terminal counts.\n\n> [!success]- Solution\n> $S\\Rightarrow aSb\\Rightarrow aaSbb\\Rightarrow aabb$. Every recursive step adds one a and one b; termination adds neither. Therefore all completed words have equal counts, excluding aab. The invariant is $a^nSb^n$, not a list of tested words.\n\n### Problem — Two schedules\n\n**SUPPLEMENTARY PRACTICE**, T4 P1.3/P5. For S→AB, A→0, B→1, exhibit different leftmost/rightmost derivations and decide whether they show ambiguity.\n\n> [!tip]- Hint\n> Draw the root's ordered children before comparing replacement times.\n\n> [!success]- Solution\n> Leftmost: S⇒AB⇒0B⇒01. Rightmost: S⇒AB⇒A1⇒01. Both use the one tree with S children A,B and leaves 0,1. They do not show ambiguity: replacement order differs, but no production choice or subtree structure differs. There is exactly one production for each variable.\n\n### Problem — Change the generated ratio\n\n**SUPPLEMENTARY PRACTICE**, transfer from T4 P4/P5. Generate $\\{0^{3n}1^n:n\\ge0\\}$ with a CFG. Justify both directions, including the empty word.\n\n> [!tip]- Hint\n> Add the required numbers of terminals around a single remaining variable.\n\n> [!success]- Solution\n> Use $S\\to000S1\\mid\\varepsilon$. After n recursive steps, $0^{3n}S1^n$ terminates to the required word. No other terminal shape can arise, proving one inclusion; choosing n layers for each n proves the converse. For n=0, S→ε supplies the empty word. The reasoning transfers the invariant rather than testing a longer list.\n\n### Problem — A missing base case\n\n**SUPPLEMENTARY PRACTICE**, L4 star construction. A proposed grammar for A* has new start X and only X→S_A X, with all old A-rules. Explain the failure and repair it.\n\n> [!tip]- Hint\n> Can the last X disappear in any finite derivation?\n\n> [!success]- Solution\n> Every derivation retains an X because the only X-rule creates another X. No finite terminal word, including epsilon, is generated. Add X→ε. Then choose any finite number k of A-factors using X→S_A X k times, terminate X, and complete each factor. This handles zero factors and establishes exactly A*. Rename variables first to avoid accidental cross-rules.\n\n### Problem — Expose the grouping\n\n**SUPPLEMENTARY PRACTICE**, T4 P6. Under S→S+a|a, determine the structure of a+a+a+a. Is the terminal language changed from S→S+S|a?\n\n> [!tip]- Hint\n> All recursive + choices occur inside the left S subtree.\n\n> [!success]- Solution\n> The structure is ((a+a)+a)+a. Three uses of S→S+a followed by S→a fix the recursive left branch. Both grammars generate exactly $a(+a)^n$; a grammar's terminal language can stay the same while its possible trees shrink. This particular grammar has one tree for each word because its length determines the number of recursive steps.\n\n### Problem — Competing requirements\n\n**SUPPLEMENTARY PRACTICE**, T4 P7. A language designer wants * tighter than +, but ↑ left-associative rather than the source's right-associative ↑. Change only the power level and explain a↑b↑c.\n\n> [!tip]- Hint\n> Keep the precedence level, but move its expandable variable to the opposite side.\n\n> [!success]- Solution\n> Replace P→F↑P|F by P→P↑F|F. Keep E→E+T|T, T→T*P|P and the same F rules. P still lies inside a product operand, preserving higher precedence than *. Its recursive left child now creates (a↑b)↑c. This is an explicitly labelled variant of the original requirement, not a silent change to T4 P7.\n\n## Original exercise navigation\n\nEach entry links to the complete original task with its own adjacent hint and solution.\n\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P1 — Concepts and counterexamples|T4 P1.1–4 and L4 Q&A1–3]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P2 — Language and derivation|T4 P2.1–4]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P3 — Construct the requested grammar|T4 P3, all derivations and exclusions]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P4 — One count and twice that count|T4 P4, grammar, derivation and order]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P5 — Parse tree and derivation|T4 P5.1–3]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P6 — Detect and remove ambiguity|T4 P6.1–3]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P7 — Add exponentiation|T4 P7, precedence, association and both requested words]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#L4 example — Two independent blocks|L4 p.9]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#L4 example — Balanced parentheses|L4 p.10]]\n- [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/03 Lab#Original experiment — Predict the trees|T4 optional notebook activity]]\n\n## Suggested self-check rubric\n\nCheck faithful language/grammar inputs, terminal order, a valid finite derivation, both inclusions for equality, structural rather than scheduling ambiguity, precedence/association and explicit limitations. This is not an official marking scheme. No study-performance evidence has been recorded.\n"
+    },
+    {
+      "id": "Unit 05 - Context-Free Grammars and Languages/01 Notes",
+      "relative": "Unit 05 - Context-Free Grammars and Languages/01 Notes.md",
+      "kind": "notes",
+      "unit": "05",
+      "origin": "course",
+      "hash": "c46f85da7c3df70f1643298d76dd8058765a0b0a37e870e2e4f592694bcd6329",
+      "markdown": "---\ntitle: \"Context-Free Grammars and Languages\"\ncourse: ADS205\ntype: lecture-notes\nstatus: reviewed\nstudy_status: untested\nlanguage: en\ncssclasses: [university-study]\n---\n\n# Context-Free Grammars and Languages\n\n[[10_UNIVERSITY_CS/ADS205/Course index|Course index]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises|Exercises]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/03 Lab|Lab]]\n\n## Roadmap and objectives\n\nLanguages → production rules → derivations → parse trees → closure constructions → ambiguity → expression structure. Prerequisites are Unit 01's strings/set equality and Unit 02's DFA transitions. Unit 04 explains why equal-count languages are not regular; it does not prevent grammars from generating them.\n\nAfter study, construct and justify a CFG, derive a word, distinguish terminals from unfinished sentential forms, translate a DFA into a grammar, combine grammars and exhibit structural ambiguity. Sources: Lecture 4 PDF pp.5–26; current Tutorial 4 PDF pp.1–8. This unit does not infer PDA, normal-form or context-free pumping chapters from the handbook roadmap.\n\n## Opening case — Two jobs for a small language processor\n\n**Synthetic teaching case grounded in L4/T4.** A processor must generate exactly $0^n1^n$ for n≥0 and parse expressions built from a, b, c, +, *, ↑ and parentheses. Multiplication binds more tightly than addition; exponentiation binds most tightly and associates rightward.\n\nCan finite production rules enforce equal counts? Can they determine whether a+b*c means a+(b*c), and whether a↑b↑c means a↑(b↑c)? Success means exact generated membership and a unique intended structure—not merely one convenient example.\n\n| Question | Knowledge needed |\n|---|---|\n| Generate matched blocks | recursive and terminating rules |\n| Explain membership | derivation invariant and converse construction |\n| Explain structure | ordered parse trees |\n| Enforce precedence and association | separate variables and recursion direction |\n\n## 1. Generate a word instead of remembering every count\n\nA finite automaton recognizes a word presented to it. A grammar generates a word by replacing variables. For equal counts, start with S, repeatedly surround its unfinished middle with 0 and 1, then terminate:\n$S\\to0S1\\mid\\varepsilon$.\nOne finite rule can be reused any finite number of times. S is a placeholder, not an input symbol. Terminals 0 and 1 survive in the finished word.[^l4basic]\n\nA context-free grammar is $G=(V,\\Sigma,R,S)$: finite variables V, finite terminals Σ, finite production rules R and a designated start variable S∈V. Distinguish variable names from terminal symbols. Each production has form $A\\to\\alpha$, with one variable A on its left and $\\alpha\\in(V\\cup\\Sigma)^*$ on its right. Empty RHS is permitted. A rule does not inspect the neighbours of A, which is what “context-free” means. The example $0S\\to0S1$ is not a CFG rule because its left side has two symbols; this unit does not develop context-sensitive grammar theory.\n\n## 2. Rules, steps, sentential forms and terminal words\n\nThe production arrow → declares an allowed replacement. The derivation arrow ⇒ records one actual application:\n$uAv\\Rightarrow u\\alpha v$ when $A\\to\\alpha$ is a production.\nThe surrounding strings u,v are unchanged. The relation ⇒* allows zero or more steps.[^l4derive]\n\nFor example,\n$S\\Rightarrow0S1\\Rightarrow00S11\\Rightarrow000S111\\Rightarrow000111$.\nThe first three results still contain S and are **sentential forms**, not members of the generated language. Only terminal strings derived from the designated start count:\n$$L(G)=\\{w\\in\\Sigma^*:S\\Rightarrow^*w\\}.$$\nChoosing S→ε directly gives epsilon. Terminating is a production choice, not deletion of an inconvenient variable.\n\n**Both-direction proof:** after n uses of S→0S1, the form is $0^nS1^n$; S→ε produces exactly $0^n1^n$. Thus no generated terminal word has unequal counts or a 1 preceding a later 0. Conversely, for every n≥0, use the recursive rule n times and terminate. Hence the grammar generates all, and only, the target words. “It generates 0011” alone would prove much less.\n\n### Independent variables are independent choices\n\nL4 p.9 uses $S\\to RR,\\ R\\to0R1\\mid\\varepsilon$. Each R generates an independent $0^n1^n$ block. The language is\n$\\{0^i1^i0^j1^j:i,j\\ge0\\}$, not “any number of balanced blocks.”\nFor 010011:\n$S\\Rightarrow RR\\Rightarrow0R1R\\Rightarrow01R\\Rightarrow010R1\\Rightarrow0100R11\\Rightarrow010011$.\nThe first R used its recursive rule once; the second twice.\n\nThe forum's requested 01010101 cannot be derived: a nonempty factor $0^n1^n$ has exactly one 0→1 block pair and no internal 1→0. Two factors cannot form four alternating 01 blocks. Even 010101 is excluded, as L4 p.9 states. The unanswered student question is not proof that a derivation exists.[^forum]\n\n### Balanced parentheses need nesting and concatenation\n\nL4 p.10 gives $S\\to(S)\\mid SS\\mid\\varepsilon$. The wrap rule nests a balanced word, the concatenation rule joins two, and epsilon supplies the base. For ()():\n$S\\Rightarrow SS\\Rightarrow(S)S\\Rightarrow()S\\Rightarrow()(S)\\Rightarrow()()$.\nFor (()), use wrapping twice and then epsilon.\n\nSoundness follows by induction on a parse tree: empty, wrapping and joining all preserve balance. For completeness, a nonempty balanced word splits at the closing parenthesis matching its first opening one into (u)v, where u and v are balanced; recursively derive both with wrap and concatenation. This gives a general construction rather than an example-only claim. This grammar need not be unambiguous: epsilon-producing branches can create different trees for the same word. Language correctness and uniqueness of structure are different goals.\n\n## 3. Read a parse tree in two directions\n\nAn ordered parse tree records production choices. Its root is the start variable; each variable node's ordered children spell its chosen RHS; leaves read left to right give the terminal word, ignoring epsilon. Horizontal order matters. Leftmost derivation expands the leftmost remaining variable; rightmost derivation expands the rightmost.[^l4trees]\n\n[[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/Attachments/parse-tree.svg|Open Figure 1]]\n\n![[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/Attachments/parse-tree.svg]]\n\n**Figure 1 — Two recursive expansions and one terminating expansion**\n\n**Read it:** each S→00S1 node has children 0, 0, S, 1. The deepest S produces epsilon. Read leaves to obtain 000011.\n**Key takeaway:** the tree specifies two matched recursive layers; it is not a time-line of symbol consumption.\n**Provenance:** technical redraw of Tutorial 4 P5, PDF pp.3–4; the source's text-tree connectors are replaced by readable edges.\n\nDifferent derivation orders need not imply ambiguity. For the pedagogical grammar $S\\to AB,\\ A\\to a,\\ B\\to b$, leftmost steps are $S\\Rightarrow AB\\Rightarrow aB\\Rightarrow ab$; rightmost steps are $S\\Rightarrow AB\\Rightarrow Ab\\Rightarrow ab$. Both traverse the same tree. In a grammar with only one variable at every stage, such as S→00S1|ε, these orders coincide.\n\n## 4. Every regular language has a CFG\n\nFor a DFA $M=(Q,\\Sigma,\\delta,q_0,F)$, introduce a variable $A_q$ for each state q. Add $A_q\\to aA_{\\delta(q,a)}$ for each transition and $A_f\\to\\varepsilon$ for each accepting state f; start at $A_{q_0}$.[^l4regular]\n\nInvariant: after generating prefix u, the remaining variable is $A_{\\delta^*(q_0,u)}$. Epsilon termination exists exactly when that state is accepting. Thus the grammar generates precisely L(M).\n\nL4 pp.12–13's displayed DFA recognizes binary words ending in 1. Its grammar is\n$A_0\\to0A_0\\mid1A_1$, $A_1\\to0A_0\\mid1A_1\\mid\\varepsilon$.\nFor 101:\n$A_0\\Rightarrow1A_1\\Rightarrow10A_0\\Rightarrow101A_1\\Rightarrow101$.\nIt cannot terminate for 10 because A0 has no epsilon rule. The slide's informal $\\delta(q_0,q_0)=0$ reverses the standard argument/result roles; the graph means $\\delta(q_0,0)=q_0$.\n\nTherefore all regular languages are context-free. The converse fails: $0^n1^n$ has the grammar above and is nonregular by Unit 04. Having a CFG is not a proof of regularity.\n\n## 5. Combine grammars without mixing their variables\n\nBefore combining two CFGs, rename their variables to disjoint sets and choose a fresh start X. Otherwise one grammar's rules could accidentally expand another's variables. This is a technical condition for implementing L4 pp.14–19 faithfully.[^l4closure]\n\n| Target | Additional start rules | Why the terminal words are exactly right |\n|---|---|---|\n| A∪B | X→S_A or S_B | choose one original grammar |\n| AB | X→S_A S_B | independently derive an A-word then a B-word |\n| A* | X→S_A X or ε | choose finitely many A-words, then stop |\n\nKeep all old rules. Soundness: each start construction produces only the stated combinations. Completeness: choose the appropriate branch, pair of witnesses or finite list of star factors and derive each. For A*, zero factors generate epsilon; if epsilon∈A, multiple descriptions of the same terminal word are harmless for language membership but may affect ambiguity.\n\nThe source establishes closure under union, concatenation and star. Its concatenation tuple slide retains a union label; use its actual rule X→S_A S_B and the concatenation theorem. The unanswered forum question about intersection/complement supplies **no demonstrated closure theorem**; no missing later proof is silently imported here.\n\n## 6. Ambiguity is structural, not just a choice of schedule\n\nA grammar is ambiguous when some terminal word has two distinct ordered parse trees, equivalently two distinct leftmost derivations. The existence of any two differently ordered derivations is insufficient. A language can have an ambiguous grammar and another unambiguous grammar. “Inherently ambiguous” means every CFG for that language is ambiguous; the example here does not establish that property.[^t4ambiguity]\n\nFor $S\\to S+S\\mid a$, a+a+a can have structure (a+a)+a or a+(a+a). Both yield the same terminal string. To force left grouping while keeping the same language, use $S\\to S+a\\mid a$; right grouping uses $S\\to a+S\\mid a$. All describe $a(+a)^n$ for n≥0. Equal generated sets do not imply equal trees.\n\nLecture 4 pp.20–24 similarly compares a layered E/T/F expression grammar with $E\\to E+E\\mid E\\times E\\mid(E)\\mid a$. The layered grammar fixes precedence; the single-variable grammar allows both top-level + and × structures for a+a×a. Rule-list order alone does not impose precedence.\n\n## Solve the opening case\n\n**Matched blocks:** $S\\to0S1\\mid\\varepsilon$ generates exactly $0^n1^n$ by the invariant/converse argument. The base handles n=0; recursion maintains order and equal counts. It does not claim a finite automaton can recognize the same language.\n\n**Expression structure:** following T4 P7, use\n$$\n\\begin{aligned}\nE&\\to E+T\\mid T,\\\\\nT&\\to T*P\\mid P,\\\\\nP&\\to F\\uparrow P\\mid F,\\\\\nF&\\to(E)\\mid a\\mid b\\mid c.\n\\end{aligned}\n$$\nE adds whole T operands, so multiplication/exponentiation are completed inside them. T adds whole P operands; P puts a recursively expandable P on the right of ↑. Therefore a+b*c groups as a+(b*c), a*b↑c as a*(b↑c), and a↑b↑c as a↑(b↑c). Left recursion at E/T gives left association for +/*. Parentheses return to E and allow explicit overrides.[^t4precedence]\n\nThe source's reference F lists only a,b but its requested words use c; the supplied solution extends F to include c. This minimal source-supported extension is explicit rather than pretending the original two-terminal grammar derives c.\n\n## Exam-style answer and reusable method\n\nA CFG has one variable on each rule's left side. Define the target language, choose a base case and invariant-preserving recursive step, then prove both inclusions. For parsing, construct a tree or leftmost derivation; prove ambiguity with one word and two distinct trees. For expression structure, separate precedence levels and place recursion on the association side.\n\nThis is source-based answer practice, not an official marking scheme or predicted exam question. Native Obsidian/PDF checks for this new unit remain pending.\n\n## Misconceptions and quick review\n\n- S→ε does not put the epsilon **symbol** into the alphabet.\n- Equal counts alone do not permit interleaving; grammar order matters.\n- A sentential form with variables is not a member of L(G).\n- Two grammars with identical rules can differ when their starts differ.\n- Arbitrary subsets of a CFL need not be CFLs: Tutorial 4 P1 supplies a non-CFL counterexample. Its non-context-freeness is a stated source fact; a later proof tool is not in this unit.\n- “I found one parse” does not prove unambiguity; “I found two derivation schedules” does not prove ambiguity.\n- The grammar for exactly two blocks cannot generate four alternating blocks.\n\n[^l4basic]: Lecture 4 Context-Free Languages.pdf, PDF pp.5–8, grammar motivation, rule shape and tuple.\n[^l4derive]: Same lecture, PDF pp.9–11; Tutorial 4 - Context-Free Grammars.pdf, PDF pp.1–3, definitions and P2.\n[^l4trees]: Lecture 4 PDF pp.22–24; Tutorial 4 PDF pp.3–4, P5.\n[^l4regular]: Lecture 4 PDF pp.12–13, DFA diagram and grammar translation; figure and accepting state visually checked.\n[^l4closure]: Lecture 4 PDF pp.14–19, closure constructions; renaming variables is an explicit correctness condition.\n[^t4ambiguity]: Tutorial 4 PDF pp.1,4–6, definition, P6 and review p.8; Lecture 4 pp.20–26.\n[^t4precedence]: Tutorial 4 PDF p.6, P7; solution notebook cell 10.\n[^forum]: Forum Clarifications.md, captured 7 October, L4 discussion d=147; unanswered questions, not lecturer confirmations.\n"
+    },
+    {
+      "id": "Unit 05 - Context-Free Grammars and Languages/02 Exercises",
+      "relative": "Unit 05 - Context-Free Grammars and Languages/02 Exercises.md",
+      "kind": "exercises",
+      "unit": "05",
+      "origin": "course",
+      "hash": "cd73286f5c53b3f50e0abf3d465f12eb82a4125597abcaa938ea4c3916e7a14d",
+      "markdown": "---\ntitle: \"Context-Free Grammars and Languages - Exercises\"\ncourse: ADS205\ntype: exercises\nstatus: reviewed\nstudy_status: untested\nlanguage: en\ncssclasses: [university-study]\n---\n\n# Exercises\n\n[[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/01 Notes|Notes]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/03 Lab|Lab]]\n\nEvery T4 task below is an **ORIGINAL COURSE EXERCISE**. Source is the current solution PDF (7 October); student PDF (6 October) and both notebooks retain the corresponding statements. Try the statement, then reveal its own hint and complete solution. One-based PDF positions are used.\n\n## T4 P1 — Concepts and counterexamples\n\n**Source:** Tutorial 4 solution PDF pp.1–2, P1.1–4; student PDF pp.1–2; solution notebook cell 4. Answer and justify:\n1. Same variables, terminals and rules but different start variables: must languages agree?\n2. If L is context-free and L'⊆L, must L' be context-free?\n3. Can an unambiguous grammar have different leftmost/rightmost derivations of one word?\n4. Does every terminal/variable sequence appearing during a derivation belong to L(G)?\n\n> [!tip]- Hint\n> The tuple includes its start. Distinguish subset, terminal yield and tree structure from replacement order.\n\n> [!success]- Solution\n> **1. No.** With rules S→0A, A→1 and variables {S,A}, start S generates {01}; start A generates {1}. Rules alone do not determine the language.\n>\n> **2. No.** The source counterexample takes context-free $\\{0,1\\}^*$ and its subset $\\{0^n1^n0^n:n\\ge0\\}$, stated to be non-context-free. That non-CFL fact is supplied here without a proof: a later context-free pumping argument is outside the provided Lecture 4. It is not proved merely by regular pumping. Arbitrary-subset closure does not follow from the three closure operations established in L4.\n>\n> **3. Yes.** For S→AB, A→a, B→b, leftmost is S⇒AB⇒aB⇒ab, rightmost S⇒AB⇒Ab⇒ab. Only one tree exists: the schedules differ, not the structure.\n>\n> **4. No.** For S→aSb|ε, aSb is a sentential form, not a terminal word. L(G) includes only words in Σ* derived from the designated start.\n\n## T4 P2 — Language and derivation\n\n**Source:** solution PDF p.2, P2.1–4; student p.2; solution notebook cell 5. For $S\\to aSb\\mid\\varepsilon$: (1) derive aaabbb; (2) describe L(G); (3) explain exclusion of aabbb, abab and ba; (4) decide ambiguity.\n\n> [!tip]- Hint\n> Describe the form after n recursive applications, and count the remaining variables.\n\n> [!success]- Solution\n> **1.** $S\\Rightarrow aSb\\Rightarrow aaSbb\\Rightarrow aaaSbbb\\Rightarrow aaabbb$.\n>\n> **2.** After n recursive steps the form is $a^nSb^n$. Terminating produces $a^nb^n$, and every n≥0 is realizable. Thus $L(G)=\\{a^nb^n:n\\ge0\\}$.\n>\n> **3.** aabbb has unequal counts; abab violates all-a-before-all-b order; ba reverses that order. Neither production can create any of those patterns.\n>\n> **4.** Unambiguous: for a terminal word of length 2n, exactly n recursive rules and one epsilon rule must be used. There is only one variable at every stage, so its expansion tree is uniquely determined.\n\n## T4 P3 — Construct the requested grammar\n\n**Source:** solution PDF pp.2–3, P3; student p.2; solution notebook cell 6. Give a CFG for binary-letter strings over {a,b} ending in a. Derive a, ba and abba. Explain why epsilon and abb cannot be generated.\n\n> [!tip]- Hint\n> Generate an arbitrary prefix recursively, but reserve the final production for the required last symbol.\n\n> [!success]- Solution\n> Use $S\\to aS\\mid bS\\mid a$.\n>\n> $S\\Rightarrow a$; $S\\Rightarrow bS\\Rightarrow ba$; $S\\Rightarrow aS\\Rightarrow abS\\Rightarrow abbS\\Rightarrow abba$.\n>\n> Every completed derivation terminates with S→a, so its last symbol is a and it is nonempty. Conversely, generate each symbol of any desired prefix using aS/bS, then terminate with a. Hence the language is exactly the target. No epsilon rule exists and no terminal derivation ends in b, excluding epsilon and abb.\n\n## T4 P4 — One count and twice that count\n\n**Source:** solution PDF p.3, P4; student p.2; solution notebook cell 7. Construct a CFG for $\\{0^n1^{2n}:n\\ge0\\}$, derive 001111 and justify terminal order.\n\n> [!tip]- Hint\n> Each recursive step must add one 0 and two 1s around the remaining variable.\n\n> [!success]- Solution\n> Use $S\\to0S11\\mid\\varepsilon$. Then $S\\Rightarrow0S11\\Rightarrow00S1111\\Rightarrow001111$.\n>\n> After n recursive steps, the form is $0^nS1^{2n}$. Terminating produces the required word; for every n, that derivation exists. Added zeros occur to the left of S and pairs of ones to its right, so all zeros precede all ones. The base n=0 produces epsilon.\n\n## T4 P5 — Parse tree and derivation\n\n**Source:** solution PDF pp.3–4, P5.1–3; student p.2; solution notebook cell 8. For $S\\to00S1\\mid\\varepsilon$, (1) draw a parse tree for 000011; (2) write its leftmost derivation; (3) describe L(G).\n\n> [!tip]- Hint\n> Use two recursive layers. At every layer keep all four children, in RHS order.\n\n> [!success]- Solution\n> **1.** The exact ordered tree is shown below: outer children 0,0,S,1; inner S children 0,0,S,1; deepest S child epsilon. Its terminal yield is 000011.\n>\n> ![[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/Attachments/parse-tree.svg]]\n>\n> **2.** $S\\Rightarrow00S1\\Rightarrow0000S11\\Rightarrow000011$. One variable remains at each stage, so leftmost and rightmost orders coincide.\n>\n> **3.** After n recursive uses, $0^{2n}S1^n$ terminates to $0^{2n}1^n$. Every n≥0 is possible and no other terminal form is possible. Hence $L(G)=\\{0^{2n}1^n:n\\ge0\\}$.\n\n## T4 P6 — Detect and remove ambiguity\n\n**Source:** solution PDF pp.4–6, P6.1–3; student p.3; solution notebook cell 9. For $G_1:S\\to S+S\\mid a$, with terminal +, give two distinct leftmost derivations of a+a+a, identify their groupings and give an unambiguous grammar for the same language.\n\n> [!tip]- Hint\n> Expand the left child first in one structure and the right subtree in the other. Preserve the replacement order as leftmost in both derivations.\n\n> [!success]- Solution\n> **First:** $S\\Rightarrow S+S\\Rightarrow S+S+S\\Rightarrow a+S+S\\Rightarrow a+a+S\\Rightarrow a+a+a$. In its second step the left S expands, giving (a+a)+a.\n>\n> **Second:** $S\\Rightarrow S+S\\Rightarrow a+S\\Rightarrow a+S+S\\Rightarrow a+a+S\\Rightarrow a+a+a$. It gives a+(a+a). The distinct leftmost histories represent two distinct trees; equal terminal yields establish ambiguity.\n>\n> **Replacement grammar:** $G_2:S\\to S+a\\mid a$ fixes left association. Both languages are $\\{a(+a)^n:n\\ge0\\}$: binary branching adds one + and one additional eventual a; its terminal order is alternating a,+,a. Conversely any such sequence can be generated by repeated left expansion. G2 also generates every such sequence via n recursive rules followed by S→a; its fixed-length word has exactly one tree.\n>\n> This equality is about generated words, not matching trees. The source's informal S⇒S(+S)^n is not a compulsory intermediate stage of **every** derivation; its terminal-language characterization is justified by structural induction.\n\n## T4 P7 — Add exponentiation\n\n**Source:** solution PDF pp.6–7, P7; student p.3; solution notebook cell 10. Start with E→E+T|T, T→T*F|F, F→(E)|a|b. Add ↑ with precedence above * and right associativity. Explain a*b↑c and a↑b↑c.\n\n> [!tip]- Hint\n> Insert a power level between product and factor, and put its recursive variable on the right of ↑. Address the source's c explicitly.\n\n> [!success]- Solution\n> $E\\to E+T\\mid T$; $T\\to T*P\\mid P$; $P\\to F\\uparrow P\\mid F$; $F\\to(E)\\mid a\\mid b\\mid c$.\n>\n> The added c is required by the example strings and is explicitly present in the supplied solution, though absent from the reference grammar.\n>\n> For a*b↑c, $E\\Rightarrow T\\Rightarrow T*P\\Rightarrow P*P\\Rightarrow F*P\\Rightarrow a*P\\Rightarrow a*F\\uparrow P\\Rightarrow a*b\\uparrow P\\Rightarrow a*b\\uparrow F\\Rightarrow a*b\\uparrow c$. The product's right P expands to the whole b↑c, so the grouping is a*(b↑c).\n>\n> For a↑b↑c, $E\\Rightarrow T\\Rightarrow P\\Rightarrow F\\uparrow P\\Rightarrow a\\uparrow P\\Rightarrow a\\uparrow F\\uparrow P\\Rightarrow a\\uparrow b\\uparrow P\\Rightarrow a\\uparrow b\\uparrow F\\Rightarrow a\\uparrow b\\uparrow c$. The nested P is on the right, so a↑(b↑c). Left-recursive E/T preserve left association of +/*; separate levels preserve precedence.\n\n## L4 example — Two independent blocks\n\n**ORIGINAL COURSE EXERCISE:** Lecture 4 PDF p.9; original question asks which words the rules describe. For $S\\to RR,\\ R\\to0R1\\mid\\varepsilon$, describe the language, derive 0101 and 010011, and explain exclusion of 010101. The extra forum request 01010101 is **a student question**, not a new official exercise.\n\n> [!tip]- Hint\n> Name separate repeat counts for the two copies of R.\n\n> [!success]- Solution\n> The language is $\\{0^i1^i0^j1^j:i,j\\ge0\\}$.\n>\n> $S\\Rightarrow RR\\Rightarrow0R1R\\Rightarrow01R\\Rightarrow010R1\\Rightarrow0101$.\n>\n> $S\\Rightarrow RR\\Rightarrow0R1R\\Rightarrow01R\\Rightarrow010R1\\Rightarrow0100R11\\Rightarrow010011$.\n>\n> Every nonempty R yields one contiguous zero block then one equal-sized one block. At most two such factors cannot create three alternating 01 blocks, so 010101 is excluded. Four blocks in 01010101 are excluded for the same reason.\n\n## L4 example — Balanced parentheses\n\n**ORIGINAL COURSE EXERCISE:** Lecture 4 PDF p.10 asks for a CFG for all balanced parentheses.\n\n> [!tip]- Hint\n> Empty word, wrapping and concatenation cover the two ways a balanced word grows.\n\n> [!success]- Solution\n> $S\\to(S)\\mid SS\\mid\\varepsilon$. Empty, wrapping and concatenation preserve balance. Conversely, any nonempty balanced word is (u)v, where its first opening parenthesis matches the displayed close and u,v are balanced. Recursively derive u and v, with S⇒SS⇒(S)S, then substitute their derivations. Thus all and only balanced words are generated. Ambiguity of this grammar does not refute its language correctness.\n\n## L4 Q&A navigation\n\nLecture 4 PDF p.26 questions 1–3 are the same conceptual tasks as T4 P1.1–3; their complete statements, counterexamples and solutions are at [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises#T4 P1 — Concepts and counterexamples|T4 P1]]. They are separate source occurrences in the map, not extra exam-paper occurrences.\n"
+    },
+    {
+      "id": "Unit 05 - Context-Free Grammars and Languages/03 Lab",
+      "relative": "Unit 05 - Context-Free Grammars and Languages/03 Lab.md",
+      "kind": "lab",
+      "unit": "05",
+      "origin": "course",
+      "hash": "7271700d93106d5ffee77030f04218403737c2db9cec43528beccecc0abb96dc",
+      "markdown": "---\ntitle: \"Context-free grammar exploration\"\ncourse: ADS205\ntype: laboratory\nstatus: reviewed\nstudy_status: untested\nlanguage: en\ncssclasses: [university-study]\n---\n\n# Compare generated words with structural parses\n\n[[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/01 Notes|Notes]] · [[10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/02 Exercises|Exercises]]\n\n**Source:** Tutorial 4 solution PDF p.7, §4.4, notebook cells 12–13; student PDF pp.3–4, cells 11–12. Open the unchanged [[10_UNIVERSITY_CS/ADS205/Original Sources/LM Core 2026-10-07/Tutorial 4 - Context-Free Grammars (Student Version).ipynb|student notebook]]; [[10_UNIVERSITY_CS/ADS205/Original Sources/LM Core 2026-10-07/Tutorial 4 - Context-Free Grammars.ipynb|solution notebook]] is available after your attempt.\n\n## Motivation and environment\n\nA parser may return one tree for a word even when a second exists. Compare membership exploration with ambiguity exploration before accepting a tool's output as a proof.\n\nThe source uses Tock's Grammar.from_lines, any_parse and all_parses. It writes & for epsilon and names the + terminal plus. The package version is **UNCONFIRMED**. Install/run only in a separate environment if desired; source files remain unchanged. This run inspected these cells but did not install or execute Tock.\n\n## Original experiment — Predict the trees\n\nThe source creates S→aS|bS|a and S→0S11|ε. Explain the expected results for a, ba, aba under the first grammar, and epsilon, 011, 001111 under the second. Then predict all_parses for a plus a plus a under S→S plus S|a.\n\n> [!tip]- Hint\n> Separate one membership witness from the set of different trees. Count binary groupings of exactly three operands, not all possible schedules.\n\n> [!success]- Solution\n> All six listed membership samples should have parses. First grammar: a; S⇒bS⇒ba; S⇒aS⇒abS⇒aba. Second grammar: direct epsilon; one recursive step then epsilon gives 011; two give 001111.\n>\n> The ambiguous expression grammar has exactly two ordered binary trees for three a leaves: (a+a)+a and a+(a+a). The notebook expects len(parses)==2 and asserts it. This is a **source-provided expected result**, not an observed Tock execution.\n>\n> any_parse returning one tree establishes one derivation for that word, not global unambiguity. Enumerating two distinct trees establishes ambiguity for the grammar; failing to find a second in a bounded search does not prove none exists.\n\n## Controlled comparison\n\nReplace the exploratory grammar in a separate copy with S→S plus a|a, predict one tree for the same word, then compare the trees if you run the activity. Both grammars generate the same word set, but only the replacement forces left association. Do not equate generated-language equality with structural equality.\n\n## Record and interpret\n\nRecord package version, input tokens, production lines, returned trees and errors if you actually execute. Any future observation must be distinguished from the predictions here. This finite experiment does not prove grammar unambiguity for every word, inherent ambiguity of the language, or an official marking rule.\n"
     }
   ],
   "cards": [
@@ -639,6 +708,90 @@
       "question": "What must be ruled out after pumping a word with existential membership witnesses?",
       "answer": "Every possible new membership witness, not just the original one.",
       "source": "Source: Tutorial 3 PDF p.5, P6.2; explicit correction of the source inequality."
+    },
+    {
+      "id": "05-01",
+      "unit": "05",
+      "question": "What makes a production context-free?",
+      "answer": "Its left side is one variable; replacement does not require a particular surrounding context.",
+      "source": "Source: Lecture 4 pp.7–8."
+    },
+    {
+      "id": "05-02",
+      "unit": "05",
+      "question": "What are the four components of a CFG?",
+      "answer": "Finite variables V, finite terminals Σ, finite rules R and a designated start variable S∈V.",
+      "source": "Source: Tutorial 4 p.1."
+    },
+    {
+      "id": "05-03",
+      "unit": "05",
+      "question": "What does the production arrow declare?",
+      "answer": "An allowed replacement rule, rather than an actual derivation step.",
+      "source": "Source: Lecture 4 p.11."
+    },
+    {
+      "id": "05-04",
+      "unit": "05",
+      "question": "What does the starred derivation relation permit?",
+      "answer": "Zero or more derivation steps.",
+      "source": "Source: Tutorial 4 p.1."
+    },
+    {
+      "id": "05-05",
+      "unit": "05",
+      "question": "When is a derived form a language member?",
+      "answer": "When it contains only terminals and is derived from the designated start variable.",
+      "source": "Source: Tutorial 4 pp.1–2, P1.4."
+    },
+    {
+      "id": "05-06",
+      "unit": "05",
+      "question": "What form appears after n recursive uses of S→aSb?",
+      "answer": "The sentential form aⁿSbⁿ.",
+      "source": "Source: Tutorial 4 p.2, P2."
+    },
+    {
+      "id": "05-07",
+      "unit": "05",
+      "question": "What is read from the leaves of an ordered parse tree?",
+      "answer": "The terminal word in left-to-right order, ignoring epsilon leaves.",
+      "source": "Source: Lecture 4 p.23; Tutorial 4 P5."
+    },
+    {
+      "id": "05-08",
+      "unit": "05",
+      "question": "What must a leftmost derivation expand next?",
+      "answer": "The leftmost remaining variable.",
+      "source": "Source: Tutorial 4 p.1."
+    },
+    {
+      "id": "05-09",
+      "unit": "05",
+      "question": "What demonstrates grammar ambiguity?",
+      "answer": "One terminal word with two distinct parse trees, equivalently two distinct leftmost derivations.",
+      "source": "Source: Tutorial 4 pp.1,4, P6."
+    },
+    {
+      "id": "05-10",
+      "unit": "05",
+      "question": "Why rename variables when combining CFGs?",
+      "answer": "To prevent rules of one grammar from expanding variables of the other.",
+      "source": "Source: Lecture 4 pp.14–19; explicit construction condition."
+    },
+    {
+      "id": "05-11",
+      "unit": "05",
+      "question": "Where do epsilon termination rules occur in a DFA-derived grammar?",
+      "answer": "At variables corresponding to accepting DFA states.",
+      "source": "Source: Lecture 4 p.13."
+    },
+    {
+      "id": "05-12",
+      "unit": "05",
+      "question": "Which side recursively expands for right-associative exponentiation?",
+      "answer": "The right operand: P→F↑P.",
+      "source": "Source: Tutorial 4 p.6, P7."
     }
   ],
   "assets": {
@@ -652,7 +805,8 @@
     "10_UNIVERSITY_CS/ADS205/Unit 03 - Regular Expressions and Automata Conversion/Attachments/state-elimination.svg": "/assets/ads205/03-state-elimination.svg",
     "10_UNIVERSITY_CS/ADS205/Unit 04 - The Pumping Lemma/Attachments/pumping-loop.svg": "/assets/ads205/04-pumping-loop.svg",
     "10_UNIVERSITY_CS/ADS205/Unit 04 - The Pumping Lemma/Attachments/pumping-split.svg": "/assets/ads205/04-pumping-split.svg",
-    "10_UNIVERSITY_CS/ADS205/Unit 04 - The Pumping Lemma/Attachments/square-gap.svg": "/assets/ads205/04-square-gap.svg"
+    "10_UNIVERSITY_CS/ADS205/Unit 04 - The Pumping Lemma/Attachments/square-gap.svg": "/assets/ads205/04-square-gap.svg",
+    "10_UNIVERSITY_CS/ADS205/Unit 05 - Context-Free Grammars and Languages/Attachments/parse-tree.svg": "/assets/ads205/05-parse-tree.svg"
   },
   "files": [
     {
@@ -726,6 +880,30 @@
       "unit": "03",
       "hash": "28376bbeceea407fab2c07f29fb2dda439accd9549e5b192215be3944e501cd0",
       "url": "/sources/ads205/9.pdf"
+    },
+    {
+      "id": "10",
+      "relative": "LM Core 2026-10-07/Lecture 4 Context-Free Languages.pdf",
+      "title": "Lecture 4 Context-Free Languages.pdf",
+      "unit": "05",
+      "hash": "9956ae1ae6f40a64cd85245aa5afea4eb489dc53587103f31f9dc8b62b8315a3",
+      "url": "/sources/ads205/10.pdf"
+    },
+    {
+      "id": "11",
+      "relative": "LM Core 2026-10-07/Tutorial 4 - Context-Free Grammars.pdf",
+      "title": "Tutorial 4 - Context-Free Grammars.pdf",
+      "unit": "05",
+      "hash": "746972549ddefaded5586146a061b8ae538f23db2c63fab9afb8b0fda236daa1",
+      "url": "/sources/ads205/11.pdf"
+    },
+    {
+      "id": "12",
+      "relative": "LM Core 2026-10-07/Tutorial 4 - Context-Free Grammars (Student Version).pdf",
+      "title": "Tutorial 4 - Context-Free Grammars (Student Version).pdf",
+      "unit": "05",
+      "hash": "bf1769261e59000d1b384b4de6981461cbc994936f7f612ea85ca6e64055dae8",
+      "url": "/sources/ads205/12.pdf"
     }
   ],
   "videos": [
@@ -760,7 +938,7 @@
       "url": "https://www.youtube.com/watch?v=KAySmSEGc9U",
       "source": "MIT OCW · Michael Sipser",
       "sourceUrl": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/download/",
-      "scope": "Focus on automata/regex conversion; CFGs later in this lecture are outside the supplied ADS205 units.",
+      "scope": "Focus on automata/regex conversion for this unit. CFG coverage now has its own source-grounded Unit 05.",
       "checkpoint": "Explain why state elimination preserves paths.",
       "reviewBasis": "Official lecture description and companion PDF notes checked for topic alignment. Full video playback has not been reviewed.",
       "reviewedAt": "2026-10-07"
@@ -859,6 +1037,31 @@
           "label": "Choose the split after choosing the pumping exponent.",
           "correct": false,
           "feedback": "The split must work for every exponent if the language is regular. To contradict that claim, consider every legal split, then choose an exponent that breaks it."
+        }
+      ]
+    },
+    {
+      "id": "05-tree-challenge",
+      "unit": "05",
+      "kind": "quiz",
+      "title": "Tree or schedule?",
+      "prompt": "Do S⇒AB⇒aB⇒ab and S⇒AB⇒Ab⇒ab for S→AB,A→a,B→b prove ambiguity?",
+      "source": "Reviewed tutor · See a tree rather than just a sequence. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "options": [
+        {
+          "label": "No; they have the same ordered tree and different replacement schedules.",
+          "correct": true,
+          "feedback": "Both schedules use the same production choices and ordered children A,B."
+        },
+        {
+          "label": "Yes; any different replacement order is ambiguity.",
+          "correct": false,
+          "feedback": "Ambiguity requires distinct trees or distinct leftmost derivations for one word."
+        },
+        {
+          "label": "The rightmost derivation is invalid.",
+          "correct": false,
+          "feedback": "Replacing the rightmost variable is valid; it changes chronology, not structure."
         }
       ]
     }
@@ -2421,6 +2624,456 @@
           "label": "Any k must fit the shortened initial run, but the suffix still has at least p ones.",
           "correct": true,
           "feedback": "For a nonempty initial run, k≤p−t<p while the suffix has at least p ones; an empty initial run allows no positive k."
+        }
+      ]
+    },
+    {
+      "id": "05-in-60-seconds-check",
+      "unit": "05",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "In 60 Seconds · Check",
+      "prompt": "What distinguishes a CFG from its language?",
+      "source": "Reviewed tutor · In 60 Seconds. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "In 60 Seconds"
+      },
+      "options": [
+        {
+          "label": "The CFG is a finite description; its language is the set of generated terminal words.",
+          "correct": true,
+          "feedback": "A grammar supplies rules; the generated set contains terminal words derived from its start."
+        },
+        {
+          "label": "They are the same kind of object.",
+          "correct": false,
+          "feedback": "A rule list is a description, not the resulting set of words."
+        },
+        {
+          "label": "The language is the list of productions.",
+          "correct": false,
+          "feedback": "Productions may contain variables, whereas language members contain only terminals."
+        }
+      ]
+    },
+    {
+      "id": "05-concept-preview-check",
+      "unit": "05",
+      "lesson": "concept-preview",
+      "kind": "quiz",
+      "title": "Concept Preview · Check",
+      "prompt": "What makes a production context-free?",
+      "source": "Reviewed tutor · Concept Preview. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Concept Preview"
+      },
+      "options": [
+        {
+          "label": "Its right side contains no variables.",
+          "correct": false,
+          "feedback": "A right side can contain variables and terminals, allowing recursive generation."
+        },
+        {
+          "label": "It may rewrite a terminal only when a neighbour matches.",
+          "correct": false,
+          "feedback": "A condition on neighbouring symbols would not match the supplied CFG definition."
+        },
+        {
+          "label": "Its left side is a single variable, independent of its neighbours.",
+          "correct": true,
+          "feedback": "The single-variable left side permits replacement wherever that variable occurs."
+        }
+      ]
+    },
+    {
+      "id": "05-exam-evidence-snapshot-check",
+      "unit": "05",
+      "lesson": "exam-evidence-snapshot",
+      "kind": "quiz",
+      "title": "Exam Evidence Snapshot · Check",
+      "prompt": "What is the assessment status of these new CFG exercises?",
+      "source": "Reviewed tutor · Exam Evidence Snapshot. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Exam Evidence Snapshot"
+      },
+      "options": [
+        {
+          "label": "A prediction of the next exam’s CFG frequency.",
+          "correct": false,
+          "feedback": "Historical captures cannot establish what will appear in a future exam."
+        },
+        {
+          "label": "Source-based practice with exam format unconfirmed.",
+          "correct": true,
+          "feedback": "Lecture and tutorial sources support teaching, but new paper/mark mapping has not been verified."
+        },
+        {
+          "label": "A newly verified official CFG marking scheme.",
+          "correct": false,
+          "feedback": "No official marking scheme is supplied for these generated practice questions."
+        }
+      ]
+    },
+    {
+      "id": "05-before-you-start-check",
+      "unit": "05",
+      "lesson": "before-you-start",
+      "kind": "quiz",
+      "title": "Before You Start · Check",
+      "prompt": "Does one derivation of 0011 establish exactly {0^n1^n:n≥0}?",
+      "source": "Reviewed tutor · Before You Start. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Before You Start"
+      },
+      "options": [
+        {
+          "label": "No; prove every generated word has the form and every target word can be generated.",
+          "correct": true,
+          "feedback": "A membership witness establishes one word; equality of languages requires both inclusions."
+        },
+        {
+          "label": "Yes; a single example establishes set equality.",
+          "correct": false,
+          "feedback": "One example cannot exclude extra words or establish generation for every n."
+        },
+        {
+          "label": "Only words up to length four need checking.",
+          "correct": false,
+          "feedback": "The proposed language is unbounded; a finite list does not establish exactness."
+        }
+      ]
+    },
+    {
+      "id": "05-a-motivating-question-a-generator-and-a-parser-check",
+      "unit": "05",
+      "lesson": "a-motivating-question-a-generator-and-a-parser",
+      "kind": "quiz",
+      "title": "A motivating question — A generator and a parser · Check",
+      "prompt": "Which two kinds of reasoning does the generator/parser case need?",
+      "source": "Reviewed tutor · A motivating question — A generator and a parser. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "A motivating question — A generator and a parser"
+      },
+      "options": [
+        {
+          "label": "Only one successful generated output.",
+          "correct": false,
+          "feedback": "One output does not establish the complete language or unique intended grouping."
+        },
+        {
+          "label": "Only counting production rules.",
+          "correct": false,
+          "feedback": "Rule counts alone do not describe terminal order, generated counts or parse structure."
+        },
+        {
+          "label": "A general language argument and a structural grouping argument.",
+          "correct": true,
+          "feedback": "Matched counts need an invariant; operator grouping needs parse structure and precedence."
+        }
+      ]
+    },
+    {
+      "id": "05-let-the-unfinished-middle-carry-the-dependency-check",
+      "unit": "05",
+      "lesson": "let-the-unfinished-middle-carry-the-dependency",
+      "kind": "quiz",
+      "title": "Let the unfinished middle carry the dependency · Check",
+      "prompt": "Under S→aSb|ε, what is the form after n recursive steps before termination?",
+      "source": "Reviewed tutor · Let the unfinished middle carry the dependency. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Let the unfinished middle carry the dependency"
+      },
+      "options": [
+        {
+          "label": "(ab)^n",
+          "correct": false,
+          "feedback": "Wrapping places every a before every b; it does not alternate completed ab factors."
+        },
+        {
+          "label": "a^nSb^n",
+          "correct": true,
+          "feedback": "Each recursive layer wraps the same remaining S with one a and one b."
+        },
+        {
+          "label": "a^nb^(n+1)",
+          "correct": false,
+          "feedback": "The rule adds equal counts; it cannot add one unmatched b."
+        }
+      ]
+    },
+    {
+      "id": "05-see-a-tree-rather-than-just-a-sequence-check",
+      "unit": "05",
+      "lesson": "see-a-tree-rather-than-just-a-sequence",
+      "kind": "quiz",
+      "title": "See a tree rather than just a sequence · Check",
+      "prompt": "Do S⇒AB⇒aB⇒ab and S⇒AB⇒Ab⇒ab for S→AB,A→a,B→b prove ambiguity?",
+      "source": "Reviewed tutor · See a tree rather than just a sequence. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "See a tree rather than just a sequence"
+      },
+      "options": [
+        {
+          "label": "No; they have the same ordered tree and different replacement schedules.",
+          "correct": true,
+          "feedback": "Both schedules use the same production choices and ordered children A,B."
+        },
+        {
+          "label": "Yes; any different replacement order is ambiguity.",
+          "correct": false,
+          "feedback": "Ambiguity requires distinct trees or distinct leftmost derivations for one word."
+        },
+        {
+          "label": "The rightmost derivation is invalid.",
+          "correct": false,
+          "feedback": "Replacing the rightmost variable is valid; it changes chronology, not structure."
+        }
+      ]
+    },
+    {
+      "id": "05-compose-whole-languages-by-composing-starts-check",
+      "unit": "05",
+      "lesson": "compose-whole-languages-by-composing-starts",
+      "kind": "quiz",
+      "title": "Compose whole languages by composing starts · Check",
+      "prompt": "What repair is needed for a star construction with only X→S_A X?",
+      "source": "Reviewed tutor · Compose whole languages by composing starts. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Compose whole languages by composing starts"
+      },
+      "options": [
+        {
+          "label": "Remove all terminating rules in the old grammar.",
+          "correct": false,
+          "feedback": "Removing old base rules can stop factor derivations from finishing."
+        },
+        {
+          "label": "Use X→S_A alone to obtain every finite number of factors.",
+          "correct": false,
+          "feedback": "A single factor is not every finite concatenation and does not supply zero factors."
+        },
+        {
+          "label": "Add X→ε, after renaming variables to keep the grammars separate.",
+          "correct": true,
+          "feedback": "Without a terminating X rule no finite derivation can remove the last X."
+        }
+      ]
+    },
+    {
+      "id": "05-why-grouping-cannot-be-guessed-from-the-printed-word-check",
+      "unit": "05",
+      "lesson": "why-grouping-cannot-be-guessed-from-the-printed-word",
+      "kind": "quiz",
+      "title": "Why grouping cannot be guessed from the printed word · Check",
+      "prompt": "Under P→F↑P|F, how does a↑b↑c group?",
+      "source": "Reviewed tutor · Why grouping cannot be guessed from the printed word. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Why grouping cannot be guessed from the printed word"
+      },
+      "options": [
+        {
+          "label": "Both structures must occur because the printed word is identical.",
+          "correct": false,
+          "feedback": "An identical terminal word does not force a grammar to permit both structures."
+        },
+        {
+          "label": "a↑(b↑c)",
+          "correct": true,
+          "feedback": "The expandable right P creates the right operand’s power before the outer power."
+        },
+        {
+          "label": "(a↑b)↑c",
+          "correct": false,
+          "feedback": "Left association would require recursion on the left side of the operator."
+        }
+      ]
+    },
+    {
+      "id": "05-return-to-the-motivating-question-check",
+      "unit": "05",
+      "lesson": "return-to-the-motivating-question",
+      "kind": "quiz",
+      "title": "Return to the motivating question · Check",
+      "prompt": "Can changing S→S+S|a to S→S+a|a preserve the word set while changing grouping?",
+      "source": "Reviewed tutor · Return to the motivating question. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Return to the motivating question"
+      },
+      "options": [
+        {
+          "label": "Yes; both generate a(+a)^n, but the second fixes left grouping.",
+          "correct": true,
+          "feedback": "Different descriptions can generate one language while permitting different parse trees."
+        },
+        {
+          "label": "No; the language must change whenever the rules change.",
+          "correct": false,
+          "feedback": "The grammar-to-language mapping is many-to-one, so changed rules need not change the set."
+        },
+        {
+          "label": "The second grammar introduces multiplication.",
+          "correct": false,
+          "feedback": "The replacement rules include a and + only; no multiplication terminal is introduced."
+        }
+      ]
+    },
+    {
+      "id": "05-definitions-and-distinctions-check",
+      "unit": "05",
+      "lesson": "definitions-and-distinctions",
+      "kind": "quiz",
+      "title": "Definitions and distinctions · Check",
+      "prompt": "Which distinction separates a sentential form from a language member?",
+      "source": "Reviewed tutor · Definitions and distinctions. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Definitions and distinctions"
+      },
+      "options": [
+        {
+          "label": "Any RHS automatically belongs to the language.",
+          "correct": false,
+          "feedback": "A RHS may contain unfinished variables or may not be reachable from the chosen start."
+        },
+        {
+          "label": "Only nonempty terminal strings can be members.",
+          "correct": false,
+          "feedback": "A grammar with a suitable terminating rule can generate the empty word."
+        },
+        {
+          "label": "A sentential form may contain variables; a member is terminal-only and derived from the start.",
+          "correct": true,
+          "feedback": "Membership requires terminal-only yield from the designated start variable."
+        }
+      ]
+    },
+    {
+      "id": "05-source-traps-to-keep-visible-check",
+      "unit": "05",
+      "lesson": "source-traps-to-keep-visible",
+      "kind": "quiz",
+      "title": "Source traps to keep visible · Check",
+      "prompt": "Under S→RR,R→0R1|ε, can 01010101 be derived?",
+      "source": "Reviewed tutor · Source traps to keep visible. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Source traps to keep visible"
+      },
+      "options": [
+        {
+          "label": "Yes; each R can create arbitrary binary words.",
+          "correct": false,
+          "feedback": "The R rules require zeros before matching ones; they cannot generate arbitrary binary words."
+        },
+        {
+          "label": "No; S supplies only two balanced 0^n1^n blocks.",
+          "correct": true,
+          "feedback": "Each R yields one ordered balanced block; their concatenation cannot supply four 01 blocks."
+        },
+        {
+          "label": "Yes; four alternating blocks can always be made from two R variables.",
+          "correct": false,
+          "feedback": "Recursive wrapping expands counts inside a block; it does not create arbitrarily many blocks."
+        }
+      ]
+    },
+    {
+      "id": "05-review-check",
+      "unit": "05",
+      "lesson": "review",
+      "kind": "quiz",
+      "title": "Review · Check",
+      "prompt": "How should the full-reference review be used?",
+      "source": "Reviewed tutor · Review. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "Review"
+      },
+      "options": [
+        {
+          "label": "Check the closure and exact-language arguments after attempting the mechanisms.",
+          "correct": true,
+          "feedback": "The review points to source-supported reasoning without manufacturing learner performance."
+        },
+        {
+          "label": "Use worked examples as evidence that the learner has mastered the unit.",
+          "correct": false,
+          "feedback": "A displayed solution or reviewed note is not an attempt or mastery record."
+        },
+        {
+          "label": "Discard closure topics because CFG exam mapping is pending.",
+          "correct": false,
+          "feedback": "Pending assessment mapping does not remove source-supported content from the syllabus."
+        }
+      ]
+    },
+    {
+      "id": "05-5-minute-review-check",
+      "unit": "05",
+      "lesson": "5-minute-review",
+      "kind": "quiz",
+      "title": "5-Minute Review · Check",
+      "prompt": "Where may a DFA-derived grammar terminate with ε?",
+      "source": "Reviewed tutor · 5-Minute Review. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "5-Minute Review"
+      },
+      "options": [
+        {
+          "label": "At every state regardless of acceptance.",
+          "correct": false,
+          "feedback": "Termination everywhere would permit words whose DFA run finishes in rejecting states."
+        },
+        {
+          "label": "Only at the start state even when it is not accepting.",
+          "correct": false,
+          "feedback": "Termination follows accepting-state status, not merely being the designated start."
+        },
+        {
+          "label": "At variables corresponding to accepting DFA states.",
+          "correct": true,
+          "feedback": "The current variable records the reached state; accepting states may finish the word."
+        }
+      ]
+    },
+    {
+      "id": "05-60-second-recall-check",
+      "unit": "05",
+      "lesson": "60-second-recall",
+      "kind": "quiz",
+      "title": "60-Second Recall · Check",
+      "prompt": "Which fact determines right association in the source power grammar?",
+      "source": "Reviewed tutor · 60-Second Recall. Lecture 4 PDF pp.5–26; Tutorial 4 PDF pp.1–8 (7 October supplied versions).",
+      "basis": {
+        "docId": "Tutor Mode/Unit 05 - Context-Free Grammars and Languages/01 Tutor Notes",
+        "heading": "60-Second Recall"
+      },
+      "options": [
+        {
+          "label": "Every derivation must expand the rightmost variable.",
+          "correct": false,
+          "feedback": "Derivation schedule and operator association are different; a leftmost derivation can encode right association."
+        },
+        {
+          "label": "The recursively expandable P is to the right of ↑.",
+          "correct": true,
+          "feedback": "P→F↑P lets another power occur inside the right operand, fixing right grouping."
+        },
+        {
+          "label": "The order in which the productions are printed.",
+          "correct": false,
+          "feedback": "Printed rule order does not assign precedence or association to grammar alternatives."
         }
       ]
     }

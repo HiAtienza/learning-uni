@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 310" width="720" height="310" role="img" aria-labelledby="title desc">
+<title id="title">Parse tree for 000011 under S to 00S1 or epsilon</title>
+<desc id="desc">Two recursive S nodes each expand to zero, zero, S, one. The deepest S expands to epsilon. The ordered terminal yield is 000011.</desc>
+<rect width="720" height="310" rx="12" fill="#f7fafc"/>
+<g stroke="#456577" stroke-width="2" fill="none">
+<path d="M360 40 L60 115 M360 40 L130 115 M360 40 L360 115 M360 40 L660 115"/>
+<path d="M360 148 L230 210 M360 148 L310 210 M360 148 L430 210 M360 148 L520 210"/>
+<path d="M430 242 L430 275"/>
+</g>
+<g font-family="Arial,sans-serif" font-size="24" text-anchor="middle" fill="#142b38">
+<text x="360" y="36">S</text><text x="60" y="140">0</text><text x="130" y="140">0</text><text x="360" y="140">S</text><text x="660" y="140">1</text>
+<text x="230" y="235">0</text><text x="310" y="235">0</text><text x="430" y="235">S</text><text x="520" y="235">1</text><text x="430" y="295">ε</text>
+</g></svg>
