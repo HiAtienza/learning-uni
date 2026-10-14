@@ -1,0 +1,565 @@
+[
+  {
+    "id": "enrichment-avl-lr",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Reparar al nieto interior",
+    "context": "Inserte 30, 10, 20 en un árbol AVL vacío. La raíz es 30; su hijo izquierdo es 10, cuyo hijo derecho es 20. Las alturas cuentan las aristas.",
+    "prompt": "¿Qué reparación preserva el orden BST y restablece el equilibrio?",
+    "source": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2008/pages/lecture-notes/",
+    "rationale": "El nieto interior debe convertirse primero en el niño exterior. Gire a la izquierda en 10, luego a la derecha en 30: la raíz de 20 tiene hijos 10 y 30.",
+    "options": [
+      {
+        "label": "Solo gira a la izquierda en 30",
+        "feedback": "Trampa: alejarse del pesado subárbol no puede reparar esta forma.",
+        "correct": false
+      },
+      {
+        "label": "Intercambia las claves 10 y 30 sin cambiar los enlaces.",
+        "feedback": "Trampa: el equilibrio es estructural; El intercambio de claves puede interrumpir el recorrido ordenado.",
+        "correct": false
+      },
+      {
+        "label": "Rotación a la izquierda en 10, luego rotación a la derecha en 30",
+        "feedback": "Correcto: este es el caso izquierda-derecha, no el caso izquierda-izquierda.",
+        "correct": true
+      },
+      {
+        "label": "Solo gira a la derecha en 30",
+        "feedback": "Trampa: usar la reparación izquierda-izquierda para una inserción interna deja un desequilibrio diferente.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-tree-tradeoff",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Los límites de altura no comparan una carga de trabajo",
+    "context": "Un servicio utiliza un árbol AVL. Otro equipo propone un árbol rojo-negro para una carga de trabajo mixta de búsqueda/inserción/eliminación. No se han recopilado puntos de referencia.",
+    "prompt": "¿Qué conclusión es defendible?",
+    "source": "https://www.cs.princeton.edu/courses/archive/spring24/cos510/sf/vfa/Redblack.html",
+    "rationale": "Ambos mantienen una altura logarítmica. Diferentes invariantes de equilibrio afectan las constantes y actualizan el trabajo; la implementación más rápida depende de la carga de trabajo y el comportamiento de la memoria. Un límite de altura por sí solo no establece la velocidad del reloj de pared.",
+    "options": [
+      {
+        "label": "Los árboles rojo-negro tienen búsqueda en el peor de los casos O (1)",
+        "feedback": "Trampa: el equilibrio más débil sigue siendo logarítmico, no de profundidad constante.",
+        "correct": false
+      },
+      {
+        "label": "AVL siempre gana porque está más equilibrado",
+        "feedback": "Trampa: menor altura no representa costos de mantenimiento e implementación.",
+        "correct": false
+      },
+      {
+        "label": "La eliminación de AVL requiere como máximo una reparación en un ancestro",
+        "feedback": "Trampa: la eliminación puede propagar los cambios de altura hacia la raíz.",
+        "correct": false
+      },
+      {
+        "label": "Ambos tienen búsqueda O (log n); costos de búsqueda y actualización de puntos de referencia",
+        "feedback": "Correcto: las garantías asintóticas no seleccionan una implementación universalmente más rápida.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "id": "enrichment-dijkstra-negative",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Un vértice finalizado se vuelve más barato",
+    "context": "Bordes dirigidos: s→a cuesta 2, s→b cuesta 5, b→a cuesta −4. No hay otros bordes. Dijkstra se instala permanentemente a antes de b.",
+    "prompt": "¿Qué diagnóstico es correcto?",
+    "source": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2008/pages/lecture-notes/",
+    "rationale": "El camino s→b→a cuesta 1, pero a se resolvió con una distancia 2. Un borde negativo invalida el argumento de finalización habitual incluso sin un ciclo negativo. Bellman-Ford admite pesos negativos cuando ningún ciclo negativo alcanzable impide caminos más cortos finitos.",
+    "options": [
+      {
+        "label": "Es seguro porque no hay ciclo negativo.",
+        "feedback": "Trampa: la ausencia de ciclos negativos es insuficiente para el estándar Dijkstra.",
+        "correct": false
+      },
+      {
+        "label": "Agregue 4 a cada borde y use el mismo camino más corto",
+        "feedback": "Trampa: las rutas con diferentes recuentos de bordes reciben diferentes compensaciones totales.",
+        "correct": false
+      },
+      {
+        "label": "La distancia más corta a a es 2 porque su borde directo es el más pequeño",
+        "feedback": "Trampa: la elección del borde local no es una prueba de la optimización del camino más corto.",
+        "correct": false
+      },
+      {
+        "label": "Dijkstra puede finalizar la distancia equivocada; utilizar un algoritmo de peso negativo adecuado",
+        "feedback": "Correcto: un recorrido posterior mejora un vértice ya asentado.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "id": "enrichment-dijkstra-cost",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "La representación es parte del encuadernación.",
+    "context": "Gráfico no negativo. La versión A utiliza listas de adyacencia y un montón binario. La versión B escanea una matriz de distancias para cada mínimo y utiliza una matriz de adyacencia.",
+    "prompt": "¿Qué límite estándar se ajusta a estas implementaciones?",
+    "source": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2008/pages/lecture-notes/",
+    "rationale": "El recorrido de la lista toca los bordes O(E); Las operaciones de montón contribuyen con una sobrecarga logarítmica, lo que produce O((V+E) log V). Los escaneos mínimos de la matriz y las filas de la matriz producen O (V²) en la implementación densa estándar.",
+    "options": [
+      {
+        "label": "Ambos: O(E log E), independientemente de la representación",
+        "feedback": "Trampa: los escaneos matriciales pueden visitar entradas en busca de bordes ausentes.",
+        "correct": false
+      },
+      {
+        "label": "A: O(V); B: O(E)",
+        "feedback": "Trampa: ninguno de los dos tiene cuentas para seleccionar el siguiente mínimo.",
+        "correct": false
+      },
+      {
+        "label": "A: O(V²); B: O(log V)",
+        "feedback": "Trampa: el límite del montón se asigna a la implementación de la matriz y el trabajo total logarítmico ni siquiera puede leer este gráfico.",
+        "correct": false
+      },
+      {
+        "label": "A: O((V+E)log V); B: O(V²)",
+        "feedback": "Correcto: tanto la cola de prioridad como la representación de adyacencia son importantes.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "id": "enrichment-knapsack",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "La densidad no es una prueba 0/1",
+    "context": "Capacidad 50. Artículos (peso,valor): (10,60), (20,100), (30,120). Un algoritmo ávido de densidad toma los dos primeros. Los artículos no se pueden dividir.",
+    "prompt": "¿Qué resultado y justificación son válidos?",
+    "source": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2008/pages/lecture-notes/",
+    "rationale": "El valor elegido es 160; tomando los artículos de peso 20 y peso 30 se obtiene 220. La selección de densidad funciona para mochila fraccionaria porque se permite el intercambio de fracciones; Los elementos indivisibles eliminan ese argumento.",
+    "options": [
+      {
+        "label": "Codicioso obtiene 160; el optimo es 220",
+        "feedback": "Correcto: este pequeño contraejemplo refuta la optimización universal de la densidad ávida de mochila 0/1.",
+        "correct": true
+      },
+      {
+        "label": "Codicioso es óptimo en 160 porque la densidad es más alta",
+        "feedback": "Trampa: importar el argumento fraccionario de elección codiciosa al problema indivisible.",
+        "correct": false
+      },
+      {
+        "label": "Llévate los tres por 280",
+        "feedback": "Trampa: los pesos suman 60 y violan la restricción de capacidad.",
+        "correct": false
+      },
+      {
+        "label": "Toma la mitad del último artículo para llegar a 220.",
+        "feedback": "Trampa: cambiar el problema a mochila fraccionada viola las reglas establecidas.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-dp-state",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Una clave de memorización pierde una decisión.",
+    "context": "Un solucionador de mochila 0/1 (i, capacidad restante) decide si se toma el elemento i y luego avanza a i+1. Un programador almacena en caché solo la capacidad restante.",
+    "prompt": "¿Por qué esto puede arrojar un resultado incorrecto?",
+    "source": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2008/pages/lecture-notes/",
+    "rationale": "Dos subproblemas con la misma capacidad pueden tener elementos restantes diferentes. La caché debe conservar todos los componentes de estado necesarios para determinar opciones futuras, como (i, capacidad). La superposición de subproblemas por sí sola no hace que un estado incompleto sea válido.",
+    "options": [
+      {
+        "label": "La clave omite qué elementos quedan; incluirme",
+        "feedback": "Correcto: capacidades iguales no implican opciones factibles iguales.",
+        "correct": true
+      },
+      {
+        "label": "La memorización requiere almacenar el seguimiento completo de la ejecución anterior.",
+        "feedback": "Trampa: el requisito es un estado suficiente, no un historial completo.",
+        "correct": false
+      },
+      {
+        "label": "La programación dinámica no puede resolver la mochila 0/1",
+        "feedback": "Trampa: la recurrencia estándar de artículo/capacidad es válida; su coste pseudopolinomial es un tema aparte.",
+        "correct": false
+      },
+      {
+        "label": "Mantenga siempre el valor en caché más grande en i",
+        "feedback": "Trampa: ese valor puede usar un elemento no disponible en el subproblema actual.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-doubling",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Un agregado lento, muchos agregados baratos",
+    "context": "Una matriz dinámica inicialmente vacía duplica su capacidad cuando está llena; cada anexo escribe un elemento. Analice N anexos sin encogimiento.",
+    "prompt": "¿Qué afirmación es correcta?",
+    "source": "https://live.ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/79a07dc1cb47d76dae2ffedc701e3d2b_MIT6_006S20_lec2.pdf",
+    "rationale": "Las copias se producen a capacidades geométricamente crecientes. Su suma es O(N), por lo que el trabajo total es O(N) y el apéndice amortizado es O(1). Un anexo de cambio de tamaño individual todavía puede costar O(N).",
+    "options": [
+      {
+        "label": "O(1) anexo amortizado, con O(N) anexo de cambio de tamaño en el peor de los casos",
+        "feedback": "Correcto: un límite de secuencia no elimina operaciones individuales costosas.",
+        "correct": true
+      },
+      {
+        "label": "Cada anexo tiene O(1) trabajo en el peor de los casos",
+        "feedback": "Trampa: copiar todos los elementos existentes es un verdadero trabajo.",
+        "correct": false
+      },
+      {
+        "label": "La secuencia cuesta O(N²) porque un anexo es lineal",
+        "feedback": "Trampa: multiplicar el máximo por cada operación ignora la poca frecuencia con la que se producen cambios de tamaño.",
+        "correct": false
+      },
+      {
+        "label": "Amortizado significa promedio sobre entradas aleatorias",
+        "feedback": "Trampa: el análisis amortizado limita una secuencia de operaciones sin requerir una distribución de probabilidad de entrada.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-dsu",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Casi constante no es literalmente constante",
+    "context": "Un bosque de conjunto disjunto combina unión por rango con compresión de ruta sobre una secuencia de uniones y hallazgos.",
+    "prompt": "¿Qué describe el resultado habitual de Ackermann inverso?",
+    "source": "https://algs4.cs.princeton.edu/15uf/",
+    "rationale": "Las heurísticas combinadas dan un costo de operación amortizado de Ackermann inverso sobre una secuencia, a menudo tratado como casi constante para tamaños prácticos. No es un límite literal O(1) en el peor de los casos para cada búsqueda, y el rango almacenado no necesita ser igual a la altura actual después de la compresión.",
+    "options": [
+      {
+        "label": "El rango por sí solo demuestra el resultado inverso de Ackermann",
+        "feedback": "Trampa: el límite combinado más fuerte depende de la compresión y del enlace equilibrado.",
+        "correct": false
+      },
+      {
+        "label": "O(α(n)) costo amortizado; los hallazgos individuales no tienen por qué ser constantes",
+        "feedback": "Correcto: distinguir el comportamiento de secuencia de una garantía del peor de los casos por llamada.",
+        "correct": true
+      },
+      {
+        "label": "Cada hallazgo sigue exactamente un puntero.",
+        "feedback": "Trampa: la compresión beneficia llamadas posteriores; una ruta sin comprimir puede tener varios bordes.",
+        "correct": false
+      },
+      {
+        "label": "La compresión de ruta mantiene el rango igual a la altura actual exacta",
+        "feedback": "Trampa: los rangos se mantienen para vincular decisiones y no se vuelven a calcular después de la compresión.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-lsp",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "El subtipo fortalece el contrato.",
+    "context": "Account.withdraw(x) promete aceptar cualquier saldo 0 ≤ x ≤. Una subclase de FixedTermAccount se lanza por cada retiro antes del vencimiento, incluso cuando se cumple la condición previa base.",
+    "prompt": "¿Qué rediseño respeta a los clientes de la abstracción base?",
+    "source": "https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf",
+    "rationale": "El subtipo impone una condición previa adicional, rompiendo el comportamiento prometido por los clientes de la Cuenta. Una interfaz con capacidad de retiro puede representar esa capacidad; un producto de duración determinada puede compartir el almacenamiento a través de la composición sin reclamar un retiro irrestricto.",
+    "options": [
+      {
+        "label": "Cambie el nombre del método de subclase y mantenga el mismo contrato de cuenta",
+        "feedback": "Trampa: el cambio de nombre no puede satisfacer el comportamiento que todavía se promete a los clientes.",
+        "correct": false
+      },
+      {
+        "label": "Capacidad de retiro dividido y implementación compartida a través de la composición",
+        "feedback": "Correcto: la reutilización debe preservar la promesa de comportamiento de la interfaz anunciada.",
+        "correct": true
+      },
+      {
+        "label": "Mantener la herencia porque ambas clases tienen un campo de equilibrio.",
+        "feedback": "Trampa: la coincidencia de campos de datos no establece una sustituibilidad de comportamiento.",
+        "correct": false
+      },
+      {
+        "label": "Detecte todas las excepciones en todos los sitios de llamadas de cuentas existentes",
+        "feedback": "Trampa: esto cambia las suposiciones del cliente en lugar de respetar la abstracción original.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-cohesion",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Una secuencia de inicio no es una responsabilidad",
+    "context": "StartupManager valida facturas, borra cachés de imágenes y envía recordatorios porque todo se ejecuta a las 08:00. Los cambios en la política de facturación requieren editar esta misma clase.",
+    "prompt": "¿Qué juicio describe mejor la agrupación?",
+    "source": "https://martinfowler.com/articles/microservices.html",
+    "rationale": "Un tiempo de ejecución compartido es una evidencia débil de unidad funcional. Separar las operaciones de dominio y componerlas en un programador mantiene la orquestación explícita. Una división automática de microservicios agregaría costos operativos distribuidos sin demostrar una necesidad de implementación.",
+    "options": [
+      {
+        "label": "Agrupación temporal; Separe las responsabilidades y mantenga un programador explícito.",
+        "feedback": "Correcto: organice el comportamiento del dominio en torno a los motivos para cambiar manteniendo la orquestación necesaria.",
+        "correct": true
+      },
+      {
+        "label": "Alta cohesión funcional porque cada tarea se ejecuta a las 08:00",
+        "feedback": "Trampa: se confunde el tiempo de ejecución con una responsabilidad de dominio compartida.",
+        "correct": false
+      },
+      {
+        "label": "Crear tres servicios de red únicamente para mejorar la cohesión.",
+        "feedback": "Trampa: la distribución de procesos no mejora por sí sola los límites de los módulos.",
+        "correct": false
+      },
+      {
+        "label": "Coloque cada operación en un singleton de utilidad para reducir el acoplamiento.",
+        "feedback": "Trampa: un punto de acceso global compartido puede ocultar dependencias en lugar de eliminarlas.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-monolith",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Un límite de API agrega modos de falla",
+    "context": "Un equipo de cuatro personas posee una pequeña aplicación cuyos módulos ya tienen interfaces claras. No existe ningún requisito de implementación o escalamiento independiente.",
+    "prompt": "¿Cuál próximo paso cuenta con el mayor apoyo?",
+    "source": "https://martinfowler.com/articles/microservices.html",
+    "rationale": "Mantenga los límites del módulo y mida las restricciones de implementación o escalamiento reales antes de introducir llamadas remotas. Los servicios en red añaden fallas parciales, latencia y operaciones; un único sistema desplegable aún puede ser modular.",
+    "options": [
+      {
+        "label": "Mantenga un monolito modular y vuelva a visitarlo cuando las necesidades operativas justifiquen la división.",
+        "feedback": "Correcto: la distribución debería resolver una restricción evidenciada.",
+        "correct": true
+      },
+      {
+        "label": "Los microservicios garantizan un bajo acoplamiento",
+        "feedback": "Trampa: los servicios pueden permanecer estrechamente coordinados a través de esquemas compartidos y supuestos de implementación.",
+        "correct": false
+      },
+      {
+        "label": "Un monolito no puede tener alta cohesión",
+        "feedback": "Trampa: no es lo mismo una unidad de despliegue que un módulo o responsabilidad.",
+        "correct": false
+      },
+      {
+        "label": "Dividir primero; la integración y el seguimiento se pueden aplazar indefinidamente",
+        "feedback": "Trampa: los límites remotos introducen fallas inmediatamente, no sólo después de que el equipo crece.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-singleton",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Una instancia no es una solicitud",
+    "context": "Un RequestContext singleton almacena el usuario actual. Las solicitudes A y B configuran simultáneamente el usuario actual y luego calculan una decisión de autorización.",
+    "prompt": "¿Cuál es el defecto central?",
+    "source": "https://www.oracle.com/technical-resources/articles/java/singleton.html",
+    "rationale": "Un singleton comparte el mismo campo de solicitud mutable. El entrelazado puede sobrescribir la identidad de una solicitud con la de otra. Pasar datos inmutables del ámbito de la solicitud a la operación de autorización; La construcción singleton segura por sí sola no hace que todas las operaciones posteriores sean seguras.",
+    "options": [
+      {
+        "label": "El bloqueo de inicialización singleton evita todas las carreras posteriores",
+        "feedback": "Trampa: la publicación del objeto y la sincronización de sus operaciones mutables son cuestiones diferentes.",
+        "correct": false
+      },
+      {
+        "label": "Marcar usuario actual como público para que todos los hilos estén de acuerdo con su valor.",
+        "feedback": "Trampa: los modificadores de visibilidad no proporcionan aislamiento de solicitudes.",
+        "correct": false
+      },
+      {
+        "label": "Agregue un segundo singleton a solicitudes alternativas",
+        "feedback": "Trampa: un número fijo de espacios compartidos no puede representar de forma segura solicitudes simultáneas arbitrarias.",
+        "correct": false
+      },
+      {
+        "label": "Estado de solicitud mutable compartido; pasar un contexto de solicitud explícito",
+        "feedback": "Correcto: la vida útil y el aislamiento deben coincidir con los datos.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "id": "enrichment-pattern",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Una fábrica más grande que sus necesidades.",
+    "context": "Una calculadora de precios debe elegir entre dos reglas de descuento sin estado. No existe una familia de productos relacionados ni un ciclo de vida mutable.",
+    "prompt": "¿Qué diseño se ajusta a la necesidad declarada?",
+    "source": "https://martinfowler.com/articles/microservices.html",
+    "rationale": "Una función inyectada o una pequeña interfaz de estrategia hace que la variación sea explícita. Abstract Factory está destinado a la creación de productos relacionados; agregarlo aquí introduce maquinaria sin un requisito demostrado. Revise la elección si la variación crece.",
+    "options": [
+      {
+        "label": "Duplica toda la calculadora para cada descuento",
+        "feedback": "Trampa: variar una regla no debería duplicar un comportamiento de cálculo no relacionado.",
+        "correct": false
+      },
+      {
+        "label": "Inyectar una función o estrategia de descuento",
+        "feedback": "Correcto: aísle la variación real con una pequeña dependencia explícita.",
+        "correct": true
+      },
+      {
+        "label": "Cree una jerarquía de Abstract Factory para cada posible descuento futuro",
+        "feedback": "Trampa: las familias de productos especulativas aumentan la complejidad antes de que exista el requisito.",
+        "correct": false
+      },
+      {
+        "label": "Utilice un singleton cuyo modo cambie antes de cada llamada.",
+        "feedback": "Trampa: la selección mutable global introduce ordenamiento oculto y dependencias de concurrencia.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-integration",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Mocks verdes, formato de cable roto.",
+    "context": "Una prueba de servicio se burla de un cliente de pago para obtener éxito. Producción rechaza solicitudes porque el campo de moneda serializada usa un nombre incorrecto. Todas las pruebas aisladas pasan.",
+    "prompt": "¿Qué control específico falta?",
+    "source": "https://martinfowler.com/articles/practical-test-pyramid.html",
+    "rationale": "Una prueba que ejercite la serialización real y el contrato API puede detectar una discrepancia que un simulacro pasa por alto. Mantenga pruebas unitarias rápidas para decisiones locales; agregue una prueba de límites enfocada y un pequeño flujo de un extremo a otro en lugar de asumir que cualquiera de las capas por sí sola cubre todo.",
+    "options": [
+      {
+        "label": "Vuelva a intentar los pagos de producción fallidos hasta que pase una prueba",
+        "feedback": "Trampa: los reintentos no reparan errores de contrato deterministas y pueden repetir efectos secundarios.",
+        "correct": false
+      },
+      {
+        "label": "Una verificación real de serialización/integración de contratos en el límite de pago",
+        "feedback": "Correcto: verifique el comportamiento que reemplazó el simulacro.",
+        "correct": true
+      },
+      {
+        "label": "Más afirmaciones sobre la misma respuesta de éxito simulada",
+        "feedback": "Trampa: la prueba aún no puede observar el formato real del cable.",
+        "correct": false
+      },
+      {
+        "label": "Reemplace cada prueba unitaria con automatización de la interfaz de usuario",
+        "feedback": "Trampa: las pruebas lentas y amplias descartan un aislamiento útil y hacen que las fallas sean más difíciles de localizar.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "enrichment-flaky",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Un sueño oculta la condición de sincronización.",
+    "context": "Una prueba inicia un trabajo en segundo plano, duerme 100 ms y luego afirma que se ha completado. Pasa localmente pero falla bajo carga de CI.",
+    "prompt": "¿Qué reparación aborda mejor la causa?",
+    "source": "https://martinfowler.com/articles/practical-test-pyramid.html",
+    "rationale": "Espere a que se cumpla la condición de finalización observable con un tiempo de espera limitado o controle el programador/reloj en una prueba aislada. La duración fija del sueño adivina la velocidad de programación; una espera ilimitada ocultaría un trabajo estancado.",
+    "options": [
+      {
+        "label": "Aumentar el sueño a diez segundos para cada prueba.",
+        "feedback": "Trampa: las esperas más largas siguen siendo conjeturas de tiempo y ralentizan la suite.",
+        "correct": false
+      },
+      {
+        "label": "Ignorar errores después de un reintento exitoso",
+        "feedback": "Trampa: la repetición oculta la inestabilidad sin arreglar el contrato de sincronización.",
+        "correct": false
+      },
+      {
+        "label": "Eliminar la afirmación de finalización",
+        "feedback": "Trampa: eliminar el cheque elimina la evidencia de que el trabajo funciona.",
+        "correct": false
+      },
+      {
+        "label": "Espere una señal de finalización con un tiempo de espera limitado",
+        "feedback": "Correcto: sincronice el comportamiento en lugar de adivinar el tiempo transcurrido.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "id": "enrichment-cloudflare",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "algorithms",
+    "title": "Cuando las coincidencias correctas agotan la CPU",
+    "context": "Incidente documentado: el 2 de julio de 2019, una regla WAF de Cloudflare provocó el agotamiento de la CPU debido al retroceso de expresiones regulares. Su conjunto de pruebas no identificó un consumo excesivo de CPU. Las siguientes opciones de prevención son un ejercicio didáctico original.",
+    "prompt": "¿Qué control apunta a la brecha reportada?",
+    "source": "https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/",
+    "rationale": "Los ejemplos de coincidencias funcionales por sí solos no vinculan el uso de recursos. Pruebe coincidencias adversas con presupuestos de recursos explícitos y revise la complejidad del motor; una implementación basada en autómatas puede evitar un retroceso catastrófico para las expresiones regulares admitidas.",
+    "options": [
+      {
+        "label": "Supongamos que una expresión regular sintácticamente válida tiene un tiempo de ejecución lineal",
+        "feedback": "Trampa: el reconocimiento del lenguaje y la estrategia de ejecución del motor elegido son diferentes.",
+        "correct": false
+      },
+      {
+        "label": "Aumente la memoria del servidor sin probar la ejecución de expresiones regulares",
+        "feedback": "Trampa: el cuello de botella informado fue el agotamiento de la CPU, no evidencia de memoria insuficiente.",
+        "correct": false
+      },
+      {
+        "label": "Pruebe coincidencias adversas con un presupuesto de CPU/tiempo",
+        "feedback": "Correcto: mide el modo de falla reportado en el incidente.",
+        "correct": true
+      },
+      {
+        "label": "Agregue solo ejemplos de coincidencia más normales",
+        "feedback": "Trampa: los caminos felices representativos pueden pasar por alto el retroceso patológico.",
+        "correct": false
+      }
+    ],
+    "caseKind": "incident"
+  },
+  {
+    "id": "enrichment-gitlab",
+    "unit": "supplement",
+    "kind": "quiz",
+    "track": "architecture",
+    "title": "Una copia de seguridad es útil sólo si restaura",
+    "context": "Incidente documentado: la interrupción de la base de datos de GitLab en enero de 2017 expuso rutas de respaldo/recuperación poco confiables. Su autopsia describe las fallas de pg_dump y la recuperación de una copia de seguridad provisional creada manualmente. Las opciones siguientes son un ejercicio de prevención original.",
+    "prompt": "¿Qué prueba valida mejor el contrato de recuperación?",
+    "source": "https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/",
+    "rationale": "Un trabajo de respaldo que informa el éxito no puede establecer la capacidad de recuperación. La restauración periódica en un entorno aislado pone en práctica las herramientas, las versiones y los datos almacenados reales. Verificar los datos recuperados y alertar sobre fallas tanto en la copia de seguridad como en la restauración; Mantenga los datos de producción seguros durante los simulacros.",
+    "options": [
+      {
+        "label": "Comprobando solo que existe un nombre de archivo de respaldo",
+        "feedback": "Trampa: un archivo puede existir sin contener datos de recuperación utilizables.",
+        "correct": false
+      },
+      {
+        "label": "Tratar la replicación sola como una copia de seguridad independiente probada",
+        "feedback": "Trampa: la replicación y la recuperabilidad son garantías separadas; Los cambios destructivos pueden propagarse.",
+        "correct": false
+      },
+      {
+        "label": "Un simulacro de restauración aislado con afirmaciones de datos recuperados y alertas de fallas",
+        "feedback": "Correcto: esto ejercita el comportamiento de recuperación en lugar de solo la interfaz de comando de respaldo.",
+        "correct": true
+      },
+      {
+        "label": "Un cliente de respaldo simulado que siempre arroja éxito",
+        "feedback": "Trampa: un doble aislado pasa por alto el límite de recuperación que falló.",
+        "correct": false
+      }
+    ],
+    "caseKind": "incident"
+  }
+]
