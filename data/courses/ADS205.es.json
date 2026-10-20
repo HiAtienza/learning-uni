@@ -3,9 +3,9 @@
   "code": "ADS205",
   "title": "Decisión, Computación y Lenguaje",
   "vaultPrefix": "10_UNIVERSITY_CS/ADS205/",
-  "generatedAt": "2026-10-13T09:22:25.524Z",
+  "generatedAt": "2026-10-20T07:59:00.399Z",
   "evidence": {
-    "scope": "Alcance web: Unidades 01 a 05, incluida la Unidad 05 CFG/CFL de la Conferencia 4 y el Tutorial 4 verificados (instantánea del 7 de octubre). Las notas de la bóveda permanecen sin cambios. Las observaciones históricas de los exámenes permanecen vinculadas a un corpus original no disponible; No hay nuevos recuentos ni predicciones.",
+    "scope": "Alcance web: Unidades 01 a 05 (incluida la Unidad 05 CFG/CFL) más bombeo/cierre de CNF/CFL de la Semana 6 de los archivos PDF de la Conferencia 6 y el Tutorial 6 adquiridos el 20 de octubre de 2026. La PDA de la Semana 5 y el cuaderno de la Semana 6 permanecen pendientes de importación. Las notas de bóveda anteriores permanecen sin cambios. No se adquieren preguntas de prueba, nuevos recuentos de exámenes ni predicciones.",
     "overviewSha256": "88253ba3fa709a16ef3bb5361caf06c6cabd5f918336eefe1c3b2d0efe802b8a"
   },
   "units": [
@@ -76,6 +76,20 @@
           "Demuestre ambas inclusiones de lenguaje utilizando un caso base y un invariante recursivo.",
           "Lea las hojas ordenadas de un árbol de análisis y distinga dos programas de dos árboles.",
           "Redacte gramáticas renombradas y codifique la precedencia y asociación de operadores."
+        ]
+      }
+    },
+    {
+      "id": "06",
+      "title": "CNF, lema de bombeo y cierre de CFL",
+      "short": "CNF y bombeo de CFL",
+      "folder": "Week 6 - CNF, CFL Pumping and Closure",
+      "guide": {
+        "goal": "Convierte gramáticas a CNF y demuestra que un lenguaje no es independiente del contexto mediante bombeo y propiedades de cierre.",
+        "successCriteria": [
+          "Preservar el lenguaje mediante la eliminación de reglas unitarias y anulables.",
+          "Maneje cada descomposición de bombeo válida utilizando el límite de ventana corta.",
+          "Utilice una intersección regular sin asumir un cierre arbitrario de la intersección CFL."
         ]
       }
     }
@@ -1198,6 +1212,77 @@
         "record-and-interpret"
       ],
       "problemIds": []
+    },
+    {
+      "id": "content/reviewed/ADS205/06/tutor",
+      "relative": "content/reviewed/ADS205/06/tutor.md",
+      "kind": "tutor",
+      "unit": "06",
+      "origin": "project",
+      "hash": "915c3089631205717fb1b71ecfe4d85696221805f98d2d931ca3003e43be2f16",
+      "markdown": "---\ntitle: \"CNF, CFL Pumping and Closure · Week 6\"\ncourse: ADS205\nstudy_status: untested\nlanguage: en\n---\n\n# CNF, lema de bombeo y cierre de CFL\n\n## En 60 segundos\n\nUn CFG genera un lenguaje; La forma normal de Chomsky (CNF) reorganiza sus reglas sin cambiar ese lenguaje. Un árbol de análisis binario suficientemente alto repite una variable en una única ruta de raíz a hoja. Reutilizar esa derivación anidada bombea dos fragmentos de cadena juntas. El lema de bombeo de CFL da una condición necesaria: romperlo por cada descomposición permitida para demostrar que un lenguaje no está libre de contexto. Los argumentos de cierre pueden luego transferir esa imposibilidad a otro lenguaje.\n\nEsta edición de la Semana 6 utiliza la Lecture 6 (34 páginas) y el Tutorial 6 (7 páginas, con fecha del 19 de octubre de 2026), adquiridos el 20 de octubre. Prerrequisitos: Derivaciones de CFG de la Unidad 05 y cuantificadores de bombeo de la Unidad 04. Los materiales de la Lecture 5/PDA siguen pendientes de importación; El resumen de PDA de la Lecture 6, páginas 2 y 3, es contexto, no un sustituto de esa lección. No se incluyen preguntas de prueba ni nuevas afirmaciones sobre la frecuencia de los exámenes. El PDF original del examen hash no está disponible; la cobertura de la evaluación histórica no se ha vuelto a verificar.\n\n## Reconocer la forma normal de Chomsky\n\nCada regla tiene la forma $A\\to BC$ o $A\\to a$: una variable se expande a dos variables o a un terminal. Si el lenguaje contiene $\\varepsilon$, una variable de nuevo inicio también puede tener $S_0\\to\\varepsilon$ y nunca debe aparecer en el lado derecho. Una regla unitaria $A\\to B$, una regla mixta $A\\to aB$ y una regla de tres variables $A\\to BCD$ no son CNF. $A\\to BB$ está permitido: los dos hijos no necesitan tener nombres de variables diferentes.\n\nUn árbol de análisis binario con una palabra terminal generada larga necesita un camino largo. Dado que sólo hay un número finito de variables, un camino lo suficientemente largo repite una. Dos variables iguales en ramas separadas no dan la derivación anidada necesaria para el bombeo.\n\n**Fuente:** Lecture 6, págs. 8–13, 21–23; Tutorial 6 p.1 y Problema 1. La explicación informal de la ventana corta en la diapositiva no es una prueba de su límite; Utilice las condiciones establecidas por el lema.\n\n## Convertir un CFG sin cambiar su lenguaje\n\nUtilice este orden, realizando un seguimiento del inicio original y de las variables anulables:\n\n1. Introduzca un nuevo símbolo inicial $S_0\\to S$ que nunca ocurra en el lado derecho.\n2. Calcule todas las variables anulables (capaces de generar épsilon). Para cada RHS, agregue las alternativas formadas omitiendo apariciones de variables anulables; elimine las reglas épsilon excepto la regla de nuevo símbolo inicial permitida. Conservar la palabra vacía cuando pertenezca al lenguaje original.\n3. Eliminar las reglas unitarias copiando producciones no unitarias accesibles a través de cadenas de reglas unitarias.\n4. Reemplace los terminales en lados derechos de longitud al menos dos por variables nuevas como $U_a\\to a$.\n5. Divida los lados derechos de longitud al menos tres en reglas binarias utilizando variables nuevas. Un RHS de dos variables ya tiene la forma requerida.\n\nPara el Tutorial 6, Problema 1, $S\\to ABC$, $A\\to01$, $B\\to\\varepsilon$, $C\\to11$ genera solo 0111. Dado que B contribuye solo con épsilon, el RHS útil es AC. Un CNF es $S_0\\to AC$, $A\\to U_0U_1$, $C\\to U_1U_1$, $U_0\\to0$, $U_1\\to1$. Verifique $S_0\\Rightarrow AC\\Rightarrow U_0U_1U_1U_1\\Rightarrow^*0111$. Eliminar directamente una variable anulable es válido en esta gramática concreta porque B no genera nada más; en general, preservar tanto las alternativas omitidas como las no omitidas.\n\n**Fuente:** Lecture 6, págs. 14–20; Tutorial 6 p.2, Problema 1. El manejo preciso de alternativas de variables anulables y cadenas unitarias hace que el procedimiento de conversión sea explícito.\n\n## Lea el protocolo de bombeo de dos piezas\n\nSi L es independiente del contexto, existe $p\\ge1$ tal que cada $s\\in L$ con $|s|\\ge p$ tiene una descomposición $s=uvxyz$ que satisface\n\n$$|vy|>0,\\qquad |vxy|\\le p,\\qquad uv^ixy^iz\\in L\\quad\\text{for every }i\\ge0.$$\n\nLa x del medio permanece una vez. Los fragmentos v e y usan el mismo exponente; cualquiera de ellos puede estar vacío, pero no ambos. La cota de la ventana abarca v, x e y juntos, no solo las piezas eliminadas.\n\nPara demostrar que un lenguaje no es independiente del contexto, supongamos que L es una CFL; aceptar la p del lema; elegir un testigo dependiendo de p; considerar una descomposición válida arbitraria; Elige un exponente que lo rompa. Su argumento debe cubrir **todas** las descomposiciones válidas. Una única descomposición exitosa no prueba que L esté libre de contexto, y una mala descomposición no la refuta. Si incluso una descomposición bombea para cada exponente, ese testigo no puede respaldar una contradicción. Un éxito de bombeo en un exponente demuestra aún menos.\n\n**Fuente:** Lecture 6, págs. 22–23; Tutorial 6, páginas 1–3, Problema 2. La redacción final del Tutorial 6 en el Problema 2 es engañosa si se lee como una descomposición completamente exitosa: tal descomposición derrota a ese testigo, mientras que un único exponente exitoso no lo hace.\n\n## Demuestre que tres bloques iguales no están libres de contexto\n\nDejar $L=\\{a^nb^nc^n:n\\ge0\\}$. Suponga que L es una CFL con longitud de bombeo p y elija $s=a^pb^pc^p$. Para cada división válida, $|vxy|\\le p$ evita que la ventana se encuentre con los bloques a y c: tendría que contener todos los p b y al menos un símbolo en cada lado, lo que requiere al menos p+2 símbolos.\n\nPor tanto, v e y afectan como máximo a dos bloques adyacentes. Bombea hacia abajo con i=0. Debido a $|vy|>0$, algunos recuentos disminuyen, mientras que al menos uno de los tres recuentos permanece p. La eliminación conserva el orden a-luego-b-luego-c, pero destruye recuentos iguales. Por lo tanto, $uxz\\notin L$ para cada división válida, lo que contradice el lema. Esto demuestra que el lenguaje no es independiente del contexto y, por tanto, tampoco es regular. Demostrar solamente que no es regular no habría bastado para demostrar que no es independiente del contexto.\n\n**Fuente:** Lecture 6, págs. 24–26 (notación 0/1/2); Tutorial 6 p.3, Problema 3 (notación a/b/c).\n\n## Utilice el cierre con la clase de lenguaje correcta\n\n| Operación | Lenguajes regulares | Lenguajes libres de contexto |\n|---|---|---|\n| Unión, concatenación, estrella | Cerrado | Cerrado |\n| Intersección arbitraria | Cerrado | No cerrado en general |\n| Complemento relativo a un alfabeto fijo | Cerrado | No cerrado en general |\n| Intersección con un lenguaje regular | Cerrado | Cerrado |\n| Homomorfismo | Cerrado | Cerrado |\n\nPara $A=\\{a^mb^nc^n:m,n\\ge0\\}$ utilice $S\\to DE$, $D\\to aD\\mid\\varepsilon$, $E\\to bEc\\mid\\varepsilon$. Para $C=\\{a^nb^nc^m:m,n\\ge0\\}$ utilice $S\\to FG$, $F\\to aFb\\mid\\varepsilon$, $G\\to cG\\mid\\varepsilon$. Su intersección obliga a que los tres conteos sean iguales, lo que da como resultado el no CFL anterior. Por lo tanto, los CFL no están cerradas bajo una intersección arbitraria.\n\nSi las CFL se cerraran bajo el complemento, el cierre bajo la unión y la ley de De Morgan dejarían a $A\\cap C=\\overline{\\overline A\\cup\\overline C}$ libre de contexto, una contradicción. Todos los complementos deben utilizar el mismo alfabeto. “No cerrado” significa que existe un contraejemplo; no significa que cada intersección o complemento no sea CFL.\n\n**Fuente:** Lecture 6, págs. 27–30; Tutorial 6, páginas 2–4, Problema 4. Aclaración local: la solución proporcionada para el Problema 4 se refiere a una gramática para C sin proporcionarla allí; la construcción explícita de C anterior llena esa omisión y se verifica de forma independiente mediante su invariante de derivación.\n\n## Filtrar el lenguaje de copia\n\nTutorial 6 El problema 5 utiliza $D=\\{ww:w\\in\\{0,1\\}^*\\}$ y el filtro regular $R=0^*1^*0^*1^*$. Su intersección es $H=\\{0^m1^n0^m1^n:m,n\\ge0\\}$. Cuando w contiene ambos símbolos, una cadena ww que pertenezca a R debe comenzar con 0, terminar con 1 y no tener una transición interna de 1 a 0; de lo contrario, ww tiene demasiados bloques de símbolos iguales o extremos incompatibles. Por tanto, w es $0^m1^n$. Unario y vacío w dan los casos m=0 o n=0.\n\nSupón que H es independiente del contexto y elija $s=0^p1^p0^p1^p$. Una ventana de longitud como máximo p se encuentra como máximo con dos bloques adyacentes, por lo que no puede tocar a ambos miembros de ningún par coincidente (bloques 1/3 o 2/4). Bombea hacia abajo con i=0. Si todos los bloques sobreviven, un bloque modificado tiene un compañero sin cambios, rompiendo la igualdad. Si un bloque completo desaparece, utiliza todas las p eliminaciones permitidas; todos los demás bloques permanecen. Los resultados posibles son $1^p0^p1^p$, $0^{2p}1^p$, $0^p1^{2p}$ o $0^p1^p0^p$. Cada uno contiene ambos símbolos pero menos de cuatro bloques máximos, a diferencia de cualquier miembro de H que contenga ambos símbolos. Cada división falla, por lo que H no está libre de contexto.\n\nSi D estuviera libre de contexto, el cierre bajo la intersección con R regular haría que H estuviera libre de contexto. Por tanto, D no está libre de contexto. Esto utiliza la intersección con un lenguaje **regular**, no el cierre de intersección general falso.\n\n**Fuente:** Tutorial 6, páginas 4–6, Problema 5. El argumento que cuenta bloques de símbolos iguales anterior amplía la explicación del filtro proporcionada.\n\n## Verifique su razonamiento y límites de fuentes\n\nAntes de continuar, explique por qué $A\\to BB$ es CNF, por qué ambas piezas bombeadas comparten un exponente, por qué la ventana corta no puede alcanzar tres bloques de longitud p y por qué un filtro regular preserva la clase de los lenguajes independientes del contexto bajo el supuesto de contradicción. Luego intente los cinco problemas del tutorial antes de abrir la ayuda.\n\nEl Tutorial 6, páginas 6 y 7, también proporciona ejemplos de Tock opcionales. Sus comentarios contienen referencias obsoletas: el código CNF mostrado se refiere a conteos iguales 0/1 en lugar de la palabra fija 0111 del problema 1, y la segunda gramática genera conteos a/b iguales seguidos de c arbitrarias. Estas son ilustraciones, no pruebas ni resultados ejecutados localmente. No se afirma ninguna instalación de paquetes ni ejecución del notebook.\n\nCobertura: Lecture 6, páginas 4 a 30, proporciona la nueva teoría; Las páginas 1 a 3 y 31 a 34 son título, resumen, reseña, conferenciante/contacto y contexto de cierre. Tutorial 6 Los problemas 1 a 5 y la tarjeta de referencia se muestran aquí y en la práctica. La descarga del cuaderno no está verificada. El aprendizaje del estudiante sigue sin evaluarse; no se infieren calificaciones oficiales, predicciones o respuestas de exámenes actuales.\n",
+      "headingAliases": {
+        "CNF, CFL Pumping and Closure": "CNF, lema de bombeo y cierre de CFL",
+        "In 60 Seconds": "En 60 segundos",
+        "Recognise Chomsky Normal Form": "Reconocer la forma normal de Chomsky",
+        "Convert a CFG Without Changing Its Language": "Convertir un CFG sin cambiar su lenguaje",
+        "Read the Two-Piece Pumping Protocol": "Lea el protocolo de bombeo de dos piezas",
+        "Prove Three Equal Blocks Are Not Context-Free": "Demuestre que tres bloques iguales no están libres de contexto",
+        "Use Closure With the Correct Language Class": "Utilice el cierre con la clase de lenguaje correcta",
+        "Filter the Copy Language": "Filtrar el lenguaje de copia",
+        "Check Your Reasoning and Source Limits": "Verifique su razonamiento y límites de fuentes"
+      },
+      "sectionIds": [
+        "in-60-seconds",
+        "recognise-chomsky-normal-form",
+        "convert-a-cfg-without-changing-its-language",
+        "read-the-two-piece-pumping-protocol",
+        "prove-three-equal-blocks-are-not-context-free",
+        "use-closure-with-the-correct-language-class",
+        "filter-the-copy-language",
+        "check-your-reasoning-and-source-limits"
+      ],
+      "problemIds": []
+    },
+    {
+      "id": "content/reviewed/ADS205/06/practice",
+      "relative": "content/reviewed/ADS205/06/practice.md",
+      "kind": "practice",
+      "unit": "06",
+      "origin": "project",
+      "hash": "62e16fb1d634c57b86b5da730c2d071a70976cd35bfdffca4e9386d77297a4df",
+      "markdown": "# Recordar y practicar · Semana 6\n\nPráctica tutorial basada en fuentes. Sin puntuaciones oficiales ni predicciones de exámenes. Inténtalo antes de abrir la pista o solución.\n\n## Repaso activo atómico\n\n### Tarjeta 01 — ¿Qué reglas son CNF?\n\n> [!success]- Respuesta\n> $A\\to BC$ y $A\\to a$; opcionalmente $S_0\\to\\varepsilon$ nuevo cuando sea necesario, con S0 ausente en todos los RHS.\n>\n> Fuente: Tutorial 6 p.1.\n\n### Tarjeta 02: ¿Puede una regla CNF utilizar la misma variable secundaria dos veces?\n\n> [!success]- Respuesta\n> Sí: $A\\to BB$ es válido. Todavía tiene dos apariciones variables.\n>\n> Fuente: Lecture 6 págs.13, 32.\n\n### Tarjeta 03 — ¿Cuál es el orden de conversión CNF?\n\n> [!success]- Respuesta\n> Nuevo símbolo inicial; alternativas anulables y eliminación de épsilon; eliminación de reglas unitarias; aislamiento terminal; división binaria RHS.\n>\n> Fuente: Lecture 6, págs. 14–20.\n\n### Tarjeta 04: ¿Cuáles son las condiciones de bombeo de las CFL?\n\n> [!success]- Respuesta\n> $s=uvxyz$, $|vy|>0$, $|vxy|\\le p$ y $uv^ixy^iz\\in L$ por cada $i\\ge0$.\n>\n> Fuente: Tutorial 6 p.1.\n\n### Tarjeta 05 — ¿Quién elige la descomposición del bombeo?\n\n> [!success]- Respuesta\n> Un adversario puede elegir cualquier división válida; la prueba que no es CFL debe derrotarlos a todos.\n>\n> Fuente: Tutorial 6 págs.2–3.\n\n### Tarjeta 06 — ¿Puede estar vacía una sola pieza bombeada?\n\n> [!success]- Respuesta\n> Sí. v o y pueden estar vacíos, pero no ambos; ambos usan el mismo exponente.\n>\n> Fuente: Lecture 6, págs. 22–23.\n\n### Tarjeta 07 — ¿Por qué funciona el testigo de tres bloques?\n\n> [!success]- Respuesta\n> Una ventana de longitud p no puede tocar tanto a como c en $a^pb^pc^p$. Bombear hacia abajo reduce al menos una cantidad y deja otra igual a p.\n>\n> Fuente: Tutorial 6 p.3.\n\n### Tarjeta 08: ¿Qué cierre de intersección puede utilizar una prueba CFL?\n\n> [!success]- Respuesta\n> La intersección con un lenguaje regular preserva la clase de los lenguajes independientes del contexto; la intersección con otro CFL puede salir de esa clase.\n>\n> Fuente: Tutorial 6 págs.2, 6.\n\n### Tarjeta 09 — ¿Cómo implica el cierre del complemento el cierre de la intersección?\n\n> [!success]- Respuesta\n> Por cierre bajo la unión, De Morgan da $A\\cap C=\\overline{\\overline A\\cup\\overline C}$.\n>\n> Fuente: Tutorial 6 p.4.\n\n### Tarjeta 10: ¿Las comprobaciones finitas de Tock prueban que un lenguaje es CFL o no CFL?\n\n> [!success]- Respuesta\n> No. Las ejecuciones finitas ilustran ejemplos; utilice una gramática correcta/construcción PDA o un argumento general de bombeo/cierre.\n>\n> Fuente: Tutorial 6 págs.6–7.\n\n## Problemas del tutorial\n\n### Problema 1: convertir la gramática proporcionada a CNF\n\nConvierta $S\\to ABC$, $A\\to01$, $B\\to\\varepsilon$, $C\\to11$ a CNF y verifique su lenguaje exacto. Fuente: Tutorial 6 p.2, Problema 1.\n\n> [!tip]- Sugerencia\n> ¿Qué variable aporta sólo la palabra vacía?\n\n> [!success]- Solución\n> Utilice $S_0\\to AC$, $A\\to U_0U_1$, $C\\to U_1U_1$, $U_0\\to0$, $U_1\\to1$. Cada regla es de variable binaria o de un solo terminal; S0 nunca ocurre en un RHS. Cada derivación completa produce 0111 y 0111 es derivable. No se necesita ninguna regla de inicio de épsilon porque el lenguaje original excluye épsilon.\n\n### Problema 2: controlar las cuatro elecciones del argumento de bombeo\n\nOrdena p, testigo, descomposición y exponente; identificar quién elige cada uno. ¿Se pueden bombear v e y de forma independiente? Explique lo que establecen un único exponente exitoso y una división completamente bombeable. Fuente: Tutorial 6, páginas 2–3, Problema 2.\n\n> [!tip]- Sugerencia\n> Escribir los cuantificadores antes de elegir un testigo.\n\n> [!success]- Solución\n> La CFL supuesta suministra p. Quien demuestra la afirmación elige una palabra en L de longitud al menos p. Un adversario puede elegir cualquier división válida; quien demuestra la afirmación elige un exponente después de verlo. Tanto v como y usan el mismo exponente. Una contradicción maneja cada división, cada una con algún exponente fallido. Un exponente exitoso es insuficiente para demostrar que todos los exponentes funcionan; una división que funciona para todos los exponentes derrota a este testigo. Un solo testigo no puede establecer que todo el lenguaje sea CFL.\n\n### Problema 3: refutar tres bloques iguales\n\nDemuestre que $\\{a^nb^nc^n:n\\ge0\\}$ no es CFL y cubre todas las divisiones. Fuente: Tutorial 6 p.3, Problema 3.\n\n> [!tip]- Sugerencia\n> Utilice un bloque de longitud p para cada símbolo y bombee.\n\n> [!success]- Solución\n> Asuma CFL y elija $a^pb^pc^p$. Una ventana válida de longitud como máximo p no puede contener símbolos tanto del bloque de a como del bloque de c: alcanzarlos requiere al menos p+2 símbolos. Cambia como máximo dos bloques adyacentes. El bombeo elimina al menos un símbolo, mientras que queda un conteo p. No todos los recuentos pueden permanecer iguales, por lo que cada división válida produce una palabra fuera de L en i=0, lo que contradice el lema.\n\n### Problema 4: refutar dos afirmaciones de cierre\n\nProporcione CFG para $A=\\{a^mb^nc^n:m,n\\ge0\\}$ y $C=\\{a^nb^nc^m:m,n\\ge0\\}$. Calcule su intersección; Úselo y De Morgan para refutar la intersección general y el cierre del complemento. Fuente: Tutorial 6, páginas 3–4, Problema 4.\n\n> [!tip]- Sugerencia\n> Utilice un componente para el par igual y otro para el bloque independiente.\n\n> [!success]- Solución\n> Para A, usa $S\\to DE$, $D\\to aD\\mid\\varepsilon$, $E\\to bEc\\mid\\varepsilon$; para C utilice $S\\to FG$, $F\\to aFb\\mid\\varepsilon$, $G\\to cG\\mid\\varepsilon$. Estos producen exactamente los recuentos y el orden indicados. La intersección fuerza la igualdad entre las cantidades de a, b y c, lo que da el no CFL del problema 3. Si los complementos fueran siempre CFL, el cierre de la unión haría que $\\overline{\\overline A\\cup\\overline C}=A\\cap C$ fuera CFL, una contradicción. La gramática C es una finalización local de una omisión en la solución proporcionada, no una gramática oficial citada.\n\n### Problema 5: filtrar el lenguaje de copia\n\nPara $D=\\{ww:w\\in\\{0,1\\}^*\\}$ y el lenguaje regular $R=0^*1^*0^*1^*$, calcule H=D∩R, demuestre que H no es CFL y concluya que D no es CFL. Incluir la eliminación de bloque completo. Fuente: Tutorial 6, páginas 4–6, Problema 5.\n\n> [!tip]- Sugerencia\n> Utilice cuatro bloques de longitud p, combine 1 con 3 y 2 con 4, y distinga los bloques supervivientes de los eliminados.\n\n> [!success]- Solución\n> $H=\\{0^m1^n0^m1^n:m,n\\ge0\\}$. En una palabra copiada que coincida con R, una mitad de símbolo mixto debe tener un bloque de ceros y después un bloque de unos; las mitades unarias/vacías dan exponentes cero. Suponga que H es CFL y use $0^p1^p0^p1^p$. La ventana corta afecta como máximo a dos bloques adyacentes, nunca a ambos miembros de un par coincidente. Bombea hacia abajo con i=0. Si cada bloque sobrevive, un bloque acortado tiene distinta longitud que su bloque emparejado intacto. Si un bloque completo desaparece, todas las p eliminaciones se gastan allí. Los resultados son $1^p0^p1^p$, $0^{2p}1^p$, $0^p1^{2p}$ o $0^p1^p0^p$, cada uno con ambos símbolos y menos de cuatro bloques máximos, por lo tanto, fuera de H. Por lo tanto, cada división falla. Si D fuera CFL, su intersección con R regular sería CFL; contradicción.\n\n",
+      "headingAliases": {
+        "Recall and Practice · Week 6": "Recordar y practicar · Semana 6",
+        "Atomic recall": "Repaso activo atómico",
+        "Card 01 — Which rules are CNF?": "Tarjeta 01 — ¿Qué reglas son CNF?",
+        "Card 02 — May a CNF rule use the same child variable twice?": "Tarjeta 02: ¿Puede una regla CNF utilizar la misma variable secundaria dos veces?",
+        "Card 03 — What is the CNF conversion order?": "Tarjeta 03 — ¿Cuál es el orden de conversión CNF?",
+        "Card 04 — What are the CFL pumping conditions?": "Tarjeta 04: ¿Cuáles son las condiciones de bombeo de las CFL?",
+        "Card 05 — Who chooses the pumping decomposition?": "Tarjeta 05 — ¿Quién elige la descomposición del bombeo?",
+        "Card 06 — Can just one pumped piece be empty?": "Tarjeta 06 — ¿Puede estar vacía una sola pieza bombeada?",
+        "Card 07 — Why does the three-block witness work?": "Tarjeta 07 — ¿Por qué funciona el testigo de tres bloques?",
+        "Card 08 — Which intersection closure can a CFL proof use?": "Tarjeta 08: ¿Qué cierre de intersección puede utilizar una prueba CFL?",
+        "Card 09 — How does complement closure imply intersection closure?": "Tarjeta 09 — ¿Cómo implica el cierre del complemento el cierre de la intersección?",
+        "Card 10 — Do finite Tock checks prove a language is CFL or non-CFL?": "Tarjeta 10: ¿Las comprobaciones finitas de Tock prueban que un lenguaje es CFL o no CFL?",
+        "Tutorial problems": "Problemas del tutorial",
+        "Problem 1 — Convert the supplied grammar to CNF": "Problema 1: convertir la gramática proporcionada a CNF",
+        "Problem 2 — Control all four pumping choices": "Problema 2: controlar las cuatro elecciones del argumento de bombeo",
+        "Problem 3 — Refute three equal blocks": "Problema 3: refutar tres bloques iguales",
+        "Problem 4 — Disprove two closure claims": "Problema 4: refutar dos afirmaciones de cierre",
+        "Problem 5 — Filter the copy language": "Problema 5: filtrar el lenguaje de copia"
+      },
+      "sectionIds": [
+        "atomic-recall",
+        "tutorial-problems"
+      ],
+      "problemIds": [
+        "problem-1-convert-the-supplied-grammar-to-cnf",
+        "problem-2-control-all-four-pumping-choices",
+        "problem-3-refute-three-equal-blocks",
+        "problem-4-disprove-two-closure-claims",
+        "problem-5-filter-the-copy-language"
+      ]
     }
   ],
   "cards": [
@@ -1393,7 +1478,7 @@
     {
       "id": "03-07",
       "unit": "03",
-      "question": "¿Por qué añadir un nuevo comienzo y un nuevo estado que acepte la GNFA antes de la eliminación del estado GNFA?",
+      "question": "¿Por qué agregar un nuevo comienzo y un nuevo estado que acepte la GNFA antes de la eliminación del estado GNFA?",
       "answer": "Obtener una salida sin aristas de entrada y una final sin aristas de salida.",
       "source": "Fuente: Conferencia 3, PDF, páginas 11-17."
     },
@@ -1599,6 +1684,76 @@
       "question": "¿Qué lado se expande recursivamente para una exponenciación asociativa por la derecha?",
       "answer": "El operando derecho: P→F ↑P.",
       "source": "Fuente: Tutorial 4 p.6, P7."
+    },
+    {
+      "id": "06-01",
+      "unit": "06",
+      "question": "¿Qué reglas son CNF?",
+      "answer": "$A\\to BC$ y $A\\to a$; opcionalmente $S_0\\to\\varepsilon$ nuevo cuando sea necesario, con S0 ausente en todos los RHS.",
+      "source": "Fuente: Tutorial 6 p.1."
+    },
+    {
+      "id": "06-02",
+      "unit": "06",
+      "question": "¿Puede una regla CNF utilizar la misma variable secundaria dos veces?",
+      "answer": "Sí: $A\\to BB$ es válido. Todavía tiene dos apariciones variables.",
+      "source": "Fuente: Lecture 6 págs.13, 32."
+    },
+    {
+      "id": "06-03",
+      "unit": "06",
+      "question": "¿Cuál es el orden de conversión CNF?",
+      "answer": "Nuevo símbolo inicial; alternativas anulables y eliminación de épsilon; eliminación de reglas unitarias; aislamiento terminal; división binaria RHS.",
+      "source": "Fuente: Lecture 6, págs. 14-20."
+    },
+    {
+      "id": "06-04",
+      "unit": "06",
+      "question": "¿Cuáles son las condiciones de bombeo de las CFL?",
+      "answer": "$s=uvxyz$, $|vy|>0$, $|vxy|\\le p$ y $uv^ixy^iz\\in L$ por cada $i\\ge0$.",
+      "source": "Fuente: Tutorial 6 p.1."
+    },
+    {
+      "id": "06-05",
+      "unit": "06",
+      "question": "¿Quién elige la descomposición del bombeo?",
+      "answer": "Un adversario puede elegir cualquier división válida; la prueba que no es CFL debe derrotarlos a todos.",
+      "source": "Fuente: Tutorial 6 págs.2–3."
+    },
+    {
+      "id": "06-06",
+      "unit": "06",
+      "question": "¿Puede estar vacía una sola pieza bombeada?",
+      "answer": "Sí. v o y pueden estar vacíos, pero no ambos; ambos usan el mismo exponente.",
+      "source": "Fuente: Lecture 6, págs. 22-23."
+    },
+    {
+      "id": "06-07",
+      "unit": "06",
+      "question": "¿Por qué funciona el testigo de tres bloques?",
+      "answer": "Una ventana de longitud p no puede tocar a la vez a y c en $a^pb^pc^p$. Bombear hacia abajo reduce al menos una cantidad y deja otra igual a p.",
+      "source": "Fuente: Tutorial 6 p.3."
+    },
+    {
+      "id": "06-08",
+      "unit": "06",
+      "question": "¿Qué cierre de intersección puede utilizar una prueba CFL?",
+      "answer": "La intersección con un lenguaje regular preserva la clase de los lenguajes independientes del contexto; la intersección con otro CFL puede salir de esa clase.",
+      "source": "Fuente: Tutorial 6 págs.2, 6."
+    },
+    {
+      "id": "06-09",
+      "unit": "06",
+      "question": "¿Cómo implica el cierre del complemento el cierre de la intersección?",
+      "answer": "Con cierre sindical, De Morgan da $A\\cap C=\\overline{\\overline A\\cup\\overline C}$.",
+      "source": "Fuente: Tutorial 6 p.4."
+    },
+    {
+      "id": "06-10",
+      "unit": "06",
+      "question": "¿Las comprobaciones finitas de Tock prueban que un lenguaje es CFL o no CFL?",
+      "answer": "No. Las ejecuciones finitas ilustran ejemplos; utilice una gramática correcta/construcción PDA o un argumento general de bombeo/cierre.",
+      "source": "Fuente: Tutorial 6 págs.6–7."
     }
   ],
   "assets": {
@@ -1711,6 +1866,22 @@
       "unit": "05",
       "hash": "bf1769261e59000d1b384b4de6981461cbc994936f7f612ea85ca6e64055dae8",
       "url": "/sources/ads205/12.pdf"
+    },
+    {
+      "id": "13",
+      "relative": "LM Core 2026-10-20/Lecture 6 Pumping Lemma for CFLs.pdf",
+      "title": "Lecture 6 Pumping Lemma for CFLs.pdf (original en inglés)",
+      "unit": "06",
+      "hash": "c0839f36fc1228239796cb690cb5e5d4a4a929115590f2bd5cbddea1cfcfe57b",
+      "url": "/sources/ads205/13.pdf"
+    },
+    {
+      "id": "14",
+      "relative": "LM Core 2026-10-20/Tutorial 6 - CNF, CFL Pumping, and Closure Properties.pdf",
+      "title": "Tutorial 6 - CNF, CFL Pumping, and Closure Properties.pdf (original en inglés)",
+      "unit": "06",
+      "hash": "2704a7d67b61bf21ce31d4a8914548baf904e487770d336f916dea5e2c850785",
+      "url": "/sources/ads205/14.pdf"
     }
   ],
   "videos": [
@@ -1869,6 +2040,31 @@
           "label": "La derivación más a la derecha no es válida.",
           "correct": false,
           "feedback": "Reemplazar la variable más a la derecha es válido; cambia la cronología, no la estructura."
+        }
+      ]
+    },
+    {
+      "id": "06-pumping-window",
+      "unit": "06",
+      "kind": "quiz",
+      "title": "Dos piezas, un exponente",
+      "prompt": "En el lema de bombeo de CFL, ¿qué expresión debe permanecer en L para todo i ≥ 0?",
+      "source": "Lecture 6 págs. 22-23; Tutorial 6 pág.1. Control complementario, no un elemento de prueba oficial.",
+      "options": [
+        {
+          "label": "uvⁱxyⁱz",
+          "correct": true,
+          "feedback": "La derivación anidada repite vey juntas; x permanece una vez."
+        },
+        {
+          "label": "uvⁱxyz",
+          "correct": false,
+          "feedback": "Ambas piezas bombeadas utilizan el mismo exponente; y no se puede retener en una sola copia."
+        },
+        {
+          "label": "uvⁱxⁱyⁱz",
+          "correct": false,
+          "feedback": "La x del medio no está bombeada."
         }
       ]
     }
@@ -3180,7 +3376,7 @@
         {
           "label": "2p",
           "correct": false,
-          "feedback": "Cada transición añade una visita, no dos visitas independientes."
+          "feedback": "Cada transición suma una visita, no dos visitas independientes."
         },
         {
           "label": "p+1",
@@ -3515,7 +3711,7 @@
         {
           "label": "Práctica basada en fuentes con formato de examen no confirmado.",
           "correct": true,
-          "feedback": "Las fuentes de conferencias y tutoriales respaldan la enseñanza, pero no se ha verificado el nuevo mapeo de papel/marcas."
+          "feedback": "Las fuentes de conferencias y tutoriales apoyan la enseñanza, pero no se ha verificado el nuevo mapeo de papel/marcas."
         },
         {
           "label": "Un esquema de marcado CFG oficial recientemente verificado.",
@@ -3883,13 +4079,253 @@
           "feedback": "El orden de las reglas impresas no asigna prioridad ni asociación a las alternativas gramaticales."
         }
       ]
+    },
+    {
+      "id": "06-check-01",
+      "unit": "06",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué proporciona el lema de bombeo de CFL?",
+      "source": "Tutor de la semana 6: en 60 segundos; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "En 60 segundos"
+      },
+      "options": [
+        {
+          "label": "Una propiedad necesaria de cada CFL.",
+          "correct": true,
+          "feedback": "Cada CFL tiene una longitud de bombeo y una descomposición adecuada para cada miembro suficientemente largo."
+        },
+        {
+          "label": "Una prueba que demuestra la pertenencia de CFL a partir de algunos ejemplos.",
+          "correct": false,
+          "feedback": "Los ejemplos finitos no pueden establecer la propiedad cuantificada o la libertad de contexto de un lenguaje completo."
+        },
+        {
+          "label": "Una gramática para cada no CFL.",
+          "correct": false,
+          "feedback": "Un CFG genera un lenguaje libre de contexto; una que no es CFL no puede tener un CFG que la genere exactamente."
+        }
+      ]
+    },
+    {
+      "id": "06-check-02",
+      "unit": "06",
+      "lesson": "recognise-chomsky-normal-form",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué regla está permitida en CNF?",
+      "source": "Tutor de la semana 6: reconocer la forma normal de Chomsky; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Reconocer la forma normal de Chomsky"
+      },
+      "options": [
+        {
+          "label": "A → aB",
+          "correct": false,
+          "feedback": "Un terminal mezclado con una variable en un RHS de longitud dos no es una producción CNF."
+        },
+        {
+          "label": "A → BB",
+          "correct": true,
+          "feedback": "El RHS tiene dos variables; pueden ser dos apariciones de la misma variable."
+        },
+        {
+          "label": "A → B",
+          "correct": false,
+          "feedback": "Esta es una producción unitaria y debe eliminarse durante la conversión a CNF."
+        }
+      ]
+    },
+    {
+      "id": "06-check-03",
+      "unit": "06",
+      "lesson": "convert-a-cfg-without-changing-its-language",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué debe preservar la eliminación general de la regla épsilon?",
+      "source": "Tutor de la semana 6: convertir un CFG sin cambiar su lenguaje; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Convertir un CFG sin cambiar su lenguaje"
+      },
+      "options": [
+        {
+          "label": "Sólo las alternativas anulables omitidas.",
+          "correct": false,
+          "feedback": "Una variable anulable también puede generar cadenas no vacías, por lo que eliminar todas sus apariciones cambia el lenguaje."
+        },
+        {
+          "label": "Cada regla épsilon no ha cambiado.",
+          "correct": false,
+          "feedback": "CNF permite una regla épsilon solo para un nuevo símbolo inicial cuando épsilon pertenece al lenguaje."
+        },
+        {
+          "label": "Ambas alternativas anulables se omitieron y retuvieron cuando correspondía.",
+          "correct": true,
+          "feedback": "Agregar alternativas de omisión conserva las derivaciones que usaban épsilon y al mismo tiempo conserva las derivaciones no vacías."
+        }
+      ]
+    },
+    {
+      "id": "06-check-04",
+      "unit": "06",
+      "lesson": "read-the-two-piece-pumping-protocol",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué se requiere para derrotar a un testigo de bombeo de CFL?",
+      "source": "Tutor de la semana 6: lea el protocolo de extracción de leche en dos piezas; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Lea el protocolo de bombeo de dos piezas"
+      },
+      "options": [
+        {
+          "label": "Encuentre un exponente que falle para cada división válida, permitiendo que el exponente dependa de la división.",
+          "correct": true,
+          "feedback": "La división es arbitraria; una contradicción debe vencer toda descomposición válida después de elegir el testigo."
+        },
+        {
+          "label": "Seleccione una división conveniente que falle.",
+          "correct": false,
+          "feedback": "El lema promete la existencia de una división adecuada, por lo que una mala división no refuta el lenguaje."
+        },
+        {
+          "label": "Bombea vey con diferentes exponentes.",
+          "correct": false,
+          "feedback": "La derivación anidada repetida bombea ambas piezas con el mismo exponente; diferentes exponentes no son válidos."
+        }
+      ]
+    },
+    {
+      "id": "06-check-05",
+      "unit": "06",
+      "lesson": "prove-three-equal-blocks-are-not-context-free",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Por qué una ventana de longitud p en aᵖbᵖcᵖ no puede cumplir con a y c?",
+      "source": "Tutor de la semana 6: demuestre que tres bloques iguales no están libres de contexto; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Demuestre que tres bloques iguales no están libres de contexto"
+      },
+      "options": [
+        {
+          "label": "Cada una de las piezas bombeadas debe tener una longitud p.",
+          "correct": false,
+          "feedback": "Sólo la ventana vxy combinada está limitada por p; ninguna de las piezas bombeadas debe tener una longitud p."
+        },
+        {
+          "label": "Necesitaría al menos p+2 símbolos.",
+          "correct": true,
+          "feedback": "Debe contener todos los p símbolos b centrales y al menos un símbolo de cada bloque exterior."
+        },
+        {
+          "label": "Porque x debe estar vacío.",
+          "correct": false,
+          "feedback": "El lema no requiere que x esté vacío; sus símbolos cuentan para el límite de la ventana."
+        }
+      ]
+    },
+    {
+      "id": "06-check-06",
+      "unit": "06",
+      "lesson": "use-closure-with-the-correct-language-class",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué declaración de cierre es válida para las CFL?",
+      "source": "Tutor de la semana 6: utilice el cierre con la clase de lenguaje correcta; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Utilice el cierre con la clase de lenguaje correcta"
+      },
+      "options": [
+        {
+          "label": "La intersección de cada dos CFL es CFL.",
+          "correct": false,
+          "feedback": "El contraejemplo de conteo igual muestra que una intersección CFL arbitraria puede abandonar la clase."
+        },
+        {
+          "label": "Cada CFL tiene un complemento libre de contexto.",
+          "correct": false,
+          "feedback": "El cierre de la unión junto con dicho cierre del complemento forzaría el falso cierre general de la intersección."
+        },
+        {
+          "label": "La intersección de una CFL con un lenguaje regular es la CFL.",
+          "correct": true,
+          "feedback": "Un filtro regular preserva la clase de los lenguajes independientes del contexto y admite argumentos contradictorios sobre un lenguaje filtrado."
+        }
+      ]
+    },
+    {
+      "id": "06-check-07",
+      "unit": "06",
+      "lesson": "filter-the-copy-language",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "Si un bloque completo desaparece al bombear 0ᵖ1ᵖ0ᵖ1ᵖ, ¿qué sigue?",
+      "source": "Tutor de la semana 6: filtrar el lenguaje de copia; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Filtrar el lenguaje de copia"
+      },
+      "options": [
+        {
+          "label": "En ese bloque se utilizaron todas las p eliminaciones permitidas.",
+          "correct": true,
+          "feedback": "La longitud total eliminada es como máximo p, por lo que eliminar un bloque de longitud p deja intactos todos los demás bloques."
+        },
+        {
+          "label": "La palabra restante pertenece automáticamente a H.",
+          "correct": false,
+          "feedback": "La palabra de símbolos mixtos resultante tiene menos de cuatro bloques máximos máximas y no puede tener la forma de bloque repetido requerida."
+        },
+        {
+          "label": "Ahora se puede ignorar el límite de ventana corta.",
+          "correct": false,
+          "feedback": "El mismo límite de longitud p limita todas las eliminaciones y es esencial para manejar este caso límite."
+        }
+      ]
+    },
+    {
+      "id": "06-check-08",
+      "unit": "06",
+      "lesson": "check-your-reasoning-and-source-limits",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué establecen aquí las ejecuciones finitas opcionales de Tock?",
+      "source": "Tutor de la semana 6: verifique sus límites de razonamiento y fuentes; Lección 6 / Tutorial 6, localizadores en lección. Práctica complementaria.",
+      "basis": {
+        "docId": "content/reviewed/ADS205/06/tutor",
+        "heading": "Verifique su razonamiento y límites de fuentes"
+      },
+      "options": [
+        {
+          "label": "Una prueba de que el lenguaje de la copia no es CFL.",
+          "correct": false,
+          "feedback": "Una demostración de pertenencia finita no puede establecer una declaración que no sea CFL sobre una infinidad de cadenas."
+        },
+        {
+          "label": "Ilustraciones; esta actualización no reclama ninguna ejecución local.",
+          "correct": true,
+          "feedback": "El código proporcionado es material fuente contextual y no se ejecutó como parte de esta actualización."
+        },
+        {
+          "label": "Marcas oficiales para todas las soluciones tutoriales.",
+          "correct": false,
+          "feedback": "La fuente proporciona controles opcionales y problemas de enseñanza, no un esquema de calificación verificado."
+        }
+      ]
     }
   ],
   "language": "es",
   "translation": {
     "method": "Machine translation with protected source syntax and computing glossary; original English is retained.",
-    "translatedAt": "2026-10-14T09:37:14.337748+00:00",
-    "sourceFingerprint": "b8cfc72b5fd1868e8951d991129fd6237b03acdca0cc9bb16d7c3b8461abf2fe",
+    "translatedAt": "2026-10-20T08:00:16.036439+00:00",
+    "sourceFingerprint": "e2717ca792d06934bb1fe77d046dd6d89dd6d3ae6d1eac0d3e7da5e1263a1423",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }
