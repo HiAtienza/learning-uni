@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Advanced Database Development",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-12T07:23:36.802Z",
+  "generatedAt": "2026-10-21T06:06:08.054Z",
   "evidence": {
-    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Unreviewed textbook chapters remain pending.",
+    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation and Lab5 are visible on 21 October but pending acquisition; no current-completeness claim. Unreviewed textbook chapters remain pending.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -121,6 +121,51 @@
           "Bracket only executeQuery; put application iteration and printing outside.",
           "Keep query/data comparable and check result multisets and chosen plans.",
           "Record cache/run conditions and driver buffering limits before interpreting timings."
+        ]
+      }
+    },
+    {
+      "id": "07",
+      "title": "Selection, Projection and External Sorting",
+      "short": "Selection & sorting",
+      "folder": "Web 07",
+      "kind": "theory",
+      "guide": {
+        "goal": "Choose and justify physical query-evaluation strategies under explicit source assumptions.",
+        "successCriteria": [
+          "Keep transfers and seeks separate and compare their weighted cost.",
+          "State memory, ordering, selectivity and output-writing assumptions.",
+          "Expose source inconsistencies and distinguish local reasoning from official answers."
+        ]
+      }
+    },
+    {
+      "id": "08",
+      "title": "Join, Aggregation and Set Evaluation",
+      "short": "Joins & aggregation",
+      "folder": "Web 08",
+      "kind": "theory",
+      "guide": {
+        "goal": "Choose and justify physical query-evaluation strategies under explicit source assumptions.",
+        "successCriteria": [
+          "Keep transfers and seeks separate and compare their weighted cost.",
+          "State memory, ordering, selectivity and output-writing assumptions.",
+          "Expose source inconsistencies and distinguish local reasoning from official answers."
+        ]
+      }
+    },
+    {
+      "id": "lab-04",
+      "title": "Lab 04: Query Evaluation Clinic",
+      "short": "Query evaluation clinic",
+      "folder": "Web lab-04",
+      "kind": "lab",
+      "guide": {
+        "goal": "Choose and justify physical query-evaluation strategies under explicit source assumptions.",
+        "successCriteria": [
+          "Keep transfers and seeks separate and compare their weighted cost.",
+          "State memory, ordering, selectivity and output-writing assumptions.",
+          "Expose source inconsistencies and distinguish local reasoning from official answers."
         ]
       }
     }
@@ -493,6 +538,60 @@
       },
       "hash": "fca73c4d812fc2de60dbdca24f5561c49ffc90cde8f2b9756daeabaddc3608f6",
       "markdown": "# JDBC query timing: recall and practice\n\nWeb tutor edition. New practice below is **SUPPLEMENTARY PRACTICE**, not an official assignment or marking scheme. Sources: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md. Attempt before opening help.\n\n## Atomic Recall\n\n### Card 01 — Which operation does released Task 2 time?\n> [!success]- Answer\n> Only rs = stmt.executeQuery(sql); with timestamps immediately before and after that call.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Task sheet PDF p. 3.\n\n### Card 02 — Where must the result-iteration loop be placed, and does that exclude all row transfer from executeQuery timing?\n> [!success]- Answer\n> Place the application’s ResultSet.next() loop and printing after the ending timestamp. The driver may already retrieve and buffer rows inside executeQuery, so this does not exclude all data transfer from the measured call.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Task sheet PDF p. 3; lab reference Task 2.\n\n### Card 03 — How are nanoseconds converted to milliseconds?\n> [!success]- Answer\n> Subtract nanoTime timestamps and divide by 1_000_000.0.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Task sheet PDF p. 3; lab reference timing code.\n\n### Card 04 — Which query stays constant?\n> [!success]- Answer\n> SELECT * FROM Orf_Motif WHERE num=7, for both index states.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Task sheet PDF p. 3.\n\n### Card 05 — Why compare multisets rather than row order?\n> [!success]- Answer\n> Without ORDER BY row order is not guaranteed; repeated keys/rows still require counts, so plain set equality can hide duplicates.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Lab reference Task 2 validation.\n\n### Card 06 — Do historical faster timings prove indexing always wins?\n> [!success]- Answer\n> No. The recorded local result is a single environment observation with its own plan/data/cache/driver boundary.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Lab reference Task 2 results and limitations.\n\n## Progressive Practice\n\n### Practice 1 — Repair the timer\n\n**SUPPLEMENTARY PRACTICE.** A student starts the timer before connection setup and stops after printing every row. Is that Task 2? Show the required boundary.\n\n> [!tip]- Hint\n> Put only executeQuery between the two timestamps.\n\n> [!success]- Solution\n> It is not the specified boundary.\n> ```java\n> long start = System.nanoTime();\n> rs = stmt.executeQuery(sql);\n> long end = System.nanoTime();\n> double elapsedMs = (end - start) / 1_000_000.0;\n> ```\n> Connection setup, index creation, iteration and printing remain outside. Driver buffering may still be included in the call itself.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Task sheet PDF p. 3; lab reference Task 2.\n\n### Practice 2 — Index experiment checklist\n\n**SUPPLEMENTARY PRACTICE.** What should remain equal and what evidence supports comparison before/after creating an index on num?\n\n> [!tip]- Hint\n> Separate controlled inputs, optimizer evidence and result equality.\n\n> [!success]- Solution\n> Use the same data/query and comparable connection/environment; record index state and EXPLAIN separately; record the actual chosen index/plan; compare result multisets including duplicate counts; repeat with cache/warmup conditions noted. A created index need not be selected by the optimizer. Do not time DDL inside executeQuery.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Task sheet PDF p. 3; lab reference Task 2.\n\n### Practice 3 — Interpret the historical run\n\n**SUPPLEMENTARY PRACTICE.** The source reference records 8.723 ms without and 2.083 ms with the index, equal 607-row multisets. What can you claim?\n\n> [!tip]- Hint\n> Constrain the claim to this recorded local run.\n\n> [!success]- Solution\n> The source reports a lower executeQuery elapsed time in that local run with equal results and numIndex selected. It does not establish a universal speedup, server-only execution time, university-host connectivity, or a fresh run performed by this web app.\n>\n> Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Lab reference Task 2 recorded results.\n\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/07/tutor",
+      "relative": "content/reviewed/SOE201/07/tutor.md",
+      "kind": "tutor",
+      "unit": "07",
+      "origin": "project",
+      "hash": "37a520d22be89e97ee64db981934224c0797d0314f0b3f6d3b67ba7fcd6ecd0c",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Selection, Projection and External Sorting\n\n## In 60 Seconds\n\nAn index can reduce transferred blocks yet increase expensive seeks. Suppose a file occupies 400 blocks and an unclustered index matches 100 scattered records. With index height 4, transfer time 0.1 ms and seek time 4 ms, a full scan costs 44 ms, while the lecture's pessimistic secondary-index model costs 426.4 ms. The access path matters more than the mere existence of an index. This supplementary calculation uses Lecture5a pp.5,10 and the disk model from Unit 06.\n\nThis edition integrates the verified 12 October archive: Lecture5a, 23 pages, dated 10 October 2026. It is a new web lesson, not a claim that the file was first released this week. Week 6 optimisation sources are visible on Learning Mall but remain pending acquisition. Prerequisites: Unit 01 storage, Units 02–04 indexes, Unit 05 algebra and Unit 06 cost units.\n\n## Select an Access Path With Explicit Assumptions\n\nLet b_r be file blocks, h the lecture's number of index-node accesses, b the consecutive matching data blocks and k the matching records. For cold accesses, retain transfers B and seeks S separately, then compute $T=B t_T+S t_S$.\n\n| Access path | Transfers B | Seeks S | Conditions |\n|---|---:|---:|---|\n| Linear scan | $b_r$ | 1 | Contiguous relation; test every record |\n| Successful equality scan on a key, average | $b_r/2$ | 1 | Source average model; absence may need full scan |\n| Binary search | $\\lceil\\log_2 b_r\\rceil$ plus matching blocks | Same search count, then retrieval | File physically ordered on equality attribute |\n| Candidate-key B+ lookup | $h+1$ | $h+1$ | One matching data record |\n| Clustered non-key equality | $h+b$ | $h+1$ | Matching records contiguous |\n| Unclustered non-key equality, pessimistic | $h+k$ | $h+k$ | Each matching record may be on another block |\n\nThe deck calls the clustered non-key case a primary index. Keep its physical locality assumption explicit rather than assuming every primary-key definition implies clustering. Cached index pages, repeated data blocks and storage hardware can change actual costs. These estimates are not measured runtimes. Source: Lecture5a pp.4–10.\n\n## Handle Ranges and Boolean Conditions Completely\n\nFor a clustered lower range, seek to the first qualifying key then read the following blocks sequentially. For a prefix range ending at an upper bound, a scan from the start may avoid unnecessary index seeks. An unclustered range can fetch many scattered blocks, so compare against a full scan.\n\nFor an AND, one selective indexed condition may generate candidates; test the remaining conditions on every candidate. A suitable composite index is another possibility. For an OR, union the candidate pointers from every disjunct and remove duplicate pointers before retrieval. If any branch lacks a complete access path, its matches still need finding, often by scanning. Lecture5a p.13 loosely says some indexes may be available; using only indexed branches would silently lose valid OR results. Negation requires the complement relative to the relation, not simply returning the positive matches. Source: Lecture5a pp.11–14; the completeness qualification is local reasoning about the stated predicate.\n\n## Project Columns and Remove Duplicates\n\nRelational projection drops unwanted attributes and eliminates duplicate resulting tuples. Sorting the projected tuples makes duplicates adjacent; hashing sends equal tuples to the same group. SQL SELECT without DISTINCT may preserve duplicates, so do not transfer set-algebra semantics automatically to SQL. An index orders references logically; following a secondary index is not equivalent to physically sorting the data and may cause an I/O per tuple. Source: Lecture5a pp.15–16; algebra/SQL distinction retained from Unit 05.\n\n## Create Runs Before Merging\n\nFor b blocks and M memory frames, read up to M blocks, sort them in memory and write each sorted run. Initially there are $N=\\lceil b/M\\rceil$ runs. A merge reserves input buffers for participating runs and an output buffer. With one frame per buffer, merge at most M−1 runs; with b_b frames per buffer, fan-in is $F=\\lfloor M/b_b\\rfloor-1$. Require F≥2 before using logarithmic multipass formulas. More buffering improves sequential I/O but reduces fan-in and may add a pass. Source: Lecture5a pp.17–21.\n\nFor the supplied b=12, M=3 example, runs shrink 4→2→1 in two merge passes. The initial groups of three are sorted separately, then paired and finally merged. The repeated key a has payloads 19 and 14: the figure sorts by key, with equal-key ordering not specified as a stable-sort requirement. Source: Lecture5a p.20; Lab4 Q3 p.5.\n\n## Count Transfers and Seeks With One Output Convention\n\nFor b>M and $P=\\lceil\\log_F\\lceil b/M\\rceil\\rceil$, the source omits the final output write:\n\n$$B=b(2P+1),\\qquad S=2\\lceil b/M\\rceil+\\lceil b/b_b\\rceil(2P-1).$$\n\nInitial run generation reads and writes 2b blocks; each intermediate merge reads and writes 2b; the final merge reads b. If the final sorted file must be stored, add b writes and $\\lceil b/b_b\\rceil$ seeks. For b=12, M=3, b_b=1, P=2 gives 60 transfers and 44 seeks when streamed; storing the final file gives 72 and 56. An in-memory input is a separate case; do not apply a negative-pass term mechanically. Source: Lecture5a pp.21–22.\n\n## Return to the Access-Path Decision\n\nFor the opening example, scan: $400(0.1)+1(4)=44$ ms. Unclustered index: $104(0.1+4)=426.4$ ms. A clustered lookup retrieving eight consecutive blocks would instead cost $12(0.1)+5(4)=21.2$ ms. The final comparison requires selectivity, locality, available ordering, memory and a consistent output policy. These are supplementary examples with stated parameters, not new measured results.\n\nLecture5a pp.1–2 introduce scope; pp.3–16 cover selection/projection; pp.17–22 cover sorting and its example; p.23 recommends reading, which is not imported here. No new assessment corpus, exam probabilities or official marks are inferred.\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/07/practice",
+      "relative": "content/reviewed/SOE201/07/practice.md",
+      "kind": "practice",
+      "unit": "07",
+      "origin": "project",
+      "hash": "a80aaf115015a9301262e5ab2ca381a2f26028f9fd694538c99bc3ba492c0125",
+      "markdown": "# Recall and Practice\n\nSource-based practice with local worked reasoning, not an official marking scheme. Original source tasks are identified individually. No database execution or student mastery is claimed.\n\n## Atomic recall\n\n### Card 01 — Why can fewer transfers still mean a slower plan?\n\n> [!success]- Answer\n> Seek time may dominate: compare B×tT+S×tS using the same time unit.\n>\n> Source: Lecture5a pp.6–10.\n\n### Card 02 — What enables binary search on a file?\n\n> [!success]- Answer\n> Physical ordering on the selection attribute, not merely the existence of some index.\n>\n> Source: Lecture5a p.6.\n\n### Card 03 — What changes between clustered and unclustered equality retrieval?\n\n> [!success]- Answer\n> Clustered matches occupy consecutive blocks; scattered matches can require an I/O and seek for each record.\n>\n> Source: Lecture5a pp.8–10.\n\n### Card 04 — What must an OR access plan cover?\n\n> [!success]- Answer\n> Every disjunct, including unindexed branches, and duplicate candidate pointers must not cause duplicate set results.\n>\n> Source: Lecture5a p.13, local completeness clarification.\n\n### Card 05 — Why can projection be expensive?\n\n> [!success]- Answer\n> Removing duplicate projected tuples requires grouping, often by sorting or hashing.\n>\n> Source: Lecture5a p.15.\n\n### Card 06 — How many initial runs and which merge fan-in?\n\n> [!success]- Answer\n> $N=\\lceil b/M\\rceil$ and $F=\\lfloor M/b_b\\rfloor-1$, with F at least two for multipass merging.\n>\n> Source: Lecture5a pp.17–21.\n\n### Card 07 — What does the external-sort cost formula omit?\n\n> [!success]- Answer\n> The final sorted-output write; add it when a persistent sorted file is required.\n>\n> Source: Lecture5a p.21.\n\n## Worked practice\n\n### Problem 1 — Choose between locality assumptions\n\nSUPPLEMENTARY PRACTICE. Compare full scan, clustered index and unclustered index for b_r=400, h=4, b=8, k=100, tT=0.1 ms, tS=4 ms. Source: Lecture5a pp.5,8,10.\n\n> [!tip]- Hint\n> Keep B and S separate until the final multiplication.\n\n> [!success]- Solution\n> Scan: B=400,S=1,T=44 ms. Clustered: B=12,S=5,T=21.2 ms. Unclustered pessimistic: B=S=104,T=426.4 ms. Under these assumptions the clustered path wins; the unclustered path loses despite fewer transfers than scanning.\n\n### Problem 2 — Trace the supplied external sort\n\nSOURCE EXERCISE. b=12, M=3, b_b=1. Give run counts, merge passes and total transfers/seeks with and without final output writing. Source: Lecture5a p.22; Lab4 Q3 p.5.\n\n> [!tip]- Hint\n> Initial runs are ceil(12/3)=4 and each merge combines two.\n\n> [!success]- Solution\n> Four initial runs merge 4→2→1, so P=2. Streamed transfers:24+24+12=60. Seeks:2×4+12×(2×2−1)=44. Materialised output adds 12 transfers and 12 seeks, giving72/56. Equal-key payload order is not a required stable-sort property.\n\n### Problem 3 — Audit an incomplete OR plan\n\nSUPPLEMENTARY PRACTICE. For A=1 OR B=2, only A is indexed. Is returning the A index matches complete? Source: Lecture5a p.13.\n\n> [!tip]- Hint\n> Consider a tuple satisfying only B=2.\n\n> [!success]- Solution\n> No. Such a tuple is a valid result but absent from the A candidate set. Scan for the uncovered branch or scan the whole relation, then combine completely and eliminate duplicate pointers. Existing indexes do not remove predicate-completeness obligations.\n\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/08/tutor",
+      "relative": "content/reviewed/SOE201/08/tutor.md",
+      "kind": "tutor",
+      "unit": "08",
+      "origin": "project",
+      "hash": "d693de8f6d37ee58924ba8bbbda0871a027e88081158cf5584b21da83af59f60",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Join, Aggregation and Set Evaluation\n\n## In 60 Seconds\n\nThe smaller relation is not always the cheapest outer input, and the fewest transferred blocks do not always yield the shortest time. In Lecture5b's example, indexed nested loops uses 25,100 transfers but also 25,100 seeks; block nested loops uses 40,100 transfers and only 200 seeks. At 0.1 ms per transfer and 4 ms per seek, the estimated times are 102,910 ms and 4,810 ms. This local arithmetic explains the source's comparison without claiming a database benchmark.\n\nSource: Lecture5b, 25 pages, verified against the 12 October acquisition manifest. Keep this physical evaluation unit separate from later query optimisation, whose current Week 6 files have not yet been acquired. Prerequisites: selection costs and external sorting in Unit 07, join semantics in Unit 05.\n\n## Define the Result Before Choosing the Algorithm\n\nA natural join matches all shared attribute names and returns one copy of those shared columns. It is not a Cartesian product without conditions, nor a join on a guessed single attribute when several names are shared. The physical strategy must preserve the same result. Source: Lecture5b pp.3–4.\n\nThe lecture uses customer:10,000 records/400 blocks and depositor:5,000 records/100 blocks. Lab4 instead uses much larger relations. Do not carry the lecture's cardinalities into the tutorial. Default lecture estimates are pessimistic unless memory availability says otherwise. Source: Lecture5b pp.5–8; Lab4 p.2.\n\n## Compare Tuple and Block Nested Loops\n\nFor outer r, inner s, and little memory, tuple nested loops transfers $B=b_r+n_r b_s$ with $S=b_r+n_r$ seeks. Each outer tuple triggers another inner scan. The two source orientations give depositor outer:2,000,100 transfers/5,100 seeks; customer outer:1,000,400/10,400. Their time ordering depends on the transfer/seek weights.\n\nBlock nested loops reuses each outer block for every tuple pair with an inner block. The source's one-outer-block model costs $B=b_r+b_r b_s$, $S=2b_r$. Depositor outer costs40,100/200; customer outer40,400/800. These are the source model, not a formula for an arbitrary multi-block outer buffer. If the smaller relation fits completely as the retained inner input, the source simplifies to $b_r+b_s$ transfers and2 seeks. Source: Lecture5b pp.6–10.\n\n## Probe the Inner Index Without Hiding Retrieval Cost\n\nIndexed nested loops applies to equality/natural joins when the inner join attribute has a suitable index. For each outer tuple, probe the index and fetch all matching inner records. With one matching key record and h index accesses, $B=b_r+n_r(h+1)$ and the deck uses the same count for seeks. In its depositor/customer example, h=4 yields25,100/25,100.\n\nFor a non-key clustered lookup, transfer and seek costs differ: per probe, h+b transfers but h+1 seeks, where b is matching data blocks. Estimate b from supplied statistics or state the assumption; “one lookup” does not mean “one block”. Real caching and repeated keys can reduce actual work; do not silently add that benefit to the cold source model. Source: Lecture5b pp.11–13; Lecture5a pp.7–10.\n\n## Merge Sorted Inputs and Account for Sorting\n\nSort both inputs on the join attributes if necessary, then advance pointers, retaining matching equal-key groups. The stated merge scan costs $b_r+b_s$ transfers and $\\lceil b_r/b_b\\rceil+\\lceil b_s/b_b\\rceil$ seeks, assuming each equal-key group fits in memory. Duplicate keys require producing every matching pair. The source's one-pass scan estimate can fail when groups do not fit.\n\nKeep output conventions explicit: materialising sorted files adds their final writes before a later join reads them. If final merges stream directly into the join, do not charge an additional full input scan for the same reads. Buffer feasibility still has to hold for both inputs. Source: Lecture5b pp.14–16; Lecture5a p.21. The accounting clarification prevents incompatible formulas being combined.\n\n## Partition With One Hash and Probe With Another\n\nPartition both relations using the same hash of join attributes so equal keys land in corresponding partitions. Keep the smaller build partition in memory, build a hash table using a different hash function, then scan the corresponding probe partition and emit all actual key matches. A hash collision alone is not equality. Cross-partition comparisons are unnecessary; the probe partition need not fit entirely in memory. The source handles equality/natural joins, not arbitrary inequalities. Source: Lecture5b pp.17–20.\n\nChoose enough partitions for build partitions to fit; allow room for skew, buffers and the in-memory table. A fudge factor is a planning allowance, not a proof that every partition fits. A one-pass partition stage with n_h output buffers of b_b blocks plus an input buffer of b_b blocks requires at least $(n_h+1)b_b$ frames. This direct buffer count is needed when using the tutorial's assumptions.\n\n## Read the Hash-Join Cost as a Conditional Model\n\nThe supplied estimate is $B=3(b_r+b_s)+4n_h$ and $S=2(\\lceil b_r/b_b\\rceil+\\lceil b_s/b_b\\rceil)+2n_h$. The correction budgets writing and rereading partially filled partition blocks. For b_r=400,b_s=100,n_h=5,b_b=3, B=1,520 and S=346. The simple three-times base counts partition-read, partition-write and join-read; output-result writing is omitted. If the whole build fits and partitioning is unnecessary, the deck gives one scan of both inputs and2 seeks. Source: Lecture5b pp.21–22.\n\nThe lecture's example assigns a20-block build partition to20 memory blocks; an implementation also needs buffers and hash-table overhead. Treat its arithmetic as an idealised cost model, not proof that all allocations fit simultaneously. Skew or recursive partitioning changes the cost.\n\n## Aggregate and Implement Set Operations\n\nSorting or hashing groups equal keys for COUNT,MIN,MAX,SUM and AVG. Partial AVG must retain both sum and count: an unweighted average of group averages is generally wrong. For set union, keep distinct tuples from either side; for intersection, keep tuples present in both; for r−s, remove s tuples from the r set. Corresponding hash partitions must use a compatible first hash and then check actual tuple equality. Preserve the distinction between set semantics and SQL bag variants such as UNION ALL. Source: Lecture5b pp.23–24; SQL distinction retained from Unit 05.\n\n## Return to the Weighted Comparison\n\nThe opening indexed join costs $25100(0.1+4)=102910$ ms. Block nested loops costs $40100(0.1)+200(4)=4810$ ms. Hash join costs $1520(0.1)+346(4)=1536$ ms under the source's idealised assumptions. These are conditional estimates; include sorting, partition overflows, output policy and actual statistics before choosing a plan. The required question is “cheapest under which model?”, not “which algorithm is always best?”.\n\nCoverage: Lecture5b pp.1–2 introduce scope; pp.3–22 cover joins and worked comparisons; pp.23–24 cover aggregation and set operations; p.25 recommends reading. Lab4 Q1–Q6 are worked separately in the tutorial clinic. No new official marking scheme, measured runtime or exam-frequency evidence is claimed.\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/08/practice",
+      "relative": "content/reviewed/SOE201/08/practice.md",
+      "kind": "practice",
+      "unit": "08",
+      "origin": "project",
+      "hash": "2e280296456992fd54199f344f027727805c631ce07117d59a467cc979e88b33",
+      "markdown": "# Recall and Practice\n\nSource-based practice with local worked reasoning, not an official marking scheme. Original source tasks are identified individually. No database execution or student mastery is claimed.\n\n## Atomic recall\n\n### Card 01 — What must a natural join compare?\n\n> [!success]- Answer\n> Every shared attribute name, then return one copy of each shared column.\n>\n> Source: Lecture5b p.3.\n\n### Card 02 — What distinguishes tuple from block nested loops?\n\n> [!success]- Answer\n> The former rescans the inner input per outer tuple; the latter reuses an outer block for all its tuple comparisons.\n>\n> Source: Lecture5b pp.6–10.\n\n### Card 03 — Which input needs an index for indexed nested loops?\n\n> [!success]- Answer\n> The inner relation needs an index on the equality join attribute.\n>\n> Source: Lecture5b pp.11–12.\n\n### Card 04 — Why must merge-join costs include an ordering policy?\n\n> [!success]- Answer\n> Unsorted inputs need sorting; final-write and reread costs depend on materialisation versus streaming.\n>\n> Source: Lecture5b pp.14–16; Lecture5a p.21.\n\n### Card 05 — Must the whole probe partition fit in memory?\n\n> [!success]- Answer\n> No: retain the build partition and stream the probe partition, subject to buffers and skew.\n>\n> Source: Lecture5b pp.19–20.\n\n### Card 06 — Why is a hash collision insufficient for a join result?\n\n> [!success]- Answer\n> Equal keys hash together, but different keys can collide; check actual equality before emitting.\n>\n> Source: Lecture5b pp.17–19, local correctness explanation.\n\n### Card 07 — What state supports correct partial AVG?\n\n> [!success]- Answer\n> Sum and count; combine their sums, then divide total sum by total count.\n>\n> Source: Lecture5b p.23.\n\n## Worked practice\n\n### Problem 1 — Compare three weighted join estimates\n\nSOURCE-DERIVED PRACTICE. Use the lecture counts for block nested loops40,100/200, indexed nested loops25,100/25,100 and hash join1,520/346 (transfers/seeks), with0.1ms/4ms weights. Source: Lecture5b pp.13,22.\n\n> [!tip]- Hint\n> Calculate weighted time rather than ranking only transfers.\n\n> [!success]- Solution\n> BNL:4,810ms; INL:102,910ms; hash:1,536ms. The indexed path saves transfers versus BNL but adds enough seeks to lose badly under this model. Hash is cheapest among these supplied estimates, assuming its memory/partition premises.\n\n### Problem 2 — Combine unequal partial averages\n\nSUPPLEMENTARY PRACTICE. One partial group has sum10,count2; another sum90,count3. Find global AVG. Source: Lecture5b p.23.\n\n> [!tip]- Hint\n> Retain both sufficient statistics.\n\n> [!success]- Solution\n> Total sum100, total count5, so AVG20. The unweighted average of partial averages is(5+30)/2=17.5, which is wrong because the group sizes differ.\n\n### Problem 3 — Check a partition allocation\n\nSUPPLEMENTARY PRACTICE. Can M=100 frames support50 output partition buffers of20 frames and one20-frame input buffer in a single pass? Source: Lecture5b p.19; Lab4 Q5.\n\n> [!tip]- Hint\n> Count simultaneously allocated buffer frames.\n\n> [!success]- Solution\n> No:51×20=1,020 frames are needed before extra overhead, far above100. The requested one-pass arithmetic can be calculated conditionally, but the proposed allocation is infeasible with that memory. Use smaller buffers/fewer partitions or extra passes and recompute costs.\n\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/lab-04/tutor",
+      "relative": "content/reviewed/SOE201/lab-04/tutor.md",
+      "kind": "tutor",
+      "unit": "lab-04",
+      "origin": "project",
+      "hash": "a508d499abc4379187f013c5ebf9b9e2ba19d74e70d85acd9f0744c32ce55dc4",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Lab 04: Query Evaluation Clinic\n\n## In 60 Seconds\n\nThis clinic maps every Lab4-Tutorial question and subquestion to local worked reasoning. It uses the verified eight-page PDF from the12 October archive, not a newly downloaded answer key. The live answer-key resource42127 is visible but has not been acquired; these solutions are not represented as official answers. The main risks are mixing tuple/block counts, forgetting seeks, assuming unspecified selectivity and combining incompatible output conventions.\n\n## Q1: Indexed Versus Repeated Scans\n\nLab4 p.2 gives customer:1,000,000 records/8,000 blocks and depositor:500,000/1,000. With depositor outer and the lecture height bound for n=100 pointers, h=4 and a key lookup needs h+1=5 accesses. Indexed nested loops gives2,501,000 transfers and seeks, hence10,254,100ms with0.1ms transfer/4ms seek. Tuple nested loops gives4,000,001,000 transfers and501,000 seeks, costing402,004,100ms. One-outer-block BNL gives8,001,000 transfers/2,000 seeks, costing808,100ms. Under these cold source assumptions, BNL wins among those three algorithms. No memory-fit or caching benefit is assumed.\n\n## Q2: Identify Missing and Conflicting Assumptions\n\nLab4 pp.3–4 gives customer:5,000 tuples/500 blocks and transaction:80,000/7,000. It describes transaction as sorted by its key, yet also supposes a sparse primary index on customer_Number, which is not its stated key transaction_ID. A sparse clustered access plan needs physical ordering consistent with the indexed customer_Number; this must be clarified rather than silently inferred.\n\nConditionally assume that ordering, use N=7 and the lecture minimum-occupancy height bound h=7. For customer outer, BNL transfers3,500,500 blocks and makes1,000 seeks, costing354,050ms. Let b be the matching transaction blocks per customer lookup. Clustered INL costs $B=500+5000(7+b)$ and $S=500+5000(7+1)=40500$, hence $T=165550+500b$ ms. A uniform packed estimate of16 matches/customer and80,000/7,000 tuples/block suggests b≈2, giving166,550ms; it is an explicit estimate, not an exact conclusion from total counts. Index height is an upper-bound convention, not a measured shape. Confirm ordering and match distribution before presenting a definitive plan comparison.\n\n## Q3: The Twelve-Block External Sort\n\nLab4 p.5 and Lecture5a pp.20–22 give b=12,M=3,b_b=1. Initial runs:4; fan-in:2; run counts4→2→1; merge passes:2. With the source's final-output-write omission, B=60,S=44. If the output must be stored, add12 transfers/12 seeks, giving72/56. Both conventions describe the same run structure; do not change the number of passes to adjust for output writing.\n\n## Q4: Declare Where the Sorted Results Go\n\nLab4 p.6 gives customer8,000 blocks,depositor1,000,M=100,b_b=5, initially unsorted. Fan-in19, initial runs80/10 and merge passes2/1. Fully materialised sorting costs48,000/4,000 transfers and6,560/420 seeks respectively. A subsequent merge scan adds9,000 transfers and1,800 seeks: total61,000 transfers/8,780 seeks, omitting join-result writing.\n\nThe source sort formula omits final sorted writes. Applying it gives40,000+3,000 transfers and4,960+220 seeks for the sorts. Blindly adding a later separate merge scan gives52,000/6,980, but omits the writes needed to make those sorted files persistent. If final merges are genuinely fused into the join, their read costs already include consuming the inputs: the ideal transfer subtotal is43,000, not52,000. Recheck simultaneous buffer allocation and equal-key-group capacity before claiming such a fused execution is feasible. The question leaves this policy unstated; local solutions expose the alternatives instead of claiming one unqualified official total.\n\n## Q5: Conditional Hash Cost and Buffer Feasibility\n\nLab4 p.7 supplies50 partitions and b_b=20, and asks to count partially filled blocks. Substitution into Lecture5b p.21 gives $B=3(8000+1000)+4(50)=27200$ and $S=2(400+50)+2(50)=1000$. Estimated time with the Q4 weights is6,720ms. This is conditional arithmetic under the stated one-pass premise.\n\nIf “information from Q4” includes M=100, the proposed simultaneous allocation requires(50+1)×20=1,020 frames, contradicting that memory budget. Even the source's one-pass assertion does not resolve the allocation conflict. State that inconsistency; revise memory, buffers, partition count or pass structure before treating6,720ms as an executable plan estimate. No DBMS run is claimed.\n\n## Q6: Materialise Before the Subsequent Merge Join\n\nLab4 p.8 gives b_r=5,b_s=3,M=3,b_b=1 and explicitly requires final sorted results to be written. (a) r makes2 initial runs; s fits in memory and needs no external runs (one sorted in-memory sequence). (b) r needs1 merge pass; s needs0. (c) Materialised r costs2×5×(1+1)=20 transfers. Reading, in-memory sorting and writing s costs3+3=6, even though external merge sort is unnecessary. (d) The subsequent merge scan reads5+3=8 blocks under the source's group-fit condition. (e) Total34 transfers, excluding join-result writes. Calling the in-memory sort “free” would omit its explicitly requested disk input/output.\n\n## Source Map and Verification Boundaries\n\n| Source locator | Web destination | Question parts |\n|---|---|---|\n| Lab4 p.2 | Problem1 / Q1 section | Transfers, seeks, time, algorithm comparison |\n| Lab4 pp.3–4 | Problem2 / Q2 section | BNL/INL choice and justification; ordering/selectivity gaps |\n| Lab4 p.5 | Problem3 / Q3 section | Run trace, transfers, seeks |\n| Lab4 p.6 | Problem4 / Q4 section | Sorting and joining transfers/seeks; output policy |\n| Lab4 p.7 | Problem5 / Q5 section | Partial-block cost; inherited memory inconsistency |\n| Lab4 p.8 | Problem6 / Q6 section | Parts(a)–(e), all explicitly covered |\n\nAll arithmetic is independently recomputed from stated formulas. Source identities/hashes are in the project refresh manifest. Structural/render checks are separate from physical database execution and official answer-key review. The historical original source archives, ordinary vault notes and learner progress are preserved.\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/lab-04/practice",
+      "relative": "content/reviewed/SOE201/lab-04/practice.md",
+      "kind": "practice",
+      "unit": "lab-04",
+      "origin": "project",
+      "hash": "7239a329ac31e574f1d933fc5a7ce1ac6860f3a54a7efc8092f835f39c4cad04",
+      "markdown": "# Recall and Practice\n\nSource-based practice with local worked reasoning, not an official marking scheme. Original source tasks are identified individually. No database execution or student mastery is claimed.\n\n## Atomic recall\n\n### Card 01 — What dataset belongs to Lab4 Q1?\n\n> [!success]- Answer\n> Customer1,000,000 records/8,000 blocks; depositor500,000 records/1,000 blocks.\n>\n> Source: Lab4 p.2.\n\n### Card 02 — What makes Q2 numerically underdetermined?\n\n> [!success]- Answer\n> Physical ordering and per-key matching-block distribution are not fully established by the totals.\n>\n> Source: Lab4 pp.3–4.\n\n### Card 03 — How many merge passes sort12 blocks with3 frames?\n\n> [!success]- Answer\n> Two:4 initial runs become2 then1 with fan-in2.\n>\n> Source: Lab4 p.5.\n\n### Card 04 — Why is an in-memory sort not necessarily free in Q6?\n\n> [!success]- Answer\n> The question requires sorted data written to disk, so include reading and writing those3 blocks.\n>\n> Source: Lab4 p.8.\n\n### Card 05 — What inconsistency must Q5 report?\n\n> [!success]- Answer\n> The inherited M=100 cannot hold51 buffers of20 frames each; the one-pass premise needs clarification.\n>\n> Source: Lab4 pp.6–7.\n\n## Worked practice\n\n### Problem 1 — Q1 — Compare three join algorithms\n\nORIGINAL TASK. Customer1,000,000 records/8,000 blocks; depositor500,000/1,000 as outer; inner key B+ index n=100. Find transfers,seeks,time and compare NL,BNL,INL using0.1ms/4ms weights. Source: Lab4 p.2.\n\n> [!tip]- Hint\n> Use h=4 under the source bound, then5 key-lookup accesses.\n\n> [!success]- Solution\n> INL:B=S=1,000+500,000×5=2,501,000,T=10,254,100ms. NL:B=1,000+500,000×8,000=4,000,001,000,S=501,000,T=402,004,100ms. BNL:B=1,000+1,000×8,000=8,001,000,S=2,000,T=808,100ms. BNL is cheapest among these under the source model.\n\n### Problem 2 — Q2 — Compare while exposing uncertainty\n\nORIGINAL TASK. Compare BNL and indexed nested loops for customer5,000 tuples/500 blocks and transaction80,000/7,000, with the stated sparse primary N=7 index on customer_Number. Source: Lab4 pp.3–4.\n\n> [!tip]- Hint\n> First resolve the ordering description, then retain matching data blocks as a parameter.\n\n> [!success]- Solution\n> Customer-outer BNL:B=3,500,500,S=1,000,T=354,050ms. Conditional clustered INL with h=7:B=35,500+5,000b,S=40,500,T=165,550+500b ms. If uniform packing suggests b=2,T=166,550ms, below BNL. But the physical-ordering inconsistency and unknown match distribution prevent an unconditional exact answer; state both assumptions.\n\n### Problem 3 — Q3 — Count the external sort\n\nORIGINAL TASK. b=12,M=3,b_b=1; give transfers and seeks. Source: Lab4 p.5.\n\n> [!tip]- Hint\n> Four initial runs, two merge passes; declare final-output writing.\n\n> [!success]- Solution\n> Streamed source formula:B=12×(2×2+1)=60,S=2×4+12×(4−1)=44. Materialised output:B=72,S=56. The run trace is4→2→1.\n\n### Problem 4 — Q4 — Audit merge-join accounting\n\nORIGINAL TASK. Unsorted8,000/1,000-block inputs,M=100,b_b=5. Find sorting-plus-merge transfers/seeks. Source: Lab4 p.6.\n\n> [!tip]- Hint\n> Fan-in19; sort passes2 and1. Decide whether final sorted files are materialised.\n\n> [!success]- Solution\n> Materialised sorting:48,000+4,000 transfers and6,560+420 seeks. Subsequent merge:9,000 transfers/1,800 seeks. Total61,000/8,780, result-write omitted. The source streamed-sort arithmetic plus a separate scan yields52,000/6,980 but leaves missing persistence writes. True fusion avoids rereading those final streams and requires a separate buffer-feasibility check; it must not silently combine both conventions.\n\n### Problem 5 — Q5 — Count hash cost and flag the conflict\n\nORIGINAL TASK. Use50 partitions,b_b=20 and include partially filled blocks for the Q4 relations. Source: Lab4 p.7.\n\n> [!tip]- Hint\n> Apply the supplied partial-block formula, then count buffers.\n\n> [!success]- Solution\n> Conditional source cost:B=27,200,S=1,000,T=6,720ms with0.1/4ms weights. However one input and50 output buffers of20 frames require1,020 frames, exceeding Q4 M=100. This arithmetic does not establish a feasible one-pass execution. Clarify the inherited memory or revise the allocation/pass assumptions.\n\n### Problem 6 — Q6 — Answer every materialised-sort part\n\nORIGINAL TASK. b_r=5,b_s=3,M=3,b_b=1; final sorted results must be written before merge join. Answer(a)–(e). Source: Lab4 p.8.\n\n> [!tip]- Hint\n> Handle the in-memory input separately and include its final write.\n\n> [!success]- Solution\n> (a)r:2 initial external runs;s:one in-memory sorted sequence,no external runs required. (b)r:1 merge pass;s:0. (c)r:20 transfers;s:6 transfers for read+write. (d)merge scan:8 transfers under group-fit assumption. (e)20+6+8=34 total transfers. Join-result writing is excluded because its size is unspecified.\n\n"
     }
   ],
   "cards": [
@@ -1027,6 +1126,139 @@
       "question": "Do historical faster timings prove indexing always wins?",
       "answer": "No. The recorded local result is a single environment observation with its own plan/data/cache/driver boundary.",
       "source": "Source: Lab2-JDBCandIndex-tasks.pdf and Labs/Lab 02 - JDBC and Index/03 Lab.md, Lab reference Task 2 results and limitations."
+    },
+    {
+      "id": "07-01",
+      "unit": "07",
+      "question": "Why can fewer transfers still mean a slower plan?",
+      "answer": "Seek time may dominate: compare B×tT+S×tS using the same time unit.",
+      "source": "Source: Lecture5a pp.6–10."
+    },
+    {
+      "id": "07-02",
+      "unit": "07",
+      "question": "What enables binary search on a file?",
+      "answer": "Physical ordering on the selection attribute, not merely the existence of some index.",
+      "source": "Source: Lecture5a p.6."
+    },
+    {
+      "id": "07-03",
+      "unit": "07",
+      "question": "What changes between clustered and unclustered equality retrieval?",
+      "answer": "Clustered matches occupy consecutive blocks; scattered matches can require an I/O and seek for each record.",
+      "source": "Source: Lecture5a pp.8–10."
+    },
+    {
+      "id": "07-04",
+      "unit": "07",
+      "question": "What must an OR access plan cover?",
+      "answer": "Every disjunct, including unindexed branches, and duplicate candidate pointers must not cause duplicate set results.",
+      "source": "Source: Lecture5a p.13, local completeness clarification."
+    },
+    {
+      "id": "07-05",
+      "unit": "07",
+      "question": "Why can projection be expensive?",
+      "answer": "Removing duplicate projected tuples requires grouping, often by sorting or hashing.",
+      "source": "Source: Lecture5a p.15."
+    },
+    {
+      "id": "07-06",
+      "unit": "07",
+      "question": "How many initial runs and which merge fan-in?",
+      "answer": "$N=\\lceil b/M\\rceil$ and $F=\\lfloor M/b_b\\rfloor-1$, with F at least two for multipass merging.",
+      "source": "Source: Lecture5a pp.17–21."
+    },
+    {
+      "id": "07-07",
+      "unit": "07",
+      "question": "What does the external-sort cost formula omit?",
+      "answer": "The final sorted-output write; add it when a persistent sorted file is required.",
+      "source": "Source: Lecture5a p.21."
+    },
+    {
+      "id": "08-01",
+      "unit": "08",
+      "question": "What must a natural join compare?",
+      "answer": "Every shared attribute name, then return one copy of each shared column.",
+      "source": "Source: Lecture5b p.3."
+    },
+    {
+      "id": "08-02",
+      "unit": "08",
+      "question": "What distinguishes tuple from block nested loops?",
+      "answer": "The former rescans the inner input per outer tuple; the latter reuses an outer block for all its tuple comparisons.",
+      "source": "Source: Lecture5b pp.6–10."
+    },
+    {
+      "id": "08-03",
+      "unit": "08",
+      "question": "Which input needs an index for indexed nested loops?",
+      "answer": "The inner relation needs an index on the equality join attribute.",
+      "source": "Source: Lecture5b pp.11–12."
+    },
+    {
+      "id": "08-04",
+      "unit": "08",
+      "question": "Why must merge-join costs include an ordering policy?",
+      "answer": "Unsorted inputs need sorting; final-write and reread costs depend on materialisation versus streaming.",
+      "source": "Source: Lecture5b pp.14–16; Lecture5a p.21."
+    },
+    {
+      "id": "08-05",
+      "unit": "08",
+      "question": "Must the whole probe partition fit in memory?",
+      "answer": "No: retain the build partition and stream the probe partition, subject to buffers and skew.",
+      "source": "Source: Lecture5b pp.19–20."
+    },
+    {
+      "id": "08-06",
+      "unit": "08",
+      "question": "Why is a hash collision insufficient for a join result?",
+      "answer": "Equal keys hash together, but different keys can collide; check actual equality before emitting.",
+      "source": "Source: Lecture5b pp.17–19, local correctness explanation."
+    },
+    {
+      "id": "08-07",
+      "unit": "08",
+      "question": "What state supports correct partial AVG?",
+      "answer": "Sum and count; combine their sums, then divide total sum by total count.",
+      "source": "Source: Lecture5b p.23."
+    },
+    {
+      "id": "lab-04-01",
+      "unit": "lab-04",
+      "question": "What dataset belongs to Lab4 Q1?",
+      "answer": "Customer1,000,000 records/8,000 blocks; depositor500,000 records/1,000 blocks.",
+      "source": "Source: Lab4 p.2."
+    },
+    {
+      "id": "lab-04-02",
+      "unit": "lab-04",
+      "question": "What makes Q2 numerically underdetermined?",
+      "answer": "Physical ordering and per-key matching-block distribution are not fully established by the totals.",
+      "source": "Source: Lab4 pp.3–4."
+    },
+    {
+      "id": "lab-04-03",
+      "unit": "lab-04",
+      "question": "How many merge passes sort12 blocks with3 frames?",
+      "answer": "Two:4 initial runs become2 then1 with fan-in2.",
+      "source": "Source: Lab4 p.5."
+    },
+    {
+      "id": "lab-04-04",
+      "unit": "lab-04",
+      "question": "Why is an in-memory sort not necessarily free in Q6?",
+      "answer": "The question requires sorted data written to disk, so include reading and writing those3 blocks.",
+      "source": "Source: Lab4 p.8."
+    },
+    {
+      "id": "lab-04-05",
+      "unit": "lab-04",
+      "question": "What inconsistency must Q5 report?",
+      "answer": "The inherited M=100 cannot hold51 buffers of20 frames each; the one-pass premise needs clarification.",
+      "source": "Source: Lab4 pp.6–7."
     }
   ],
   "assets": {
@@ -1185,6 +1417,30 @@
       "unit": "lab-02-timing",
       "hash": "e8a35be4b5025a10b7cdfa4717df49671e10a689e14f1e10acf9732b76a65d35",
       "url": "/sources/soe201/13.pdf"
+    },
+    {
+      "id": "14",
+      "relative": "Lecture5a - Query Evaluation 1.pdf",
+      "title": "Lecture5a - Query Evaluation 1.pdf",
+      "unit": "07",
+      "hash": "84f93cf09ce9b16aff60c8c52981313e16b0c4da71a360d6a9e5ee16037c5c89",
+      "url": "/sources/soe201/14.pdf"
+    },
+    {
+      "id": "15",
+      "relative": "Lecture5b - Query Evaluation 2.pdf",
+      "title": "Lecture5b - Query Evaluation 2.pdf",
+      "unit": "08",
+      "hash": "6307b14a60c1e24433d7a7212603cc8bcbd6240355a493a50f64b3a0e7b03c03",
+      "url": "/sources/soe201/15.pdf"
+    },
+    {
+      "id": "16",
+      "relative": "Lab4-Tutorial.pdf",
+      "title": "Lab4-Tutorial.pdf",
+      "unit": "lab-04",
+      "hash": "6797714de0ab97a1d504fef33730b697c97ca617ceeadc48ab3ecbadfa328ced",
+      "url": "/sources/soe201/16.pdf"
     }
   ],
   "videos": [
@@ -1425,6 +1681,81 @@
           "label": "Only the while (rs.next()) loop.",
           "correct": false,
           "feedback": "That measures application result consumption. The released task brackets executeQuery; its driver work can include buffering results."
+        }
+      ]
+    },
+    {
+      "id": "07-activity",
+      "unit": "07",
+      "kind": "quiz",
+      "title": "Audit the model",
+      "prompt": "What is required before claiming an index is faster?",
+      "source": "Lecture5a/5b or Lab4; supplementary review check.",
+      "options": [
+        {
+          "label": "Compare weighted cost with selectivity and locality stated.",
+          "correct": true,
+          "feedback": "The chosen model must include transfer/seek weights and retrieval locality."
+        },
+        {
+          "label": "Count only how many indexes exist.",
+          "correct": false,
+          "feedback": "Index existence alone does not establish retrieval cost for this predicate."
+        },
+        {
+          "label": "Ignore seeks whenever transfers decrease.",
+          "correct": false,
+          "feedback": "Expensive random seeks can dominate a transfer saving."
+        }
+      ]
+    },
+    {
+      "id": "08-activity",
+      "unit": "08",
+      "kind": "quiz",
+      "title": "Audit the model",
+      "prompt": "Why do weighted estimates not prove measured runtime?",
+      "source": "Lecture5a/5b or Lab4; supplementary review check.",
+      "options": [
+        {
+          "label": "They depend on assumptions,not an executed benchmark.",
+          "correct": true,
+          "feedback": "These calculations use a stated model without executing a database query."
+        },
+        {
+          "label": "Any arithmetic result is automatically a DBMS measurement.",
+          "correct": false,
+          "feedback": "A computed cost is not an observed runtime on actual hardware."
+        },
+        {
+          "label": "The fastest algorithm is independent of memory and statistics.",
+          "correct": false,
+          "feedback": "Memory,skew,statistics and output policy can change the plan ranking."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-activity",
+      "unit": "lab-04",
+      "kind": "quiz",
+      "title": "Audit the model",
+      "prompt": "What is the strongest verification claimed by this clinic?",
+      "source": "Lecture5a/5b or Lab4; supplementary review check.",
+      "options": [
+        {
+          "label": "Recomputed arithmetic and source mappings.",
+          "correct": true,
+          "feedback": "The source tasks and all subparts are mapped to local worked reasoning."
+        },
+        {
+          "label": "Official marking approval.",
+          "correct": false,
+          "feedback": "The official answer key has not yet been downloaded and checked."
+        },
+        {
+          "label": "Measured student mastery.",
+          "correct": false,
+          "feedback": "Creating notes and checking arithmetic does not measure learning."
         }
       ]
     }
@@ -4397,6 +4728,726 @@
           "label": "No; executeQuery can include driver retrieval/buffering as well as server work.",
           "correct": true,
           "feedback": "The API-call boundary is precise, but it is not automatically a server-only boundary."
+        }
+      ]
+    },
+    {
+      "id": "07-check-01",
+      "unit": "07",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which access path wins the opening400-block example?",
+      "source": "In 60 Seconds — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "In 60 Seconds"
+      },
+      "options": [
+        {
+          "label": "All paths cost44ms because their results agree.",
+          "correct": false,
+          "feedback": "Equal result semantics do not imply equal physical work."
+        },
+        {
+          "label": "Clustered lookup:21.2ms.",
+          "correct": true,
+          "feedback": "The stated clustered path uses12 transfers and5 seeks."
+        },
+        {
+          "label": "Unclustered lookup:it always beats scanning.",
+          "correct": false,
+          "feedback": "An unclustered lookup needs104 cold seeks and costs426.4ms."
+        }
+      ]
+    },
+    {
+      "id": "07-check-02",
+      "unit": "07",
+      "lesson": "select-an-access-path-with-explicit-assumptions",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What must a binary file search assume?",
+      "source": "Select an Access Path With Explicit Assumptions — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Select an Access Path With Explicit Assumptions"
+      },
+      "options": [
+        {
+          "label": "Any unrelated index is sufficient.",
+          "correct": false,
+          "feedback": "An index on another attribute does not order this file for the predicate."
+        },
+        {
+          "label": "That each record occupies a whole block.",
+          "correct": false,
+          "feedback": "The method does not require one record per block."
+        },
+        {
+          "label": "Physical ordering on the selected attribute.",
+          "correct": true,
+          "feedback": "Binary search relies on ordered blocks on the searched attribute."
+        }
+      ]
+    },
+    {
+      "id": "07-check-03",
+      "unit": "07",
+      "lesson": "handle-ranges-and-boolean-conditions-completely",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is wrong with indexing only A for A=1 OR B=2?",
+      "source": "Handle Ranges and Boolean Conditions Completely — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Handle Ranges and Boolean Conditions Completely"
+      },
+      "options": [
+        {
+          "label": "It misses records satisfying only B=2.",
+          "correct": true,
+          "feedback": "Every disjunct must be covered, including the unindexed branch."
+        },
+        {
+          "label": "It always returns the full correct union.",
+          "correct": false,
+          "feedback": "An A-only candidate set excludes valid B-only matches."
+        },
+        {
+          "label": "OR may be evaluated as AND to reduce cost.",
+          "correct": false,
+          "feedback": "Changing OR to AND changes the logical result."
+        }
+      ]
+    },
+    {
+      "id": "07-check-04",
+      "unit": "07",
+      "lesson": "project-columns-and-remove-duplicates",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What makes set projection potentially expensive?",
+      "source": "Project Columns and Remove Duplicates — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Project Columns and Remove Duplicates"
+      },
+      "options": [
+        {
+          "label": "Projection necessarily adds new rows.",
+          "correct": false,
+          "feedback": "Projection removes attributes; its set result does not create new input tuples."
+        },
+        {
+          "label": "Duplicate elimination after columns are dropped.",
+          "correct": true,
+          "feedback": "Sorting or hashing may be required to group equal projected tuples."
+        },
+        {
+          "label": "Every SELECT without DISTINCT removes duplicates.",
+          "correct": false,
+          "feedback": "SQL bag SELECT can retain duplicates; it differs from set projection."
+        }
+      ]
+    },
+    {
+      "id": "07-check-05",
+      "unit": "07",
+      "lesson": "create-runs-before-merging",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "With M=3,b_b=1,what is merge fan-in?",
+      "source": "Create Runs Before Merging — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Create Runs Before Merging"
+      },
+      "options": [
+        {
+          "label": "Three runs plus an output buffer.",
+          "correct": false,
+          "feedback": "Three input buffers and an output need at least four frames."
+        },
+        {
+          "label": "Twelve runs regardless of memory.",
+          "correct": false,
+          "feedback": "The relation size cannot override the simultaneous buffer limit."
+        },
+        {
+          "label": "Two runs.",
+          "correct": true,
+          "feedback": "Two inputs plus one output use the three available frames."
+        }
+      ]
+    },
+    {
+      "id": "07-check-06",
+      "unit": "07",
+      "lesson": "count-transfers-and-seeks-with-one-output-convention",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What does the source sort formula omit?",
+      "source": "Count Transfers and Seeks With One Output Convention — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Count Transfers and Seeks With One Output Convention"
+      },
+      "options": [
+        {
+          "label": "The final output write.",
+          "correct": true,
+          "feedback": "Materialising final sorted output requires adding its write transfers and seeks."
+        },
+        {
+          "label": "Every initial read.",
+          "correct": false,
+          "feedback": "Initial run generation includes reading and writing every input block."
+        },
+        {
+          "label": "All intermediate merge writes.",
+          "correct": false,
+          "feedback": "Intermediate runs are written so the next pass can read them."
+        }
+      ]
+    },
+    {
+      "id": "07-check-07",
+      "unit": "07",
+      "lesson": "return-to-the-access-path-decision",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is required before claiming an index is faster?",
+      "source": "Return to the Access-Path Decision — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Return to the Access-Path Decision"
+      },
+      "options": [
+        {
+          "label": "Ignore seeks whenever transfers decrease.",
+          "correct": false,
+          "feedback": "Expensive random seeks can dominate a transfer saving."
+        },
+        {
+          "label": "Compare weighted cost with selectivity and locality stated.",
+          "correct": true,
+          "feedback": "The chosen model must include transfer/seek weights and retrieval locality."
+        },
+        {
+          "label": "Count only how many indexes exist.",
+          "correct": false,
+          "feedback": "Index existence alone does not establish retrieval cost for this predicate."
+        }
+      ]
+    },
+    {
+      "id": "08-check-01",
+      "unit": "08",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which supplied join is cheapest at0.1ms/4ms weights?",
+      "source": "In 60 Seconds — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "In 60 Seconds"
+      },
+      "options": [
+        {
+          "label": "Logical equivalence forces equal time.",
+          "correct": false,
+          "feedback": "Two equivalent result sets may use very different physical work."
+        },
+        {
+          "label": "Block nested loops beats indexed nested loops in that pair.",
+          "correct": true,
+          "feedback": "The source counts yield4,810ms for BNL versus102,910ms for indexed."
+        },
+        {
+          "label": "Indexed always wins because it transfers fewer blocks.",
+          "correct": false,
+          "feedback": "Its25,100 seeks dominate despite the smaller transfer count."
+        }
+      ]
+    },
+    {
+      "id": "08-check-02",
+      "unit": "08",
+      "lesson": "define-the-result-before-choosing-the-algorithm",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which columns must a natural join compare?",
+      "source": "Define the Result Before Choosing the Algorithm — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Define the Result Before Choosing the Algorithm"
+      },
+      "options": [
+        {
+          "label": "Only the first shared name.",
+          "correct": false,
+          "feedback": "Ignoring another common attribute can admit invalid pairs."
+        },
+        {
+          "label": "No columns:it is a Cartesian product.",
+          "correct": false,
+          "feedback": "The Cartesian product is only the unfiltered candidate-pair space."
+        },
+        {
+          "label": "Every shared attribute name.",
+          "correct": true,
+          "feedback": "The result definition checks equality on all common attributes."
+        }
+      ]
+    },
+    {
+      "id": "08-check-03",
+      "unit": "08",
+      "lesson": "compare-tuple-and-block-nested-loops",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which loop causes an inner scan in tuple nested loops?",
+      "source": "Compare Tuple and Block Nested Loops — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Compare Tuple and Block Nested Loops"
+      },
+      "options": [
+        {
+          "label": "Each outer tuple.",
+          "correct": true,
+          "feedback": "The source algorithm scans inner tuples for every outer tuple."
+        },
+        {
+          "label": "Each relation name only once.",
+          "correct": false,
+          "feedback": "Without fitting/caching assumptions the inner is revisited repeatedly."
+        },
+        {
+          "label": "Only each output tuple.",
+          "correct": false,
+          "feedback": "Work is incurred by candidate comparisons,even when no result is emitted."
+        }
+      ]
+    },
+    {
+      "id": "08-check-04",
+      "unit": "08",
+      "lesson": "probe-the-inner-index-without-hiding-retrieval-cost",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which index supports indexed nested loops?",
+      "source": "Probe the Inner Index Without Hiding Retrieval Cost — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Probe the Inner Index Without Hiding Retrieval Cost"
+      },
+      "options": [
+        {
+          "label": "No index is needed because every probe is free.",
+          "correct": false,
+          "feedback": "A probe includes index traversal and matching data retrieval."
+        },
+        {
+          "label": "One on the inner join attribute.",
+          "correct": true,
+          "feedback": "Each outer tuple probes matching records in the inner relation."
+        },
+        {
+          "label": "Only an unrelated outer attribute.",
+          "correct": false,
+          "feedback": "An unrelated outer index cannot supply the required inner equality lookup."
+        }
+      ]
+    },
+    {
+      "id": "08-check-05",
+      "unit": "08",
+      "lesson": "merge-sorted-inputs-and-account-for-sorting",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What must be included for unsorted merge-join inputs?",
+      "source": "Merge Sorted Inputs and Account for Sorting — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Merge Sorted Inputs and Account for Sorting"
+      },
+      "options": [
+        {
+          "label": "Only the final result count.",
+          "correct": false,
+          "feedback": "Result cardinality does not account for preparing sorted inputs."
+        },
+        {
+          "label": "Two full merge reads even when they are the same streamed reads.",
+          "correct": false,
+          "feedback": "Fused final merges must not be charged a duplicate full input read."
+        },
+        {
+          "label": "Sorting and a consistent materialisation/streaming policy.",
+          "correct": true,
+          "feedback": "Input order and final-write/reread policy determine extra I/O."
+        }
+      ]
+    },
+    {
+      "id": "08-check-06",
+      "unit": "08",
+      "lesson": "partition-with-one-hash-and-probe-with-another",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Why use the same first hash on both relations?",
+      "source": "Partition With One Hash and Probe With Another — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Partition With One Hash and Probe With Another"
+      },
+      "options": [
+        {
+          "label": "Matching keys must reach corresponding partitions.",
+          "correct": true,
+          "feedback": "Corresponding partitions contain all potentially matching keys."
+        },
+        {
+          "label": "To prove every collision is an equality match.",
+          "correct": false,
+          "feedback": "Different keys may collide and still need an equality test."
+        },
+        {
+          "label": "Because the entire probe partition must always fit.",
+          "correct": false,
+          "feedback": "The probe side can stream while the build partition remains in memory."
+        }
+      ]
+    },
+    {
+      "id": "08-check-07",
+      "unit": "08",
+      "lesson": "read-the-hash-join-cost-as-a-conditional-model",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What does the4n_h hash correction count?",
+      "source": "Read the Hash-Join Cost as a Conditional Model — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Read the Hash-Join Cost as a Conditional Model"
+      },
+      "options": [
+        {
+          "label": "A proof that all buffers fit in memory.",
+          "correct": false,
+          "feedback": "Buffer feasibility requires a separate allocation calculation."
+        },
+        {
+          "label": "Extra write/read allowance for partially filled partition blocks.",
+          "correct": true,
+          "feedback": "The source explicitly includes partially filled partition-block I/O."
+        },
+        {
+          "label": "Four new tuples per partition.",
+          "correct": false,
+          "feedback": "This term counts block transfers rather than generated tuples."
+        }
+      ]
+    },
+    {
+      "id": "08-check-08",
+      "unit": "08",
+      "lesson": "aggregate-and-implement-set-operations",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "How is global AVG combined from partial groups?",
+      "source": "Aggregate and Implement Set Operations — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Aggregate and Implement Set Operations"
+      },
+      "options": [
+        {
+          "label": "Average partial averages with no weights.",
+          "correct": false,
+          "feedback": "Unweighted partial averages are wrong when group sizes differ."
+        },
+        {
+          "label": "Keep only the largest partial average.",
+          "correct": false,
+          "feedback": "A maximum does not preserve the total sum or total count."
+        },
+        {
+          "label": "Add sums and counts,then divide.",
+          "correct": true,
+          "feedback": "Sum/count retains the information needed for unequal group sizes."
+        }
+      ]
+    },
+    {
+      "id": "08-check-09",
+      "unit": "08",
+      "lesson": "return-to-the-weighted-comparison",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Why do weighted estimates not prove measured runtime?",
+      "source": "Return to the Weighted Comparison — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Return to the Weighted Comparison"
+      },
+      "options": [
+        {
+          "label": "They depend on assumptions,not an executed benchmark.",
+          "correct": true,
+          "feedback": "These calculations use a stated model without executing a database query."
+        },
+        {
+          "label": "Any arithmetic result is automatically a DBMS measurement.",
+          "correct": false,
+          "feedback": "A computed cost is not an observed runtime on actual hardware."
+        },
+        {
+          "label": "The fastest algorithm is independent of memory and statistics.",
+          "correct": false,
+          "feedback": "Memory,skew,statistics and output policy can change the plan ranking."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-01",
+      "unit": "lab-04",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "How are the clinic solutions classified?",
+      "source": "In 60 Seconds — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "In 60 Seconds"
+      },
+      "options": [
+        {
+          "label": "Measured university-database results.",
+          "correct": false,
+          "feedback": "No database execution was performed for these cost calculations."
+        },
+        {
+          "label": "Local worked reasoning from the question PDF.",
+          "correct": true,
+          "feedback": "The answer-key resource is visible but its bytes have not been acquired."
+        },
+        {
+          "label": "A newly acquired official answer key.",
+          "correct": false,
+          "feedback": "No official-key review is claimed for these locally derived solutions."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-02",
+      "unit": "lab-04",
+      "lesson": "q1-indexed-versus-repeated-scans",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is Q1 indexed lookup cost with h=4?",
+      "source": "Q1: Indexed Versus Repeated Scans — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Q1: Indexed Versus Repeated Scans"
+      },
+      "options": [
+        {
+          "label": "One free access total.",
+          "correct": false,
+          "feedback": "Each outer tuple can trigger a lookup under the cold-access premise."
+        },
+        {
+          "label": "Four accesses with no data retrieval.",
+          "correct": false,
+          "feedback": "Index traversal alone does not retrieve the actual data record."
+        },
+        {
+          "label": "Five accesses per outer tuple under the key-lookup model.",
+          "correct": true,
+          "feedback": "The model adds one data access to four index-node accesses."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-03",
+      "unit": "lab-04",
+      "lesson": "q2-identify-missing-and-conflicting-assumptions",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Why retain b as a parameter in Q2?",
+      "source": "Q2: Identify Missing and Conflicting Assumptions — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Q2: Identify Missing and Conflicting Assumptions"
+      },
+      "options": [
+        {
+          "label": "The per-key matching-block distribution is unspecified.",
+          "correct": true,
+          "feedback": "Totals allow a uniform estimate but not an exact match distribution."
+        },
+        {
+          "label": "The total relation size fixes exactly two blocks per key.",
+          "correct": false,
+          "feedback": "Skew and block boundaries can differ from the uniform average."
+        },
+        {
+          "label": "Sparse indexes work on any physical ordering.",
+          "correct": false,
+          "feedback": "The sparse primary premise needs ordering consistent with its search key."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-04",
+      "unit": "lab-04",
+      "lesson": "q3-the-twelve-block-external-sort",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is Q3 streamed sort cost?",
+      "source": "Q3: The Twelve-Block External Sort — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Q3: The Twelve-Block External Sort"
+      },
+      "options": [
+        {
+          "label": "Seventy-two transfers while claiming no final write.",
+          "correct": false,
+          "feedback": "Seventy-two includes the extra12-block final materialisation write."
+        },
+        {
+          "label": "Sixty transfers and44 seeks.",
+          "correct": true,
+          "feedback": "Four runs merge in two passes;the source formula gives60/44."
+        },
+        {
+          "label": "Twelve transfers and one seek for all passes.",
+          "correct": false,
+          "feedback": "Run generation and intermediate merges create additional I/O."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-05",
+      "unit": "lab-04",
+      "lesson": "q4-declare-where-the-sorted-results-go",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is the materialised Q4 total before result writes?",
+      "source": "Q4: Declare Where the Sorted Results Go — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Q4: Declare Where the Sorted Results Go"
+      },
+      "options": [
+        {
+          "label": "43,000 transfers while adding a separate join scan for free.",
+          "correct": false,
+          "feedback": "A separate input scan must be charged unless its reads are fused."
+        },
+        {
+          "label": "52,000 transfers with all final sorted writes included.",
+          "correct": false,
+          "feedback": "That hybrid subtotal omits final sorted-file writes needed for persistence."
+        },
+        {
+          "label": "61,000 transfers and8,780 seeks.",
+          "correct": true,
+          "feedback": "The total includes sorting writes plus a later9,000-block merge scan."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-06",
+      "unit": "lab-04",
+      "lesson": "q5-conditional-hash-cost-and-buffer-feasibility",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Why is Q5 one-pass allocation inconsistent with M=100?",
+      "source": "Q5: Conditional Hash Cost and Buffer Feasibility — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Q5: Conditional Hash Cost and Buffer Feasibility"
+      },
+      "options": [
+        {
+          "label": "It requires1,020 buffer frames before overhead.",
+          "correct": true,
+          "feedback": "Fifty output buffers and one input buffer each reserve20 frames."
+        },
+        {
+          "label": "It uses only20 frames because outputs share one buffer.",
+          "correct": false,
+          "feedback": "The stated partition scheme reserves buffers simultaneously."
+        },
+        {
+          "label": "The cost formula proves the memory allocation valid.",
+          "correct": false,
+          "feedback": "Cost substitution cannot establish feasibility of the underlying plan."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-07",
+      "unit": "lab-04",
+      "lesson": "q6-materialise-before-the-subsequent-merge-join",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is Q6 total with sorted outputs materialised?",
+      "source": "Q6: Materialise Before the Subsequent Merge Join — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Q6: Materialise Before the Subsequent Merge Join"
+      },
+      "options": [
+        {
+          "label": "Eight because sorting is always free.",
+          "correct": false,
+          "feedback": "Preparing the inputs has I/O even though their final join scan uses8."
+        },
+        {
+          "label": "Thirty-four transfers.",
+          "correct": true,
+          "feedback": "r sorting20+s read/write6+merge scan8 gives34 transfers."
+        },
+        {
+          "label": "Twenty-eight because in-memory sorting needs no read/write.",
+          "correct": false,
+          "feedback": "The question explicitly requires writing sorted s after reading it."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-08",
+      "unit": "lab-04",
+      "lesson": "source-map-and-verification-boundaries",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is the strongest verification claimed by this clinic?",
+      "source": "Source Map and Verification Boundaries — source locators in the reviewed lesson; supplementary check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Source Map and Verification Boundaries"
+      },
+      "options": [
+        {
+          "label": "Official marking approval.",
+          "correct": false,
+          "feedback": "The official answer key has not yet been downloaded and checked."
+        },
+        {
+          "label": "Measured student mastery.",
+          "correct": false,
+          "feedback": "Creating notes and checking arithmetic does not measure learning."
+        },
+        {
+          "label": "Recomputed arithmetic and source mappings.",
+          "correct": true,
+          "feedback": "The source tasks and all subparts are mapped to local worked reasoning."
         }
       ]
     }

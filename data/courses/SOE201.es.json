@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Desarrollo avanzado de bases de datos",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-12T07:23:36.802Z",
+  "generatedAt": "2026-10-21T06:06:08.054Z",
   "evidence": {
-    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
+    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. La optimización de la Semana 6 y Lab5 son visibles el 21 de octubre pero están pendientes de adquisición; no hay reclamo de integridad actual. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -121,6 +121,51 @@
           "Ejecutar consulta solo entre corchetes; coloque la iteración de la aplicación y la impresión afuera.",
           "Mantenga las consultas/datos comparables y verifique los conjuntos múltiples de resultados y los planes elegidos.",
           "Registre las condiciones de caché/ejecución y los límites de almacenamiento en búfer del controlador antes de interpretar los tiempos."
+        ]
+      }
+    },
+    {
+      "id": "07",
+      "title": "Selección, Proyección y Ordenación Externa",
+      "short": "Selección y ordenación",
+      "folder": "Web 07",
+      "kind": "theory",
+      "guide": {
+        "goal": "Elija y justifique estrategias físicas de evaluación de consultas bajo supuestos de fuente explícitos.",
+        "successCriteria": [
+          "Mantenga las transferencias y las búsquedas separadas y compare su costo ponderado.",
+          "Memoria de estados, ordenamiento, selectividad y supuestos de escritura de resultados.",
+          "Exponer inconsistencias en las fuentes y distinguir el razonamiento local de las respuestas oficiales."
+        ]
+      }
+    },
+    {
+      "id": "08",
+      "title": "Join, agregación y operaciones de conjuntos",
+      "short": "Uniones y agregación",
+      "folder": "Web 08",
+      "kind": "theory",
+      "guide": {
+        "goal": "Elija y justifique estrategias físicas de evaluación de consultas bajo supuestos de fuente explícitos.",
+        "successCriteria": [
+          "Mantenga las transferencias y las búsquedas separadas y compare su costo ponderado.",
+          "Memoria de estados, ordenamiento, selectividad y supuestos de escritura de resultados.",
+          "Exponer inconsistencias en las fuentes y distinguir el razonamiento local de las respuestas oficiales."
+        ]
+      }
+    },
+    {
+      "id": "lab-04",
+      "title": "Laboratorio 04: Clínica de evaluación de consultas",
+      "short": "Clínica de evaluación de consultas.",
+      "folder": "Web lab-04",
+      "kind": "lab",
+      "guide": {
+        "goal": "Elija y justifique estrategias físicas de evaluación de consultas bajo supuestos de fuente explícitos.",
+        "successCriteria": [
+          "Mantenga las transferencias y las búsquedas separadas y compare su costo ponderado.",
+          "Memoria de estados, ordenamiento, selectividad y supuestos de escritura de resultados.",
+          "Exponer inconsistencias en las fuentes y distinguir el razonamiento local de las respuestas oficiales."
         ]
       }
     }
@@ -1528,6 +1573,202 @@
         "practice-2-index-experiment-checklist",
         "practice-3-interpret-the-historical-run"
       ]
+    },
+    {
+      "id": "content/reviewed/SOE201/07/tutor",
+      "relative": "content/reviewed/SOE201/07/tutor.md",
+      "kind": "tutor",
+      "unit": "07",
+      "origin": "project",
+      "hash": "37a520d22be89e97ee64db981934224c0797d0314f0b3f6d3b67ba7fcd6ecd0c",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Selección, Proyección y Ordenación Externa\n\n## En 60 segundos\n\nUn índice puede reducir los bloques transferidos pero aumentar las posicionamientos de disco costosos. Supongamos que un archivo ocupa 400 bloques y un índice no agrupado coincide con 100 registros dispersos. Con una altura de índice 4, un tiempo de transferencia de 0,1 ms y un tiempo de posicionamiento (seek) de 4 ms, un escaneo completo cuesta 44 ms, mientras que el pesimista modelo de índice secundario de la conferencia cuesta 426,4 ms. La ruta de acceso importa más que la mera existencia de un índice. Este cálculo complementario utiliza Lecture5a pp.5,10 y el modelo de disco de la Unidad 06.\n\nEsta edición integra el archivo verificado del 12 de octubre: Lecture5a, 23 páginas, fechada el 10 de octubre de 2026. Es una nueva lección web, no una afirmación de que el archivo se publicó por primera vez esta semana. Las fuentes de optimización de la semana 6 son visibles en Learning Mall, pero siguen pendientes de adquisición. Requisitos previos: Almacenamiento de la Unidad 01, Índices de las Unidades 02 a 04, Álgebra de la Unidad 05 y Unidades de costo de la Unidad 06.\n\n## Seleccione una ruta de acceso con supuestos explícitos\n\nSean b_r bloques de archivos, h el número de accesos a nodos de índice de la conferencia, b los bloques de datos coincidentes consecutivos y k los registros coincidentes. Para accesos en frío, retenga las transferencias B y los posicionamientos S por separado, luego calcule $T=B t_T+S t_S$.\n\n| Camino de acceso | Transferencias B | Posicionamientos S | Condiciones |\n|---|---:|---:|---|\n| Escaneo lineal | $b_r$ | 1 | Relación contigua; probar cada registro |\n| Escaneo de igualdad sobre clave, éxito medio | $b_r/2$ | 1 | Modelo medio de la fuente; si no hay coincidencia puede requerirse un escaneo completo |\n| Búsqueda binaria | $\\lceil\\log_2 b_r\\rceil$ más bloques coincidentes | Mismo recuento de búsqueda, luego recuperación | Archivo ordenado físicamente según el atributo de igualdad |\n| Acceso B+ sobre clave candidata | $h+1$ | $h+1$ | Un registro de datos coincidente |\n| Igualdad agrupada sin clave | $h+b$ | $h+1$ | Registros coincidentes contiguos |\n| Igualdad no agrupada y no clave, pesimista | $h+k$ | $h+k$ | Cada registro coincidente puede estar en otro bloque |\n\nLas diapositivas llaman al caso agrupado sin clave índice primario. Mantenga explícito su supuesto de localidad física en lugar de asumir que cada definición de clave primaria implica agrupación. Las páginas de índice almacenadas en caché, los bloques de datos repetidos y el hardware de almacenamiento pueden cambiar los costos reales. Estas estimaciones no son tiempos de ejecución medidos. Fuente: Lecture5a págs.4–10.\n\n## Manejar rangos y condiciones booleanas completamente\n\nPara un rango inferior agrupado, busque la primera clave calificada y luego lea los siguientes bloques secuencialmente. Para un rango que incluye el principio del archivo hasta una cota superior, recorrer desde el principio puede evitar posicionamientos innecesarios del índice. Un rango no agrupado puede recuperar muchos bloques dispersos: compáralo con un escaneo completo.\n\nPara una conjunción AND, una condición indexada selectiva puede generar candidatos; Pruebe las condiciones restantes en cada candidato. Otra posibilidad es usar un índice compuesto adecuado. Para un OR, una los punteros candidatos de cada disyunción y elimine los punteros duplicados antes de recuperarlos. Si alguna rama carece de una ruta de acceso completa, todavía hay que encontrar sus coincidencias, a menudo mediante un escaneo. Lecture5a p.13 dice vagamente que algunos índices pueden estar disponibles; usar solo las ramas indexadas perdería resultados válidos de la disyunción OR. La negación requiere el complemento relativo a la relación, no simplemente devolver las coincidencias positivas. Fuente: Lecture5a págs. 11-14; la calificación de completitud es un razonamiento local sobre el predicado enunciado.\n\n## Proyectar columnas y eliminar duplicados\n\nLa proyección relacional descarta atributos no solicitados y elimina tuplas duplicadas del resultado. Al ordenar las tuplas proyectadas, los duplicados quedan contiguos; El hash envía tuplas iguales al mismo grupo. SQL SELECT sin DISTINCT puede conservar duplicados, por lo que no transfiera la semántica de álgebra de conjuntos automáticamente a SQL. Un índice ordena las referencias de forma lógica; Seguir un índice secundario no equivale a ordenar físicamente los datos y puede provocar una E/S por tupla. Fuente: Lecture5a págs. 15-16; distinción álgebra/SQL retenida de la Unidad 05.\n\n## Crear tramos antes de fusionar\n\nPara bloques b y marcos de memoria M, lea hasta M bloques, ordénelos en la memoria y escriba cada tramo ordenado. Inicialmente hay tramos $N=\\lceil b/M\\rceil$. Una combinación reserva búferes de entrada para las tramos participantes y un búfer de salida. Con un marco por búfer, fusiona como máximo M−1 tramos; con marcos de memoria b_b por búfer, la capacidad de fusión es $F=\\lfloor M/b_b\\rfloor-1$. Requiere F≥2 antes de usar fórmulas logarítmicas de pasadas múltiples. Un mayor almacenamiento en búfer mejora la E/S secuencial, pero reduce la número de tramos fusionados a la vez y puede agregar una pasada. Fuente: Lecture5a págs. 17-21.\n\nPara el ejemplo b=12, M=3 proporcionado, las tramos se reducen 4→2→1 en dos pasadas de fusión. Los grupos iniciales de tres se clasifican por separado, luego se emparejan y finalmente se fusionan. La clave repetida a tiene las cargas útiles 19 y 14: la figura ordena por clave, sin especificar el orden de claves iguales como requisito de ordenación estable. Fuente: Lecture5a p.20; Lab4 Q3 p.5.\n\n## Contar transferencias y búsquedas con una convención de salida\n\nPara b>M y $P=\\lceil\\log_F\\lceil b/M\\rceil\\rceil$, la fuente omite la escritura de salida final:\n\n$$B=b(2P+1),\\qquad S=2\\lceil b/M\\rceil+\\lceil b/b_b\\rceil(2P-1).$$\n\nLa generación de tramos iniciales lee y escribe bloques 2b; cada fusión intermedia lee y escribe 2b; la fusión final lee b bloques. Si se debe almacenar el archivo ordenado final, agregue escrituras b y búsquedas $\\lceil b/b_b\\rceil$. Para b=12, M=3, b_b=1, P=2 da 60 transferencias y 44 posicionamientos cuando se transmite; almacenar el archivo final da 72 y 56. Una entrada en memoria es un caso aparte; no aplique mecánicamente un término de paso negativo. Fuente: Lecture5a págs. 21-22.\n\n## Volver a la decisión sobre la vía de acceso\n\nPara el ejemplo de apertura, escanee: $400(0.1)+1(4)=44$ ms. Índice no agrupado: $104(0.1+4)=426.4$ ms. En cambio, una búsqueda agrupada que recupere ocho bloques consecutivos costaría $12(0.1)+5(4)=21.2$ ms. La comparación final requiere selectividad, localidad, ordenación disponible, memoria y una política de salida consistente. Estos son ejemplos complementarios con parámetros indicados, no resultados nuevos medidos.\n\nLecture5a pp.1–2 presenta el alcance; pp.3–16 cubren selección y proyección; Las páginas 17 a 22 cubren la ordenación y su ejemplo; p.23 recomienda lectura, que no se importa aquí. No se infieren nuevos corpus de evaluación, probabilidades de examen ni puntuaciones oficiales.\n",
+      "headingAliases": {
+        "Selection, Projection and External Sorting": "Selección, Proyección y Ordenación Externa",
+        "In 60 Seconds": "En 60 segundos",
+        "Select an Access Path With Explicit Assumptions": "Seleccione una ruta de acceso con supuestos explícitos",
+        "Handle Ranges and Boolean Conditions Completely": "Manejar rangos y condiciones booleanas completamente",
+        "Project Columns and Remove Duplicates": "Proyectar columnas y eliminar duplicados",
+        "Create Runs Before Merging": "Crear tramos antes de fusionar",
+        "Count Transfers and Seeks With One Output Convention": "Contar transferencias y búsquedas con una convención de salida",
+        "Return to the Access-Path Decision": "Volver a la decisión sobre la vía de acceso"
+      },
+      "sectionIds": [
+        "in-60-seconds",
+        "select-an-access-path-with-explicit-assumptions",
+        "handle-ranges-and-boolean-conditions-completely",
+        "project-columns-and-remove-duplicates",
+        "create-runs-before-merging",
+        "count-transfers-and-seeks-with-one-output-convention",
+        "return-to-the-access-path-decision"
+      ],
+      "problemIds": []
+    },
+    {
+      "id": "content/reviewed/SOE201/07/practice",
+      "relative": "content/reviewed/SOE201/07/practice.md",
+      "kind": "practice",
+      "unit": "07",
+      "origin": "project",
+      "hash": "a80aaf115015a9301262e5ab2ca381a2f26028f9fd694538c99bc3ba492c0125",
+      "markdown": "# Recordar y practicar\n\nPráctica basada en fuentes con razonamiento trabajado localmente, no un esquema de calificación oficial. Las tareas de origen originales se identifican individualmente. No se afirma ninguna ejecución de base de datos ni dominio del estudiante.\n\n## Repaso activo atómico\n\n### Tarjeta 01: ¿Por qué menos transferencias pueden significar un plan más lento?\n\n> [!success]- Respuesta\n> El tiempo de posicionamiento (seek) puede dominar: compare B×tT+S×tS usando la misma unidad de tiempo.\n>\n> Fuente: Lecture5a págs.6–10.\n\n### Tarjeta 02: ¿Qué permite la búsqueda binaria en un archivo?\n\n> [!success]- Respuesta\n> Ordenamiento físico del atributo de selección, no simplemente la existencia de algún índice.\n>\n> Fuente: Lecture5a p.6.\n\n### Tarjeta 03: ¿Qué cambia entre la recuperación de igualdad agrupada y no agrupada?\n\n> [!success]- Respuesta\n> Los partidos agrupados ocupan bloques consecutivos; Las coincidencias dispersas pueden requerir una E/S y una búsqueda para cada registro.\n>\n> Fuente: Lecture5a págs.8–10.\n\n### Tarjeta 04 — ¿Qué debe cubrir un plan de acceso al quirófano?\n\n> [!success]- Respuesta\n> Cada disyunción, incluidas las ramas no indexadas y los punteros candidatos duplicados, no deben generar resultados de conjuntos duplicados.\n>\n> Fuente: Lecture5a p.13, aclaración de integridad local.\n\n### Tarjeta 05 — ¿Por qué la proyección puede ser cara?\n\n> [!success]- Respuesta\n> Para eliminar tuplas proyectadas duplicadas es necesario agruparlas, a menudo mediante ordenación o hash.\n>\n> Fuente: Lecture5a p.15.\n\n### Tarjeta 06: ¿Cuántas tramos ordenados iniciales y cuáles se fusionan?\n\n> [!success]- Respuesta\n> $N=\\lceil b/M\\rceil$ y $F=\\lfloor M/b_b\\rfloor-1$, con F al menos dos para fusión de múltiples pasadas.\n>\n> Fuente: Lecture5a págs.17–21.\n\n### Tarjeta 07: ¿Qué omite la fórmula de costo de ordenación externa?\n\n> [!success]- Respuesta\n> La escritura final de salida ordenada; agréguelo cuando se requiera un archivo ordenado persistente.\n>\n> Fuente: Lecture5a p.21.\n\n## Práctica trabajada\n\n### Problema 1: elegir entre supuestos de localidad\n\nPRÁCTICA COMPLEMENTARIA. Compare el escaneo completo, el índice agrupado y el índice no agrupado para b_r=400, h=4, b=8, k=100, tT=0,1 ms, tS=4 ms. Fuente: Lecture5a págs.5,8,10.\n\n> [!tip]- Sugerencia\n> Mantenga B y S separados hasta la multiplicación final.\n\n> [!success]- Solución\n> Exploración: B=400,S=1,T=44 ms. Agrupados: B=12,S=5,T=21,2 ms. Pesimista no agrupado: B=S=104,T=426,4 ms. Bajo estos supuestos, gana el camino agrupado; la ruta no agrupada pierde a pesar de tener menos transferencias que el escaneo.\n\n### Problema 2: rastrear la ordenación externa proporcionada\n\nEJERCICIO DE FUENTE. b=12, M=3, b_b=1. Proporcione recuentos de ejecuciones, pases de fusión y transferencias/búsquedas totales con y sin escritura de salida final. Fuente: Lecture5a p.22; Lab4 Q3 p.5.\n\n> [!tip]- Sugerencia\n> Las tramos ordenados iniciales son ceil(12/3)=4 y cada combinación combina dos.\n\n> [!success]- Solución\n> Cuatro tramos ordenados iniciales se fusionan 4→2→1, por lo que P=2. Transferencias streaming: 24+24+12=60. Busca: 2×4+12×(2×2−1)=44. La producción materializada suma 12 transferencias y 12 búsquedas, dando 72/56. El orden de carga útil de claves iguales no es una propiedad de ordenación estable requerida.\n\n### Problema 3: Auditar un plan de quirófano incompleto\n\nPRÁCTICA COMPLEMENTARIA. Para A=1 O B=2, solo A está indexado. ¿Se ha completado la devolución de las coincidencias del índice A? Fuente: Lecture5a p.13.\n\n> [!tip]- Sugerencia\n> Considere una tupla que satisfaga sólo B=2.\n\n> [!success]- Solución\n> No. Tal tupla es un resultado válido pero está ausente del conjunto de candidatos A. Busque la rama descubierta o escanee toda la relación, luego combine completamente y elimine los punteros duplicados. Los índices existentes no eliminan las obligaciones de integridad del predicado.\n\n",
+      "headingAliases": {
+        "Recall and Practice": "Recordar y practicar",
+        "Atomic recall": "Repaso activo atómico",
+        "Card 01 — Why can fewer transfers still mean a slower plan?": "Tarjeta 01: ¿Por qué menos transferencias pueden significar un plan más lento?",
+        "Card 02 — What enables binary search on a file?": "Tarjeta 02: ¿Qué permite la búsqueda binaria en un archivo?",
+        "Card 03 — What changes between clustered and unclustered equality retrieval?": "Tarjeta 03: ¿Qué cambia entre la recuperación de igualdad agrupada y no agrupada?",
+        "Card 04 — What must an OR access plan cover?": "Tarjeta 04 — ¿Qué debe cubrir un plan de acceso al quirófano?",
+        "Card 05 — Why can projection be expensive?": "Tarjeta 05 — ¿Por qué la proyección puede ser cara?",
+        "Card 06 — How many initial runs and which merge fan-in?": "Tarjeta 06: ¿Cuántas tramos ordenados iniciales y cuáles se fusionan?",
+        "Card 07 — What does the external-sort cost formula omit?": "Tarjeta 07: ¿Qué omite la fórmula de costo de ordenación externa?",
+        "Worked practice": "Práctica trabajada",
+        "Problem 1 — Choose between locality assumptions": "Problema 1: elegir entre supuestos de localidad",
+        "Problem 2 — Trace the supplied external sort": "Problema 2: rastrear la ordenación externa proporcionada",
+        "Problem 3 — Audit an incomplete OR plan": "Problema 3: Auditar un plan de quirófano incompleto"
+      },
+      "sectionIds": [
+        "atomic-recall",
+        "worked-practice"
+      ],
+      "problemIds": [
+        "problem-1-choose-between-locality-assumptions",
+        "problem-2-trace-the-supplied-external-sort",
+        "problem-3-audit-an-incomplete-or-plan"
+      ]
+    },
+    {
+      "id": "content/reviewed/SOE201/08/tutor",
+      "relative": "content/reviewed/SOE201/08/tutor.md",
+      "kind": "tutor",
+      "unit": "08",
+      "origin": "project",
+      "hash": "d693de8f6d37ee58924ba8bbbda0871a027e88081158cf5584b21da83af59f60",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Join, agregación y operaciones de conjuntos\n\n## En 60 segundos\n\nLa relación más pequeña no siempre es el insumo externo más barato, y la menor cantidad de bloques transferidos no siempre produce el menor tiempo. En el ejemplo de la Lecture5b, los bucles anidados indexados utilizan 25.100 transferencias pero también 25.100 búsquedas; Los bucles anidados en bloque utilizan 40.100 transferencias y solo 200 búsquedas. A 0,1 ms por transferencia y 4 ms por búsqueda, los tiempos estimados son 102.910 ms y 4.810 ms. Esta aritmética local explica la comparación de la fuente sin afirmar que se ha realizado un benchmark de base de datos.\n\nFuente: Lecture5b, 25 páginas, verificado con el manifiesto de adquisición del 12 de octubre. Mantenga esta unidad de evaluación física separada de la optimización de consultas posteriores, cuyos archivos actuales de la Semana 6 aún no se han adquirido. Requisitos previos: costos de selección y ordenación externa en la Unidad 07, semántica de join en la Unidad 05.\n\n## Defina el resultado antes de elegir el algoritmo\n\nUn join natural exige igualdad en todos los atributos con nombres compartidos y devuelve una copia de esas columnas compartidas. No es un producto cartesiano sin condiciones, ni un join sobre un único atributo supuesto cuando se comparten varios nombres. La estrategia física debe preservar el mismo resultado. Fuente: Lecture5b págs.3–4.\n\nLa conferencia utiliza cliente: 10 000 registros/400 bloques y depositante: 5000 registros/100 bloques. En cambio, Lab4 utiliza relaciones mucho más amplias. No traslades las cardinalidades de la conferencia al tutorial. Las estimaciones predeterminadas de las conferencias son pesimistas a menos que la disponibilidad de memoria indique lo contrario. Fuente: Lecture5b págs.5–8; Laboratorio4 p.2.\n\n## Comparar bucles anidados de tuplas y bloques\n\nPara r exterior, s interior y poca memoria, los bucles anidados de tupla transfieren búsquedas $B=b_r+n_r b_s$ con $S=b_r+n_r$. Cada tupla externa desencadena otro escaneo interno. Las dos orientaciones de origen dan al depositante externo: 2.000.100 transferencias/5.100 búsquedas; Cliente exterior: 1.000.400/10.400. Su orden de tiempo depende de los pesos de transferencia/búsqueda.\n\nLos bucles anidados en bloques reutilizan cada bloque externo para cada par de tuplas con un bloque interno. El modelo de un bloque exterior de la fuente cuesta $B=b_r+b_r b_s$, $S=2b_r$. Costos externos del depositante 40.100/200; exterior del cliente 40.400/800. Estos son el modelo fuente, no una fórmula para un búfer externo arbitrario de múltiples bloques. Si la relación más pequeña cabe completamente como la entrada interna retenida, la fuente se simplifica a $b_r+b_s$ transferencias y2 posicionamientos. Fuente: Lecture5b págs.6–10.\n\n## Sondee el índice interno sin ocultar el costo de recuperación\n\nLos bucles anidados indexados se aplican a joins de igualdad o naturales cuando el atributo de unión interna tiene un índice adecuado. Para cada tupla externa, sondee el índice y obtenga todos los registros internos coincidentes. Con un registro clave coincidente y accesos al índice h, $B=b_r+n_r(h+1)$ y las diapositivas utilizan el mismo recuento para las búsquedas. En su ejemplo depositante/cliente, h=4 produce 25.100/25.100.\n\nPara una búsqueda agrupada sin clave, los costos de transferencia y búsqueda difieren: por sonda, h+b transfiere pero h+1 busca, donde b coincide con bloques de datos. Calcule b a partir de las estadísticas proporcionadas o establezca el supuesto; \"una búsqueda\" no significa \"un bloque\". El almacenamiento en caché real y las claves repetidas pueden reducir el trabajo real; no agregue silenciosamente ese beneficio al modelo de fuente sin caché. Fuente: Lecture5b págs. 11-13; Lecture5a págs. 7–10.\n\n## Combinar entradas ordenadas y contabilizar su ordenación\n\nOrdene ambas entradas en los atributos de unión si es necesario, luego avance los punteros, conservando los grupos con la misma clave de join. El escaneo de combinación indicado cuesta transferencias $b_r+b_s$ y búsquedas $\\lceil b_r/b_b\\rceil+\\lceil b_s/b_b\\rceil$, asumiendo que cada grupo de claves iguales cabe en la memoria. Las claves duplicadas requieren producir cada par coincidente. La estimación del escaneo de una sola pasada de la fuente puede fallar cuando los grupos no caben.\n\nMantenga explícitas las convenciones de salida: la materialización de archivos ordenados agrega sus escrituras finales antes de que una join posterior los lea. Si las fusiones finales se transmiten directamente a la unión, no cargue un escaneo de entrada completo adicional para las mismas lecturas. La viabilidad del buffer aún debe mantenerse para ambos insumos. Fuente: Lecture5b págs. 14-16; Lecture5a p.21. La aclaración contable evita que se combinen fórmulas incompatibles.\n\n## Particionar con un hash y buscar coincidencias con otro\n\nDivida ambas relaciones utilizando el mismo hash de atributos de unión para que claves iguales lleguen a las particiones correspondientes. Mantenga la partición de construcción (build) más pequeña en la memoria, cree una tabla hash usando una función hash diferente, luego escanee la partición de sonda correspondiente y emita todas las coincidencias de claves reales. Una colisión de hash por sí sola no es igualdad. Las comparaciones entre particiones son innecesarias; No es necesario que la partición de la sonda quepa completamente en la memoria. La fuente maneja joins de igualdad o naturales, no desigualdades arbitrarias. Fuente: Lecture5b págs. 17-20.\n\nElija suficientes particiones para que quepan las particiones de construcción; deje espacio para el sesgo, los buffers y la tabla en memoria. Un factor de margen es una asignación de planificación, no una prueba de que cada partición cabe. Una etapa de partición de un solo paso con n_h buffers de salida de bloques b_b más un buffer de entrada de bloques b_b requiere al menos marcos de memoria $(n_h+1)b_b$. Este recuento de búfer directo es necesario cuando se utilizan las suposiciones del tutorial.\n\n## Leer el costo de Hash-Join como modelo condicional\n\nLa estimación proporcionada es $B=3(b_r+b_s)+4n_h$ y $S=2(\\lceil b_r/b_b\\rceil+\\lceil b_s/b_b\\rceil)+2n_h$. La corrección presupuesta la escritura y relectura de bloques de partición parcialmente llenos. Para b_r=400,b_s=100,n_h=5,b_b=3, B=1,520 y S=346. La base simple de tres veces cuenta la lectura de partición, la escritura de partición y la lectura de unión; Se omite la escritura del resultado de salida. Si toda la entrada de construcción cabe y la partición no es necesaria, las diapositivas estiman una exploración de ambas entradas y 2 búsquedas. Fuente: Lecture5b págs.21–22.\n\nEl ejemplo de la conferencia asigna una partición de construcción de 20 bloques a 20 bloques de memoria; una implementación también necesita buffers y sobrecarga de tabla hash. Trate su aritmética como un modelo de costos idealizado, no como una prueba de que todas las asignaciones caben simultáneamente. La partición sesgada o recursiva cambia el costo.\n\n## Agregar e implementar operaciones de conjunto\n\nOrdenación o hash de grupos de claves iguales para COUNT, MIN, MAX, SUM y AVG. El AVG parcial debe conservar tanto la suma como el conteo: un promedio no ponderado de los promedios grupales generalmente es incorrecto. Para la unión de conjuntos, conserva una sola copia de cada tupla presente en cualquiera de los lados; para la intersección, mantenga las tuplas presentes en ambos; para r−s, elimine s tuplas del conjunto r. Las particiones hash correspondientes deben utilizar un primer hash compatible y luego comprobar la igualdad real de las tuplas. Conserve la distinción entre la semántica de conjuntos y las variantes multiconjunto de SQL como UNION ALL. Fuente: Lecture5b págs. 23–24; Distinción SQL retenida de la Unidad 05.\n\n## Volver a la comparación ponderada\n\nLa combinación indexada de apertura cuesta $25100(0.1+4)=102910$ ms. Los bucles anidados por bloques cuesta $40100(0.1)+200(4)=4810$ ms. El hash join cuesta $1520(0.1)+346(4)=1536$ ms según los supuestos idealizados de la fuente. Éstas son estimaciones condicionales; incluya ordenación, desbordamientos de particiones, política de salida y estadísticas reales antes de elegir un plan. La pregunta requerida es \"¿el más barato bajo qué modelo?\", no \"¿qué algoritmo es siempre mejor?\".\n\nCobertura: Lecture5b pp.1–2 presenta el alcance; pp.3–22 cubren joins y comparaciones trabajadas; Las páginas 23 y 24 cubren operaciones de agregación y conjuntos; p.25 recomienda leer. Lab4 Q1–Q6 se trabajan por separado en la clínica de tutoría. No se afirma ningún nuevo esquema de calificación oficial, tiempo de ejecución medido o evidencia de frecuencia de exámenes.\n",
+      "headingAliases": {
+        "Join, Aggregation and Set Evaluation": "Join, agregación y operaciones de conjuntos",
+        "In 60 Seconds": "En 60 segundos",
+        "Define the Result Before Choosing the Algorithm": "Defina el resultado antes de elegir el algoritmo",
+        "Compare Tuple and Block Nested Loops": "Comparar bucles anidados de tuplas y bloques",
+        "Probe the Inner Index Without Hiding Retrieval Cost": "Sondee el índice interno sin ocultar el costo de recuperación",
+        "Merge Sorted Inputs and Account for Sorting": "Combinar entradas ordenadas y contabilizar su ordenación",
+        "Partition With One Hash and Probe With Another": "Particionar con un hash y buscar coincidencias con otro",
+        "Read the Hash-Join Cost as a Conditional Model": "Leer el costo de Hash-Join como modelo condicional",
+        "Aggregate and Implement Set Operations": "Agregar e implementar operaciones de conjunto",
+        "Return to the Weighted Comparison": "Volver a la comparación ponderada"
+      },
+      "sectionIds": [
+        "in-60-seconds",
+        "define-the-result-before-choosing-the-algorithm",
+        "compare-tuple-and-block-nested-loops",
+        "probe-the-inner-index-without-hiding-retrieval-cost",
+        "merge-sorted-inputs-and-account-for-sorting",
+        "partition-with-one-hash-and-probe-with-another",
+        "read-the-hash-join-cost-as-a-conditional-model",
+        "aggregate-and-implement-set-operations",
+        "return-to-the-weighted-comparison"
+      ],
+      "problemIds": []
+    },
+    {
+      "id": "content/reviewed/SOE201/08/practice",
+      "relative": "content/reviewed/SOE201/08/practice.md",
+      "kind": "practice",
+      "unit": "08",
+      "origin": "project",
+      "hash": "2e280296456992fd54199f344f027727805c631ce07117d59a467cc979e88b33",
+      "markdown": "# Recordar y practicar\n\nPráctica basada en fuentes con razonamiento trabajado localmente, no un esquema de calificación oficial. Las tareas de origen originales se identifican individualmente. No se afirma ninguna ejecución de base de datos ni dominio del estudiante.\n\n## Repaso activo atómico\n\n### Tarjeta 01: ¿Qué debe compararse con una combinación natural?\n\n> [!success]- Respuesta\n> Cada nombre de atributo compartido, luego devolver una copia de cada columna compartida.\n>\n> Fuente: Lecture5b p.3.\n\n### Tarjeta 02: ¿Qué distingue a las tuplas de los bucles anidados en bloques?\n\n> [!success]- Respuesta\n> El primero vuelve a escanear la entrada interna por tupla externa; este último reutiliza un bloque externo para todas sus comparaciones de tuplas.\n>\n> Fuente: Lecture5b págs.6–10.\n\n### Tarjeta 03: ¿Qué entrada necesita un índice para bucles anidados indexados?\n\n> [!success]- Respuesta\n> La relación interna necesita un índice en el atributo de unión de igualdad.\n>\n> Fuente: Lecture5b págs.11–12.\n\n### Tarjeta 04: ¿Por qué los costos de fusión y unión deben incluir una política de pedidos?\n\n> [!success]- Respuesta\n> Los insumos no clasificados necesitan ordenación; Los costos de redacción final y relectura dependen de la materialización versus la transmisión.\n>\n> Fuente: Lecture5b págs.14–16; Lecture5a p.21.\n\n### Tarjeta 05: ¿Debe caber toda la partición de la sonda en la memoria?\n\n> [!success]- Respuesta\n> No: retenga la partición de construcción (build) y transmita la partición de la sonda, sujeta a buffers y sesgos.\n>\n> Fuente: Lecture5b págs.19–20.\n\n### Tarjeta 06: ¿Por qué una colisión de hash es insuficiente para obtener un resultado del join?\n\n> [!success]- Respuesta\n> Claves iguales se combinan entre sí, pero claves diferentes pueden colisionar; verifique la igualdad real antes de emitir.\n>\n> Fuente: Lecture5b pp.17-19, explicación de corrección local.\n\n### Tarjeta 07: ¿Qué estado admite el AVG parcial correcto?\n\n> [!success]- Respuesta\n> Sumar y contar; combine sus sumas, luego divida la suma total por el conteo total.\n>\n> Fuente: Lecture5b p.23.\n\n## Práctica trabajada\n\n### Problema 1: comparar tres estimaciones de unión ponderadas\n\nPRÁCTICA DERIVADA DE FUENTES. Utilice los recuentos de lectura para bucles anidados en bloque 40.100/200, bucles anidados indexados 25.100/25.100 y unión hash 1.520/346 (transferencias/búsquedas), con pesos de 0,1 ms/4 ms. Fuente: Lecture5b págs.13,22.\n\n> [!tip]- Sugerencia\n> Calcule el tiempo ponderado en lugar de ordenar únicamente las transferencias.\n\n> [!success]- Solución\n> BNL: 4.810 ms; ENL: 102.910 ms; hash: 1.536 ms. La ruta indexada ahorra transferencias en comparación con BNL, pero agrega lo suficiente como para perder mucho con este modelo. Hash es el más barato entre estas estimaciones proporcionadas, asumiendo sus premisas de memoria/partición.\n\n### Problema 2: combinar promedios parciales desiguales\n\nPRÁCTICA COMPLEMENTARIA. Un grupo parcial tiene sum10,count2; otra suma90,count3. Encuentre AVG global. Fuente: Lecture5b p.23.\n\n> [!tip]- Sugerencia\n> Conservar ambas estadísticas suficientes.\n\n> [!success]- Solución\n> Suma total100, recuento total5, entonces AVG20. El promedio no ponderado de los promedios parciales es (5+30)/2=17,5, lo cual es incorrecto porque los tamaños de los grupos difieren.\n\n### Problema 3: comprobar la asignación de una partición\n\nPRÁCTICA COMPLEMENTARIA. ¿M = 100 marcos de memoria pueden admitir 50 búferes de partición de salida de 20 marcos de memoria y un búfer de entrada de 20 marcos de memoria en una sola pasada? Fuente: Lecture5b p.19; Laboratorio 4 Q5.\n\n> [!tip]- Sugerencia\n> Cuente las tramas de búfer asignadas simultáneamente.\n\n> [!success]- Solución\n> No: se necesitan 51 × 20 = 1020 marcos de memoria antes de una sobrecarga adicional, muy por encima de 100. La aritmética de un solo paso solicitada se puede calcular condicionalmente, pero la asignación propuesta no es factible con esa memoria. Utilice buffers más pequeños/menos particiones o pases adicionales y vuelva a calcular los costos.\n\n",
+      "headingAliases": {
+        "Recall and Practice": "Recordar y practicar",
+        "Atomic recall": "Repaso activo atómico",
+        "Card 01 — What must a natural join compare?": "Tarjeta 01: ¿Qué debe compararse con una combinación natural?",
+        "Card 02 — What distinguishes tuple from block nested loops?": "Tarjeta 02: ¿Qué distingue a las tuplas de los bucles anidados en bloques?",
+        "Card 03 — Which input needs an index for indexed nested loops?": "Tarjeta 03: ¿Qué entrada necesita un índice para bucles anidados indexados?",
+        "Card 04 — Why must merge-join costs include an ordering policy?": "Tarjeta 04: ¿Por qué los costos de fusión y unión deben incluir una política de pedidos?",
+        "Card 05 — Must the whole probe partition fit in memory?": "Tarjeta 05: ¿Debe caber toda la partición de la sonda en la memoria?",
+        "Card 06 — Why is a hash collision insufficient for a join result?": "Tarjeta 06: ¿Por qué una colisión de hash es insuficiente para obtener un resultado del join?",
+        "Card 07 — What state supports correct partial AVG?": "Tarjeta 07: ¿Qué estado admite el AVG parcial correcto?",
+        "Worked practice": "Práctica trabajada",
+        "Problem 1 — Compare three weighted join estimates": "Problema 1: comparar tres estimaciones de unión ponderadas",
+        "Problem 2 — Combine unequal partial averages": "Problema 2: combinar promedios parciales desiguales",
+        "Problem 3 — Check a partition allocation": "Problema 3: comprobar la asignación de una partición"
+      },
+      "sectionIds": [
+        "atomic-recall",
+        "worked-practice"
+      ],
+      "problemIds": [
+        "problem-1-compare-three-weighted-join-estimates",
+        "problem-2-combine-unequal-partial-averages",
+        "problem-3-check-a-partition-allocation"
+      ]
+    },
+    {
+      "id": "content/reviewed/SOE201/lab-04/tutor",
+      "relative": "content/reviewed/SOE201/lab-04/tutor.md",
+      "kind": "tutor",
+      "unit": "lab-04",
+      "origin": "project",
+      "hash": "a508d499abc4379187f013c5ebf9b9e2ba19d74e70d85acd9f0744c32ce55dc4",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Laboratorio 04: Clínica de evaluación de consultas\n\n## En 60 segundos\n\nEsta clínica asigna cada pregunta y subpregunta del Lab4-Tutorial al razonamiento trabajado localmente. Utiliza el PDF verificado de ocho páginas del archivo del 12 de octubre, no una clave de respuestas recién descargada. El recurso de clave de respuesta en vivo 42127 está visible pero no se ha adquirido; Estas soluciones no se presentan como respuestas oficiales. Los principales riesgos son mezclar recuentos de tuplas/bloques, olvidar búsquedas, asumir una selectividad no especificada y combinar convenciones de salida incompatibles.\n\n## P1: escaneos indexados versus escaneos repetidos\n\nLab4 p.2 proporciona al cliente: 1.000.000 de registros/8.000 bloques y al depositante: 500.000/1.000. Con el depositante exterior y la altura de la conferencia limitada a n=100 punteros, h=4 y una búsqueda de claves necesita h+1=5 accesos. Los bucles anidados indexados dan 2.501.000 transferencias y búsquedas, por lo tanto, 10.254.100 ms con 0,1 ms de transferencia/4 ms de búsqueda. Los bucles anidados de tupla dan 4.000.001.000 transferencias y 501.000 búsquedas, con un coste de 402.004.100 ms. BNL de un bloque externo ofrece 8.001.000 transferencias/2.000 búsquedas, con un costo de 808.100 ms. Según estos supuestos de fuente sin caché, BNL gana entre esos tres algoritmos. No se asume ningún beneficio de ajuste de memoria o almacenamiento en caché.\n\n## P2: Identificar supuestos faltantes y conflictivos\n\nLab4 pp.3–4 proporciona cliente: 5000 tuplas/500 bloques y transacción: 80 000/7000. Describe la transacción ordenada por su clave, pero también supone un índice primario escaso en customer_Number, que no es su clave indicada transaction_ID. Un plan de acceso agrupado disperso necesita un orden físico coherente con el customer_Number indexado; Esto debe aclararse en lugar de inferirse silenciosamente.\n\nSupongamos condicionalmente que ese orden físico, utilice N=7 y el límite de altura de ocupación mínima de la conferencia h=7. Para el cliente externo, BNL transfiere 3.500.500 bloques y realiza 1.000 búsquedas, con un costo de 354.050 ms. Sean b los bloques de transacciones coincidentes por búsqueda de cliente. El INL agrupado cuesta $B=500+5000(7+b)$ y $S=500+5000(7+1)=40500$, por lo tanto, $T=165550+500b$ ms. Una estimación uniforme de 16 coincidencias/cliente y 80.000/7.000 tuplas/bloque sugiere b≈2, lo que da 166.550 ms; es una estimación explícita, no una conclusión exacta del recuento total. La altura del índice es una convención de límite superior, no una forma medida. Confirma el orden físico y la distribución de coincidencias antes de presentar una comparación definitiva del plan.\n\n## P3: La ordenación externa de doce bloques\n\nLab4 p.5 y Lecture5a pp.20–22 dan b=12,M=3,b_b=1. Ejecuciones iniciales: 4; número de tramos fusionados a la vez: 2; la ejecución cuenta 4 → 2 → 1; pases de fusión:2. Con la omisión de escritura de salida final de la fuente, B=60,S=44. Si se debe almacenar la salida, agregue 12 transferencias/12 búsquedas, lo que da 72/56. Ambas convenciones describen la misma estructura de tramos; no cambie el número de pasadas para ajustar la escritura de salida.\n\n## P4: Declarar adónde van los resultados ordenados\n\nLab4 p.6 le da al cliente 8000 bloques, depositante 1000, M = 100, b_b = 5, inicialmente sin ordenar. Fan-in19, tramos ordenados iniciales 80/10 y pases de fusión 2/1. Costes de ordenación totalmente materializados 48.000/4.000 transferencias y 6.560/420 búsquedas respectivamente. Un escaneo de fusión posterior agrega 9000 transferencias y 1800 búsquedas: un total de 61 000 transferencias/8780 búsquedas, omitiendo la escritura del resultado del join.\n\nLa fórmula de ordenación de origen omite las escrituras ordenadas finales. Su aplicación proporciona 40.000+3.000 transferencias y 4.960+220 búsquedas de este tipo. Agregar ciegamente un escaneo de combinación posterior por separado da 52,000/6,980, pero omite las escrituras necesarias para que esos archivos ordenados sean persistentes. Si las fusiones finales están realmente fusionadas en la unión, sus costos de lectura ya incluyen el consumo de entradas: el subtotal de transferencia ideal es 43 000, no 52 000. Vuelva a verificar la asignación simultánea de búfer y la capacidad de grupos de claves iguales antes de afirmar que una ejecución fusionada de este tipo es factible. La pregunta deja esta política sin mencionar; Las soluciones locales exponen las alternativas en lugar de reclamar un total oficial sin condiciones.\n\n## P5: Costo de hash condicional y viabilidad del búfer\n\nLab4 p.7 proporciona 50 particiones y b_b=20, y pide contar bloques parcialmente llenos. La sustitución en Lecture5b p.21 da $B=3(8000+1000)+4(50)=27200$ y $S=2(400+50)+2(50)=1000$. El tiempo estimado con los pesos del Q4 es de 6.720 ms. Esta es aritmética condicional bajo la premisa establecida de un solo paso.\n\nSi la “información de Q4” incluye M=100, la asignación simultánea propuesta requiere (50+1)×20=1020 marcos de memoria, lo que contradice ese presupuesto de memoria. Incluso la afirmación de una sola pasada de la fuente no resuelve el conflicto de asignación. Indique esa inconsistencia; Revise la memoria, los buffers, el recuento de particiones o la estructura de paso antes de tratar 6720 ms como una estimación de plan ejecutable. No se reclama ninguna ejecución de DBMS.\n\n## P6: Materializar antes de la fusión posterior\n\nLab4 p.8 proporciona b_r=5,b_s=3,M=3,b_b=1 y requiere explícitamente que se escriban los resultados finales ordenados. (a) r realiza 2 tramos ordenados iniciales; s cabe en la memoria y no necesita ejecuciones externas (una secuencia ordenada en memoria). (b) r necesita 1 pase de fusión; s necesita0. (c) Materializar r cuesta2×5×(1+1)=20 transferencias. Leer, ordenar en memoria y escribir cuesta 3+3=6, aunque la ordenación por fusión externa no es necesaria. (d) El escaneo de fusión posterior lee 5+3=8 bloques bajo la condición de ajuste de grupo de la fuente. (e) Total:34 transferencias, excluyendo escrituras de resultados de unión. Tratar la ordenación en memoria como gratuita omitiría su entrada/salida de disco solicitada explícitamente.\n\n## Mapa de origen y límites de verificación\n\n| Localizador de fuentes | Destino web | Partes de la pregunta |\n|---|---|---|\n| Laboratorio4 p.2 | Sección Problema 1/Q1 | Transferencias, búsquedas, tiempo, comparación de algoritmos |\n| Laboratorio 4 págs. 3–4 | Sección Problema2 / Q2 | elección y justificación de BNL/INL; brechas de ordenamiento/selectividad |\n| Laboratorio4 pág.5 | Sección Problema 3 / P3 | Ejecutar rastreo, transferencias, búsquedas |\n| Laboratorio4 pág.6 | Sección Problema 4 / P4 | Clasificar y unir transferencias/búsquedas; política de salida |\n| Laboratorio4 p.7 | Sección Problema 5 / P5 | Costo de bloque parcial; inconsistencia de la memoria heredada |\n| Laboratorio4 p.8 | Sección Problema 6/P6 | Partes a) a e), todas cubiertas explícitamente |\n\nToda la aritmética se vuelve a calcular independientemente a partir de fórmulas establecidas. Las identidades/hashes de origen están en el manifiesto de actualización del proyecto. Las comprobaciones estructurales/de renderizado son independientes de la ejecución física de la base de datos y de la revisión oficial de la clave de respuestas. Se conservan los archivos históricos originales, las notas ordinarias de la bóveda y el progreso del alumno.\n",
+      "headingAliases": {
+        "Lab 04: Query Evaluation Clinic": "Laboratorio 04: Clínica de evaluación de consultas",
+        "In 60 Seconds": "En 60 segundos",
+        "Q1: Indexed Versus Repeated Scans": "P1: escaneos indexados versus escaneos repetidos",
+        "Q2: Identify Missing and Conflicting Assumptions": "P2: Identificar supuestos faltantes y conflictivos",
+        "Q3: The Twelve-Block External Sort": "P3: La ordenación externa de doce bloques",
+        "Q4: Declare Where the Sorted Results Go": "P4: Declarar adónde van los resultados ordenados",
+        "Q5: Conditional Hash Cost and Buffer Feasibility": "P5: Costo de hash condicional y viabilidad del búfer",
+        "Q6: Materialise Before the Subsequent Merge Join": "P6: Materializar antes de la fusión posterior",
+        "Source Map and Verification Boundaries": "Mapa de origen y límites de verificación"
+      },
+      "sectionIds": [
+        "in-60-seconds",
+        "q1-indexed-versus-repeated-scans",
+        "q2-identify-missing-and-conflicting-assumptions",
+        "q3-the-twelve-block-external-sort",
+        "q4-declare-where-the-sorted-results-go",
+        "q5-conditional-hash-cost-and-buffer-feasibility",
+        "q6-materialise-before-the-subsequent-merge-join",
+        "source-map-and-verification-boundaries"
+      ],
+      "problemIds": []
+    },
+    {
+      "id": "content/reviewed/SOE201/lab-04/practice",
+      "relative": "content/reviewed/SOE201/lab-04/practice.md",
+      "kind": "practice",
+      "unit": "lab-04",
+      "origin": "project",
+      "hash": "7239a329ac31e574f1d933fc5a7ce1ac6860f3a54a7efc8092f835f39c4cad04",
+      "markdown": "# Recordar y practicar\n\nPráctica basada en fuentes con razonamiento trabajado localmente, no un esquema de calificación oficial. Las tareas de origen originales se identifican individualmente. No se afirma ninguna ejecución de base de datos ni dominio del estudiante.\n\n## Repaso activo atómico\n\n### Tarjeta 01: ¿Qué conjunto de datos pertenece a Lab4 Q1?\n\n> [!success]- Respuesta\n> Cliente1.000.000 registros/8.000 bloques; depositante500.000 registros/1.000 bloques.\n>\n> Fuente: Lab4 p.2.\n\n### Tarjeta 02: ¿Qué hace que el segundo trimestre esté numéricamente infradeterminado?\n\n> [!success]- Respuesta\n> El orden físico y la distribución de bloques coincidentes por clave no están completamente establecidos por los totales.\n>\n> Fuente: Lab4 págs.3–4.\n\n### Tarjeta 03: ¿Cuántas pasadas de combinación clasifican 12 bloques con 3 marcos de memoria?\n\n> [!success]- Respuesta\n> Dos: 4 tramos ordenados iniciales se convierten en 2 y luego en 1 con fan-in2.\n>\n> Fuente: Lab4 p.5.\n\n### Tarjeta 04: ¿Por qué una ordenación en memoria no es necesariamente gratuita en el sexto trimestre?\n\n> [!success]- Respuesta\n> La pregunta requiere datos ordenados escritos en el disco, así que incluya la lectura y escritura de esos 3 bloques.\n>\n> Fuente: Lab4 p.8.\n\n### Tarjeta 05 — ¿Qué inconsistencia debe reportar el Q5?\n\n> [!success]- Respuesta\n> El M=100 heredado no puede contener 51 buffers de 20 marcos de memoria cada uno; la premisa de un solo paso necesita aclaración.\n>\n> Fuente: Lab4 págs.6–7.\n\n## Práctica trabajada\n\n### Problema 1 - P1 - Comparar tres algoritmos de unión\n\nTAREA ORIGINAL. Cliente1.000.000 registros/8.000 bloques; depositante 500.000/1.000 como exterior; clave interna B+ índice n=100. Encuentre transferencias, búsquedas, tiempos y compare NL, BNL, INL usando pesos de 0,1 ms/4 ms. Fuente: Lab4 p.2.\n\n> [!tip]- Sugerencia\n> Use h=4 debajo del límite de fuente, luego 5 accesos de búsqueda de claves.\n\n> [!success]- Solución\n> INL:B=S=1.000+500.000×5=2.501.000,T=10.254.100ms. NL:B=1.000+500.000×8.000=4.000.001.000,S=501.000,T=402.004.100ms. BNL:B=1000+1000×8000=8001000,S=2000,T=808100ms. BNL es el más barato entre estos según el modelo original.\n\n### Problema 2 - P2 - Comparar exponiendo la incertidumbre\n\nTAREA ORIGINAL. Compare BNL y bucles anidados indexados para cliente 5000 tuplas/500 bloques y transacción 80 000/7000, con el índice primario disperso N=7 indicado en customer_Number. Fuente: Lab4 págs. 3–4.\n\n> [!tip]- Sugerencia\n> Primero resuelva la descripción del pedido y luego conserve los bloques de datos coincidentes como parámetro.\n\n> [!success]- Solución\n> BNL externo del cliente: B=3.500.500,S=1.000,T=354.050ms. INL agrupado condicional con h=7:B=35.500+5.000b,S=40.500,T=165.550+500b ms. Si el empaquetamiento uniforme sugiere b=2,T=166,550ms, por debajo de BNL. Pero la inconsistencia en el orden físico y la distribución de coincidencias desconocida impiden una respuesta exacta incondicional; Exponga ambos supuestos.\n\n### Problema 3 - P3 - Cuente la ordenación externa\n\nTAREA ORIGINAL. b=12,M=3,b_b=1; dar transferencias y busca. Fuente: Lab4 p.5.\n\n> [!tip]- Sugerencia\n> Cuatro tramos ordenados iniciales, dos pasadas de fusión; declarar escrito de salida final.\n\n> [!success]- Solución\n> Fórmula fuente transmitida:B=12×(2×2+1)=60,S=2×4+12×(4−1)=44. Salida materializada:B=72,S=56. La traza de ejecución es 4→2→1.\n\n### Problema 4 - Q4 - Auditoría de la contabilidad de fusión y unión\n\nTAREA ORIGINAL. Entradas de 8000/1000 bloques sin ordenar, M=100,b_b=5. Encuentre transferencias/búsquedas de ordenación y fusión. Fuente: Lab4 p.6.\n\n> [!tip]- Sugerencia\n> Fan-in19; ordenar pases 2 y 1. Decida si se materializan los archivos finales ordenados.\n\n> [!success]- Solución\n> Ordenación materializada: 48.000+4.000 transferencias y 6.560+420 búsquedas. Fusión posterior: 9.000 transferencias/1.800 búsquedas. Total 61 000/8 780, se omitió la escritura de resultados. La aritmética de ordenación de secuencias de origen más un escaneo separado arroja 52 000/6 980, pero deja escrituras de persistencia faltantes. La verdadera fusión evita la relectura de esos flujos finales y requiere una verificación de viabilidad del búfer por separado; no debe combinar silenciosamente ambas convenciones.\n\n### Problema 5 - P5 - Cuente el costo de hash y marque el conflicto\n\nTAREA ORIGINAL. Utilice 50 particiones, b_b=20 e incluya bloques parcialmente rellenos para las relaciones Q4. Fuente: Lab4 p.7.\n\n> [!tip]- Sugerencia\n> Aplique la fórmula de bloque parcial proporcionada y luego cuente los buffers.\n\n> [!success]- Solución\n> Costo de fuente condicional: B=27200,S=1000,T=6720ms con pesos de 0,1/4ms. Sin embargo, un buffer de entrada y 50 buffers de salida de 20 marcos de memoria requieren 1.020 marcos de memoria, lo que supera Q4 M=100. Esta aritmética no establece una ejecución factible de una sola pasada. Aclare la memoria heredada o revise los supuestos de asignación/aprobación.\n\n### Problema 6 - P6 - Responda cada parte de ordenación materializada\n\nTAREA ORIGINAL. b_r=5,b_s=3,M=3,b_b=1; Los resultados finales ordenados deben escribirse antes de fusionarse. Respuesta (a)–(e). Fuente: Lab4 p.8.\n\n> [!tip]- Sugerencia\n> Manejar la entrada en memoria por separado e incluir su escritura final.\n\n> [!success]- Solución\n> (a)r:2 ejecuciones externas iniciales;s:una secuencia ordenada en memoria,no se requieren ejecuciones externas. (b)r:1 pase de fusión;s:0. (c)r:20 transferencias;s:6 transferencias para lectura+escritura. (d) escaneo de fusión: 8 transferencias bajo el supuesto de ajuste grupal. (e)20+6+8=34 transferencias totales. La escritura del resultado del join se excluye porque su tamaño no está especificado.\n\n",
+      "headingAliases": {
+        "Recall and Practice": "Recordar y practicar",
+        "Atomic recall": "Repaso activo atómico",
+        "Card 01 — What dataset belongs to Lab4 Q1?": "Tarjeta 01: ¿Qué conjunto de datos pertenece a Lab4 Q1?",
+        "Card 02 — What makes Q2 numerically underdetermined?": "Tarjeta 02: ¿Qué hace que el segundo trimestre esté numéricamente infradeterminado?",
+        "Card 03 — How many merge passes sort12 blocks with3 frames?": "Tarjeta 03: ¿Cuántas pasadas de combinación clasifican 12 bloques con 3 marcos de memoria?",
+        "Card 04 — Why is an in-memory sort not necessarily free in Q6?": "Tarjeta 04: ¿Por qué una ordenación en memoria no es necesariamente gratuita en el sexto trimestre?",
+        "Card 05 — What inconsistency must Q5 report?": "Tarjeta 05 — ¿Qué inconsistencia debe reportar el Q5?",
+        "Worked practice": "Práctica trabajada",
+        "Problem 1 — Q1 — Compare three join algorithms": "Problema 1 - P1 - Comparar tres algoritmos de unión",
+        "Problem 2 — Q2 — Compare while exposing uncertainty": "Problema 2 - P2 - Comparar exponiendo la incertidumbre",
+        "Problem 3 — Q3 — Count the external sort": "Problema 3 - P3 - Cuente la ordenación externa",
+        "Problem 4 — Q4 — Audit merge-join accounting": "Problema 4 - Q4 - Auditoría de la contabilidad de fusión y unión",
+        "Problem 5 — Q5 — Count hash cost and flag the conflict": "Problema 5 - P5 - Cuente el costo de hash y marque el conflicto",
+        "Problem 6 — Q6 — Answer every materialised-sort part": "Problema 6 - P6 - Responda cada parte de ordenación materializada"
+      },
+      "sectionIds": [
+        "atomic-recall",
+        "worked-practice"
+      ],
+      "problemIds": [
+        "problem-1-q1-compare-three-join-algorithms",
+        "problem-2-q2-compare-while-exposing-uncertainty",
+        "problem-3-q3-count-the-external-sort",
+        "problem-4-q4-audit-merge-join-accounting",
+        "problem-5-q5-count-hash-cost-and-flag-the-conflict",
+        "problem-6-q6-answer-every-materialised-sort-part"
+      ]
     }
   ],
   "cards": [
@@ -1816,7 +2057,7 @@
       "unit": "05",
       "question": "¿Qué cambia la selección?",
       "answer": "La selección mantiene las tuplas satisfaciendo un predicado; conserva el esquema de atributos.",
-      "source": "Fuente: Lecture4a - Review of Relational Algebra.pdf, PDF págs. 10-11."
+      "source": "Fuente: Lecture4a - Review of Relational Algebra.pdf, PDF págs. 10–11."
     },
     {
       "id": "05-02",
@@ -2062,6 +2303,139 @@
       "question": "¿Los tiempos históricos más rápidos demuestran que la indexación siempre gana?",
       "answer": "No. El resultado local registrado es una observación de entorno único con su propio plan/datos/caché/límite de controlador.",
       "source": "Fuente: Lab2-JDBCandIndex-tasks.pdf y Labs/Lab 02 - JDBC e Index/03 Lab.md, resultados y limitaciones de la Tarea 2 de referencia de laboratorio."
+    },
+    {
+      "id": "07-01",
+      "unit": "07",
+      "question": "¿Por qué un menor número de transferencias puede significar un plan más lento?",
+      "answer": "El tiempo de posicionamiento (seek) puede dominar: compare B×tT+S×tS usando la misma unidad de tiempo.",
+      "source": "Fuente: Lecture5a págs.6–10."
+    },
+    {
+      "id": "07-02",
+      "unit": "07",
+      "question": "¿Qué permite la búsqueda binaria en un archivo?",
+      "answer": "Ordenamiento físico del atributo de selección, no simplemente la existencia de algún índice.",
+      "source": "Fuente: Lecture5a p.6."
+    },
+    {
+      "id": "07-03",
+      "unit": "07",
+      "question": "¿Qué cambia entre la recuperación de igualdad agrupada y no agrupada?",
+      "answer": "Los partidos agrupados ocupan bloques consecutivos; Las coincidencias dispersas pueden requerir una E/S y una búsqueda para cada registro.",
+      "source": "Fuente: Lecture5a págs. 8–10."
+    },
+    {
+      "id": "07-04",
+      "unit": "07",
+      "question": "¿Qué debe cubrir un plan de acceso al quirófano?",
+      "answer": "Cada disyunción, incluidas las ramas no indexadas y los punteros candidatos duplicados, no deben generar resultados de conjuntos duplicados.",
+      "source": "Fuente: Lecture5a p.13, aclaración de integridad local."
+    },
+    {
+      "id": "07-05",
+      "unit": "07",
+      "question": "¿Por qué la proyección puede ser costosa?",
+      "answer": "Para eliminar tuplas proyectadas duplicadas es necesario agruparlas, a menudo mediante ordenación o hash.",
+      "source": "Fuente: Lecture5a p.15."
+    },
+    {
+      "id": "07-06",
+      "unit": "07",
+      "question": "¿Cuántas tramos ordenados iniciales y cuáles fusionan fan-in?",
+      "answer": "$N=\\lceil b/M\\rceil$ y $F=\\lfloor M/b_b\\rfloor-1$, con F al menos dos para fusión de varias pasadas.",
+      "source": "Fuente: Lecture5a págs. 17-21."
+    },
+    {
+      "id": "07-07",
+      "unit": "07",
+      "question": "¿Qué omite la fórmula del costo de ordenación externa?",
+      "answer": "La escritura final de salida ordenada; agréguelo cuando se requiera un archivo ordenado persistente.",
+      "source": "Fuente: Lecture5a p.21."
+    },
+    {
+      "id": "08-01",
+      "unit": "08",
+      "question": "¿Qué debe comparar una combinación natural?",
+      "answer": "Cada nombre de atributo compartido, luego devuelve una copia de cada columna compartida.",
+      "source": "Fuente: Lecture5b p.3."
+    },
+    {
+      "id": "08-02",
+      "unit": "08",
+      "question": "¿Qué distingue los bucles anidados de tupla de los de bloque?",
+      "answer": "El primero vuelve a escanear la entrada interna por tupla externa; este último reutiliza un bloque externo para todas sus comparaciones de tuplas.",
+      "source": "Fuente: Lecture5b págs.6–10."
+    },
+    {
+      "id": "08-03",
+      "unit": "08",
+      "question": "¿Qué entrada necesita un índice para bucles anidados indexados?",
+      "answer": "La relación interna necesita un índice en el atributo de unión de igualdad.",
+      "source": "Fuente: Lecture5b págs.11-12."
+    },
+    {
+      "id": "08-04",
+      "unit": "08",
+      "question": "¿Por qué los costos de fusión y unión deben incluir una política de pedidos?",
+      "answer": "Las entradas no clasificadas necesitan ordenación; Los costos de redacción final y relectura dependen de la materialización versus la transmisión.",
+      "source": "Fuente: Lecture5b págs. 14-16; Lecture5a p.21."
+    },
+    {
+      "id": "08-05",
+      "unit": "08",
+      "question": "¿Debe caber toda la partición de la sonda en la memoria?",
+      "answer": "No: conserve la partición de construcción (build) y transmita la partición de la sonda, sujeta a buffers y sesgos.",
+      "source": "Fuente: Lecture5b págs.19-20."
+    },
+    {
+      "id": "08-06",
+      "unit": "08",
+      "question": "¿Por qué una colisión de hash es insuficiente para obtener un resultado del join?",
+      "answer": "Claves iguales se combinan entre sí, pero claves diferentes pueden colisionar; verifique la igualdad real antes de emitir.",
+      "source": "Fuente: Lecture5b págs. 17-19, explicación de corrección local."
+    },
+    {
+      "id": "08-07",
+      "unit": "08",
+      "question": "¿Qué estado apoya el AVG parcial correcto?",
+      "answer": "Sumar y contar; combine sus sumas, luego divida la suma total por el conteo total.",
+      "source": "Fuente: Lecture5b p.23."
+    },
+    {
+      "id": "lab-04-01",
+      "unit": "lab-04",
+      "question": "¿Qué conjunto de datos pertenece a Lab4 Q1?",
+      "answer": "Cliente1.000.000 registros/8.000 bloques; depositante500.000 registros/1.000 bloques.",
+      "source": "Fuente: Lab4 p.2."
+    },
+    {
+      "id": "lab-04-02",
+      "unit": "lab-04",
+      "question": "¿Qué hace que Q2 esté numéricamente infradeterminado?",
+      "answer": "El orden físico y la distribución de bloques coincidentes por clave no están completamente establecidos por los totales.",
+      "source": "Fuente: Lab4 págs. 3–4."
+    },
+    {
+      "id": "lab-04-03",
+      "unit": "lab-04",
+      "question": "¿Cuántos pases de fusión clasifican 12 bloques con 3 marcos de memoria?",
+      "answer": "Las tramos ordenados iniciales de dos:4 se convierten en 2 y luego en 1 con fan-in2.",
+      "source": "Fuente: Lab4 p.5."
+    },
+    {
+      "id": "lab-04-04",
+      "unit": "lab-04",
+      "question": "¿Por qué una ordenación en memoria no es necesariamente gratuita en el sexto trimestre?",
+      "answer": "La pregunta requiere datos ordenados escritos en el disco, así que incluya la lectura y escritura de esos 3 bloques.",
+      "source": "Fuente: Lab4 p.8."
+    },
+    {
+      "id": "lab-04-05",
+      "unit": "lab-04",
+      "question": "¿Qué inconsistencia debe reportar Q5?",
+      "answer": "El M=100 heredado no puede contener 51 buffers de 20 marcos de memoria cada uno; la premisa de un solo paso necesita aclaración.",
+      "source": "Fuente: Lab4 págs.6–7."
     }
   ],
   "assets": {
@@ -2220,6 +2594,30 @@
       "unit": "lab-02-timing",
       "hash": "e8a35be4b5025a10b7cdfa4717df49671e10a689e14f1e10acf9732b76a65d35",
       "url": "/sources/soe201/13.pdf"
+    },
+    {
+      "id": "14",
+      "relative": "Lecture5a - Query Evaluation 1.pdf",
+      "title": "Lecture5a - Query Evaluation 1.pdf (original en inglés)",
+      "unit": "07",
+      "hash": "84f93cf09ce9b16aff60c8c52981313e16b0c4da71a360d6a9e5ee16037c5c89",
+      "url": "/sources/soe201/14.pdf"
+    },
+    {
+      "id": "15",
+      "relative": "Lecture5b - Query Evaluation 2.pdf",
+      "title": "Lecture5b - Query Evaluation 2.pdf (original en inglés)",
+      "unit": "08",
+      "hash": "6307b14a60c1e24433d7a7212603cc8bcbd6240355a493a50f64b3a0e7b03c03",
+      "url": "/sources/soe201/15.pdf"
+    },
+    {
+      "id": "16",
+      "relative": "Lab4-Tutorial.pdf",
+      "title": "Lab4-Tutorial.pdf (original en inglés)",
+      "unit": "lab-04",
+      "hash": "6797714de0ab97a1d504fef33730b697c97ca617ceeadc48ab3ecbadfa328ced",
+      "url": "/sources/soe201/16.pdf"
     }
   ],
   "videos": [
@@ -2341,12 +2739,12 @@
         {
           "label": "El hash no puede encontrar coincidencias exactas",
           "correct": false,
-          "feedback": "Hashing admite el acceso igualitario pero no coloca las claves vecinas en orden. Un árbol B+ soporta el recorrido ordenado."
+          "feedback": "Hashing admite la igualdad de acceso pero no coloca las claves vecinas en orden. Un árbol B+ soporta el recorrido ordenado."
         },
         {
           "label": "El orden del depósito hash no conserva el orden de las claves",
           "correct": true,
-          "feedback": "Hashing admite el acceso igualitario pero no coloca las claves vecinas en orden. Un árbol B+ soporta el recorrido ordenado."
+          "feedback": "Hashing admite la igualdad de acceso pero no coloca las claves vecinas en orden. Un árbol B+ soporta el recorrido ordenado."
         },
         {
           "label": "Las colisiones hash implican que los resultados del rango son incorrectos.",
@@ -2391,12 +2789,12 @@
         {
           "label": "Dos filas de salida: (500), (500)",
           "correct": false,
-          "feedback": "La proyección establecida elimina las tuplas de resultados duplicadas. SQL SELECT sin DISTINCT puede conservar duplicados."
+          "feedback": "La proyección establecida elimina las tuplas de resultados duplicados. SQL SELECT sin DISTINCT puede conservar duplicados."
         },
         {
           "label": "Una tupla de salida: (500)",
           "correct": true,
-          "feedback": "La proyección establecida elimina las tuplas de resultados duplicadas. SQL SELECT sin DISTINCT puede conservar duplicados."
+          "feedback": "La proyección establecida elimina las tuplas de resultados duplicados. SQL SELECT sin DISTINCT puede conservar duplicados."
         },
         {
           "label": "La proyección no es válida porque dos saldos son iguales.",
@@ -2460,6 +2858,81 @@
           "label": "Sólo el bucle while (rs.next()).",
           "correct": false,
           "feedback": "Que mide el consumo de resultados de la aplicación. Los corchetes de tareas liberados ejecutanQuery; su trabajo de controlador puede incluir el almacenamiento en búfer de los resultados."
+        }
+      ]
+    },
+    {
+      "id": "07-activity",
+      "unit": "07",
+      "kind": "quiz",
+      "title": "Auditar el modelo",
+      "prompt": "¿Qué se requiere antes de afirmar que un índice es más rápido?",
+      "source": "Lecture5a/5b o Lab4; verificación de revisión complementaria.",
+      "options": [
+        {
+          "label": "Compare el costo ponderado con la selectividad y la localidad indicadas.",
+          "correct": true,
+          "feedback": "El modelo elegido debe incluir pesos de transferencia/búsqueda y localidad de recuperación."
+        },
+        {
+          "label": "Cuente solo cuántos índices existen.",
+          "correct": false,
+          "feedback": "La existencia del índice por sí sola no establece el costo de recuperación de este predicado."
+        },
+        {
+          "label": "Ignore las posicionamientos cuando las transferencias disminuyan.",
+          "correct": false,
+          "feedback": "Las costosas búsquedas aleatorias pueden dominar el ahorro de transferencias."
+        }
+      ]
+    },
+    {
+      "id": "08-activity",
+      "unit": "08",
+      "kind": "quiz",
+      "title": "Auditar el modelo",
+      "prompt": "¿Por qué las estimaciones ponderadas no demuestran el tiempo de ejecución medido?",
+      "source": "Lecture5a/5b o Lab4; verificación de revisión complementaria.",
+      "options": [
+        {
+          "label": "Dependen de suposiciones, no de un punto de referencia ejecutado.",
+          "correct": true,
+          "feedback": "Estos cálculos utilizan un modelo establecido sin ejecutar una consulta a la base de datos."
+        },
+        {
+          "label": "Cualquier resultado aritmético es automáticamente una medición DBMS.",
+          "correct": false,
+          "feedback": "Un costo calculado no es un tiempo de ejecución observado en el hardware real."
+        },
+        {
+          "label": "El algoritmo más rápido es independiente de la memoria y las estadísticas.",
+          "correct": false,
+          "feedback": "La memoria, el sesgo, las estadísticas y la política de salida pueden cambiar la ordenación del plan."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-activity",
+      "unit": "lab-04",
+      "kind": "quiz",
+      "title": "Auditar el modelo",
+      "prompt": "¿Cuál es la verificación más sólida afirmada por esta clínica?",
+      "source": "Lecture5a/5b o Lab4; verificación de revisión complementaria.",
+      "options": [
+        {
+          "label": "Aritmética recalculada y mapeos de fuentes.",
+          "correct": true,
+          "feedback": "Las tareas de origen y todas las subpartes se asignan al razonamiento trabajado local."
+        },
+        {
+          "label": "Aprobación de marcado oficial.",
+          "correct": false,
+          "feedback": "La clave de respuestas oficial aún no se ha descargado ni verificado."
+        },
+        {
+          "label": "Dominio medido del estudiante.",
+          "correct": false,
+          "feedback": "Crear notas y comprobar la aritmética no mide el aprendizaje."
         }
       ]
     }
@@ -5434,13 +5907,733 @@
           "feedback": "El límite de llamada API es preciso, pero no es automáticamente un límite exclusivo del servidor."
         }
       ]
+    },
+    {
+      "id": "07-check-01",
+      "unit": "07",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué ruta de acceso gana en el ejemplo de apertura de 400 bloques?",
+      "source": "En 60 segundos: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "En 60 segundos"
+      },
+      "options": [
+        {
+          "label": "Todas las rutas cuestan 44 ms porque sus resultados coinciden.",
+          "correct": false,
+          "feedback": "La semántica de igual resultado no implica igual trabajo físico."
+        },
+        {
+          "label": "Búsqueda agrupada: 21,2 ms.",
+          "correct": true,
+          "feedback": "La ruta agrupada indicada utiliza 12 transferencias y 5 búsquedas."
+        },
+        {
+          "label": "Búsqueda no agrupada: siempre supera al escaneo.",
+          "correct": false,
+          "feedback": "Una búsqueda no agrupada necesita 104 búsquedas en frío y cuesta 426,4 ms."
+        }
+      ]
+    },
+    {
+      "id": "07-check-02",
+      "unit": "07",
+      "lesson": "select-an-access-path-with-explicit-assumptions",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué debe asumir una búsqueda de archivos binarios?",
+      "source": "Seleccione una ruta de acceso con supuestos explícitos: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Seleccione una ruta de acceso con supuestos explícitos"
+      },
+      "options": [
+        {
+          "label": "Cualquier índice no relacionado es suficiente.",
+          "correct": false,
+          "feedback": "Un índice de otro atributo no ordena este archivo para el predicado."
+        },
+        {
+          "label": "Que cada registro ocupe un bloque completo.",
+          "correct": false,
+          "feedback": "El método no requiere un registro por bloque."
+        },
+        {
+          "label": "Ordenamiento físico del atributo seleccionado.",
+          "correct": true,
+          "feedback": "La búsqueda binaria se basa en bloques ordenados en el atributo buscado."
+        }
+      ]
+    },
+    {
+      "id": "07-check-03",
+      "unit": "07",
+      "lesson": "handle-ranges-and-boolean-conditions-completely",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué hay de malo en indexar solo A para A=1 O B=2?",
+      "source": "Manejar rangos y condiciones booleanas completamente: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Manejar rangos y condiciones booleanas completamente"
+      },
+      "options": [
+        {
+          "label": "Omite registros que satisfacen sólo B=2.",
+          "correct": true,
+          "feedback": "Se deben cubrir todas las disyunciones, incluida la rama no indexada."
+        },
+        {
+          "label": "Siempre devuelve la unión correcta completa.",
+          "correct": false,
+          "feedback": "Un conjunto de candidatos sólo A excluye coincidencias válidas sólo B."
+        },
+        {
+          "label": "O puede evaluarse como Y para reducir costos.",
+          "correct": false,
+          "feedback": "Cambiar OR a AND cambia el resultado lógico."
+        }
+      ]
+    },
+    {
+      "id": "07-check-04",
+      "unit": "07",
+      "lesson": "project-columns-and-remove-duplicates",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué hace que la proyección de escenarios sea potencialmente costosa?",
+      "source": "Proyectar columnas y eliminar duplicados: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Proyectar columnas y eliminar duplicados"
+      },
+      "options": [
+        {
+          "label": "La proyección necesariamente agrega nuevas filas.",
+          "correct": false,
+          "feedback": "La proyección elimina atributos; su resultado establecido no crea nuevas tuplas de entrada."
+        },
+        {
+          "label": "Eliminación de duplicados después de eliminar las columnas.",
+          "correct": true,
+          "feedback": "Es posible que se requiera ordenación o hash para agrupar tuplas proyectadas iguales."
+        },
+        {
+          "label": "Cada SELECT sin DISTINCT elimina duplicados.",
+          "correct": false,
+          "feedback": "El paquete SQL SELECT puede retener duplicados; se diferencia de la proyección establecida."
+        }
+      ]
+    },
+    {
+      "id": "07-check-05",
+      "unit": "07",
+      "lesson": "create-runs-before-merging",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "Con M=3,b_b=1, ¿qué es la fusión en abanico?",
+      "source": "Crear tramos antes de fusionar: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Crear tramos antes de fusionar"
+      },
+      "options": [
+        {
+          "label": "Tres ejecuciones más un búfer de salida.",
+          "correct": false,
+          "feedback": "Tres buffers de entrada y una salida necesitan al menos cuatro marcos de memoria."
+        },
+        {
+          "label": "Doce carreras independientemente de la memoria.",
+          "correct": false,
+          "feedback": "El tamaño de la relación no puede anular el límite del búfer simultáneo."
+        },
+        {
+          "label": "Dos carreras.",
+          "correct": true,
+          "feedback": "Dos entradas más una salida utilizan los tres marcos disponibles."
+        }
+      ]
+    },
+    {
+      "id": "07-check-06",
+      "unit": "07",
+      "lesson": "count-transfers-and-seeks-with-one-output-convention",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué omite la fórmula de ordenación de fuentes?",
+      "source": "Contar transferencias y búsquedas con la convención de una salida: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Contar transferencias y búsquedas con una convención de salida"
+      },
+      "options": [
+        {
+          "label": "La salida final se escribe.",
+          "correct": true,
+          "feedback": "Materializar la salida final ordenada requiere agregar sus transferencias y búsquedas de escritura."
+        },
+        {
+          "label": "Cada lectura inicial.",
+          "correct": false,
+          "feedback": "La generación de tramos iniciales incluye leer y escribir cada bloque de entrada."
+        },
+        {
+          "label": "Todas las escrituras de fusión intermedias.",
+          "correct": false,
+          "feedback": "Las ejecuciones intermedias se escriben para que la siguiente pasada pueda leerlas."
+        }
+      ]
+    },
+    {
+      "id": "07-check-07",
+      "unit": "07",
+      "lesson": "return-to-the-access-path-decision",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué se requiere antes de afirmar que un índice es más rápido?",
+      "source": "Regrese a la Decisión sobre la ruta de acceso: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/07/tutor",
+        "heading": "Volver a la decisión sobre la vía de acceso"
+      },
+      "options": [
+        {
+          "label": "Ignore las posicionamientos cuando las transferencias disminuyan.",
+          "correct": false,
+          "feedback": "Las costosas búsquedas aleatorias pueden dominar el ahorro de transferencias."
+        },
+        {
+          "label": "Compare el costo ponderado con la selectividad y la localidad indicadas.",
+          "correct": true,
+          "feedback": "El modelo elegido debe incluir pesos de transferencia/búsqueda y localidad de recuperación."
+        },
+        {
+          "label": "Cuente solo cuántos índices existen.",
+          "correct": false,
+          "feedback": "La existencia del índice por sí sola no establece el costo de recuperación de este predicado."
+        }
+      ]
+    },
+    {
+      "id": "08-check-01",
+      "unit": "08",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué unión suministrada es más barata con pesos de 0,1 ms/4 ms?",
+      "source": "En 60 segundos: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "En 60 segundos"
+      },
+      "options": [
+        {
+          "label": "La equivalencia lógica obliga al mismo tiempo.",
+          "correct": false,
+          "feedback": "Dos conjuntos de resultados equivalentes pueden utilizar trabajo físico muy diferente."
+        },
+        {
+          "label": "Los bucles anidados por bloques supera a los bucles anidados indexados en ese par.",
+          "correct": true,
+          "feedback": "La fuente cuenta con un rendimiento de 4810 ms para BNL frente a 102 910 ms para indexado."
+        },
+        {
+          "label": "Indexado siempre gana porque transfiere menos bloques.",
+          "correct": false,
+          "feedback": "Sus 25.100 buscan dominar a pesar del menor número de transferencias."
+        }
+      ]
+    },
+    {
+      "id": "08-check-02",
+      "unit": "08",
+      "lesson": "define-the-result-before-choosing-the-algorithm",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué columnas debe comparar una combinación natural?",
+      "source": "Defina el resultado antes de elegir el algoritmo: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Defina el resultado antes de elegir el algoritmo"
+      },
+      "options": [
+        {
+          "label": "Sólo el primer nombre compartido.",
+          "correct": false,
+          "feedback": "Ignorar otro atributo común puede admitir pares no válidos."
+        },
+        {
+          "label": "Sin columnas: es un producto cartesiano.",
+          "correct": false,
+          "feedback": "El producto cartesiano es sólo el espacio de pares candidatos sin filtrar."
+        },
+        {
+          "label": "Cada nombre de atributo compartido.",
+          "correct": true,
+          "feedback": "La definición del resultado verifica la igualdad de todos los atributos comunes."
+        }
+      ]
+    },
+    {
+      "id": "08-check-03",
+      "unit": "08",
+      "lesson": "compare-tuple-and-block-nested-loops",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué bucle provoca un escaneo interno en bucles anidados de tuplas?",
+      "source": "Comparar bucles anidados de tuplas y bloques: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Comparar bucles anidados de tuplas y bloques"
+      },
+      "options": [
+        {
+          "label": "Cada tupla exterior.",
+          "correct": true,
+          "feedback": "El algoritmo fuente escanea las tuplas internas en busca de cada tupla externa."
+        },
+        {
+          "label": "Cada relación se nombra solo una vez.",
+          "correct": false,
+          "feedback": "Sin suposiciones de ajuste/almacenamiento en caché, el interior se revisa repetidamente."
+        },
+        {
+          "label": "Solo cada tupla de salida.",
+          "correct": false,
+          "feedback": "Las comparaciones de candidatos generan trabajo, incluso cuando no se emite ningún resultado."
+        }
+      ]
+    },
+    {
+      "id": "08-check-04",
+      "unit": "08",
+      "lesson": "probe-the-inner-index-without-hiding-retrieval-cost",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué índice admite bucles anidados indexados?",
+      "source": "Explore el índice interno sin ocultar el costo de recuperación: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Sondee el índice interno sin ocultar el costo de recuperación"
+      },
+      "options": [
+        {
+          "label": "No se necesita ningún índice porque cada sonda es gratuita.",
+          "correct": false,
+          "feedback": "Una sonda incluye recorrido de índice y recuperación de datos coincidentes."
+        },
+        {
+          "label": "Uno en el atributo de unión interna.",
+          "correct": true,
+          "feedback": "Cada tupla externa explora registros coincidentes en la relación interna."
+        },
+        {
+          "label": "Sólo un atributo externo no relacionado.",
+          "correct": false,
+          "feedback": "Un índice externo no relacionado no puede proporcionar la búsqueda de igualdad interna requerida."
+        }
+      ]
+    },
+    {
+      "id": "08-check-05",
+      "unit": "08",
+      "lesson": "merge-sorted-inputs-and-account-for-sorting",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué se debe incluir para las entradas de combinación de combinación no ordenadas?",
+      "source": "Fusionar entradas ordenadas y Cuenta para ordenar: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Combinar entradas ordenadas y contabilizar su ordenación"
+      },
+      "options": [
+        {
+          "label": "Sólo cuenta el resultado final.",
+          "correct": false,
+          "feedback": "La cardinalidad del resultado no tiene en cuenta la preparación de entradas ordenadas."
+        },
+        {
+          "label": "Dos lecturas fusionadas completas incluso cuando son las mismas lecturas transmitidas.",
+          "correct": false,
+          "feedback": "A las fusiones finales fusionadas no se les debe cobrar una lectura de entrada completa duplicada."
+        },
+        {
+          "label": "Selección y política consistente de materialización/streaming.",
+          "correct": true,
+          "feedback": "El orden de entrada y la política de escritura/relectura final determinan las E/S adicionales."
+        }
+      ]
+    },
+    {
+      "id": "08-check-06",
+      "unit": "08",
+      "lesson": "partition-with-one-hash-and-probe-with-another",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Por qué utilizar el mismo primer hash en ambas relaciones?",
+      "source": "Particionar con un hash y buscar coincidencias con otro: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Particionar con un hash y buscar coincidencias con otro"
+      },
+      "options": [
+        {
+          "label": "Las claves coincidentes deben llegar a las particiones correspondientes.",
+          "correct": true,
+          "feedback": "Las particiones correspondientes contienen todas las claves potencialmente coincidentes."
+        },
+        {
+          "label": "Demostrar que cada colisión es un partido de igualdad.",
+          "correct": false,
+          "feedback": "Diferentes claves pueden colisionar y aún necesitar una prueba de igualdad."
+        },
+        {
+          "label": "Porque siempre debe encajar toda la partición de la sonda.",
+          "correct": false,
+          "feedback": "El lado de la sonda puede transmitir mientras la partición de construcción (build) permanece en la memoria."
+        }
+      ]
+    },
+    {
+      "id": "08-check-07",
+      "unit": "08",
+      "lesson": "read-the-hash-join-cost-as-a-conditional-model",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué cuenta la corrección hash 4n_h?",
+      "source": "Lea el costo de Hash-Join como modelo condicional: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Leer el costo de Hash-Join como modelo condicional"
+      },
+      "options": [
+        {
+          "label": "Una prueba de que todos los buffers caben en la memoria.",
+          "correct": false,
+          "feedback": "La viabilidad del buffer requiere un cálculo de asignación por separado."
+        },
+        {
+          "label": "Margen adicional de escritura/lectura para bloques de partición parcialmente llenos.",
+          "correct": true,
+          "feedback": "La fuente incluye explícitamente E/S de bloque de partición parcialmente llenas."
+        },
+        {
+          "label": "Cuatro nuevas tuplas por partición.",
+          "correct": false,
+          "feedback": "Este término cuenta transferencias en bloque en lugar de tuplas generadas."
+        }
+      ]
+    },
+    {
+      "id": "08-check-08",
+      "unit": "08",
+      "lesson": "aggregate-and-implement-set-operations",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cómo se combina el AVG global a partir de grupos parciales?",
+      "source": "Agregar e implementar operaciones de conjunto: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Agregar e implementar operaciones de conjunto"
+      },
+      "options": [
+        {
+          "label": "Promedios promedios parciales sin ponderaciones.",
+          "correct": false,
+          "feedback": "Los promedios parciales no ponderados son incorrectos cuando los tamaños de los grupos difieren."
+        },
+        {
+          "label": "Mantenga sólo el promedio parcial más grande.",
+          "correct": false,
+          "feedback": "Un máximo no conserva la suma total ni el recuento total."
+        },
+        {
+          "label": "Suma sumas y cuentas, luego divide.",
+          "correct": true,
+          "feedback": "Suma/recuento conserva la información necesaria para tamaños de grupos desiguales."
+        }
+      ]
+    },
+    {
+      "id": "08-check-09",
+      "unit": "08",
+      "lesson": "return-to-the-weighted-comparison",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Por qué las estimaciones ponderadas no demuestran el tiempo de ejecución medido?",
+      "source": "Regrese a la Comparación ponderada: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/08/tutor",
+        "heading": "Volver a la comparación ponderada"
+      },
+      "options": [
+        {
+          "label": "Dependen de suposiciones, no de un punto de referencia ejecutado.",
+          "correct": true,
+          "feedback": "Estos cálculos utilizan un modelo establecido sin ejecutar una consulta a la base de datos."
+        },
+        {
+          "label": "Cualquier resultado aritmético es automáticamente una medición DBMS.",
+          "correct": false,
+          "feedback": "Un costo calculado no es un tiempo de ejecución observado en el hardware real."
+        },
+        {
+          "label": "El algoritmo más rápido es independiente de la memoria y las estadísticas.",
+          "correct": false,
+          "feedback": "La memoria, el sesgo, las estadísticas y la política de salida pueden cambiar la ordenación del plan."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-01",
+      "unit": "lab-04",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cómo se clasifican las soluciones clínicas?",
+      "source": "En 60 segundos: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "En 60 segundos"
+      },
+      "options": [
+        {
+          "label": "Resultados medidos de bases de datos universitarias.",
+          "correct": false,
+          "feedback": "No se realizó ninguna ejecución de base de datos para estos cálculos de costos."
+        },
+        {
+          "label": "Razonamiento local trabajado a partir de la pregunta PDF.",
+          "correct": true,
+          "feedback": "El recurso de clave de respuestas está visible pero sus bytes no se han adquirido."
+        },
+        {
+          "label": "Una clave de respuestas oficial recién adquirida.",
+          "correct": false,
+          "feedback": "No se afirma ninguna revisión de clave oficial para estas soluciones derivadas localmente."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-02",
+      "unit": "lab-04",
+      "lesson": "q1-indexed-versus-repeated-scans",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuál es el costo de búsqueda indexada del primer trimestre con h = 4?",
+      "source": "P1: Escaneos indexados versus escaneos repetidos: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "P1: escaneos indexados versus escaneos repetidos"
+      },
+      "options": [
+        {
+          "label": "Un acceso gratuito en total.",
+          "correct": false,
+          "feedback": "Cada tupla externa puede desencadenar una búsqueda bajo la premisa de acceso en frío."
+        },
+        {
+          "label": "Cuatro accesos sin recuperación de datos.",
+          "correct": false,
+          "feedback": "El recorrido del índice por sí solo no recupera el registro de datos real."
+        },
+        {
+          "label": "Cinco accesos por tupla externa bajo el modelo de búsqueda de claves.",
+          "correct": true,
+          "feedback": "El modelo agrega un acceso a datos a cuatro accesos a nodos de índice."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-03",
+      "unit": "lab-04",
+      "lesson": "q2-identify-missing-and-conflicting-assumptions",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Por qué conservar b como parámetro en el segundo trimestre?",
+      "source": "P2: Identificar supuestos faltantes y en conflicto: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "P2: Identificar supuestos faltantes y conflictivos"
+      },
+      "options": [
+        {
+          "label": "La distribución de bloques coincidentes por clave no está especificada.",
+          "correct": true,
+          "feedback": "Los totales permiten una estimación uniforme pero no una distribución coincidente exacta."
+        },
+        {
+          "label": "El tamaño total de la relación fija exactamente dos bloques por clave.",
+          "correct": false,
+          "feedback": "Los límites sesgados y de bloque pueden diferir del promedio uniforme."
+        },
+        {
+          "label": "Los índices dispersos funcionan en cualquier orden físico.",
+          "correct": false,
+          "feedback": "La escasa premisa principal necesita un orden coherente con su clave de búsqueda."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-04",
+      "unit": "lab-04",
+      "lesson": "q3-the-twelve-block-external-sort",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuál es el costo de ordenación en streaming del tercer trimestre?",
+      "source": "P3: La ordenación externa de doce bloques: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "P3: La ordenación externa de doce bloques"
+      },
+      "options": [
+        {
+          "label": "Setenta y dos transferencias sin reclamar ninguna escritura final.",
+          "correct": false,
+          "feedback": "Setenta y dos incluye la escritura de materialización final adicional de 12 bloques."
+        },
+        {
+          "label": "Sesenta transferencias y 44 búsquedas.",
+          "correct": true,
+          "feedback": "Cuatro carreras se fusionan en dos pasadas; la fórmula fuente da 60/44."
+        },
+        {
+          "label": "Doce transferencias y una búsqueda para todos los pases.",
+          "correct": false,
+          "feedback": "La generación de ejecución y las fusiones intermedias crean E/S adicionales."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-05",
+      "unit": "lab-04",
+      "lesson": "q4-declare-where-the-sorted-results-go",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuál es el total materializado del cuarto trimestre antes de que se escriban los resultados?",
+      "source": "P4: Declarar dónde van los resultados ordenados: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "P4: Declarar adónde van los resultados ordenados"
+      },
+      "options": [
+        {
+          "label": "43,000 transferencias y agrega un escaneo de unión por separado de forma gratuita.",
+          "correct": false,
+          "feedback": "Se debe cargar un escaneo de entrada separado a menos que sus lecturas estén fusionadas."
+        },
+        {
+          "label": "52.000 transferencias con todas las escrituras finales ordenadas incluidas.",
+          "correct": false,
+          "feedback": "Ese subtotal híbrido omite las escrituras finales de archivos ordenados necesarias para la persistencia."
+        },
+        {
+          "label": "61.000 transferencias y 8.780 búsquedas.",
+          "correct": true,
+          "feedback": "El total incluye escrituras de ordenación más un escaneo de fusión posterior de 9000 bloques."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-06",
+      "unit": "lab-04",
+      "lesson": "q5-conditional-hash-cost-and-buffer-feasibility",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Por qué la asignación de un solo paso del Q5 es inconsistente con M = 100?",
+      "source": "P5: Costo de hash condicional y viabilidad del búfer: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "P5: Costo de hash condicional y viabilidad del búfer"
+      },
+      "options": [
+        {
+          "label": "Requiere 1.020 tramas de búfer antes de la sobrecarga.",
+          "correct": true,
+          "feedback": "Cincuenta buffers de salida y un buffer de entrada cada uno reserva 20 marcos de memoria."
+        },
+        {
+          "label": "Utiliza sólo 20 marcos de memoria porque las salidas comparten un búfer.",
+          "correct": false,
+          "feedback": "El esquema de partición indicado reserva buffers simultáneamente."
+        },
+        {
+          "label": "La fórmula de costo demuestra que la asignación de memoria es válida.",
+          "correct": false,
+          "feedback": "La sustitución de costos no puede establecer la viabilidad del plan subyacente."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-07",
+      "unit": "lab-04",
+      "lesson": "q6-materialise-before-the-subsequent-merge-join",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuál es el total del sexto trimestre con los resultados ordenados materializados?",
+      "source": "P6: Materializar antes de la fusión posterior: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "P6: Materializar antes de la fusión posterior"
+      },
+      "options": [
+        {
+          "label": "Ocho porque ordenar siempre es gratis.",
+          "correct": false,
+          "feedback": "La preparación de las entradas tiene E/S a pesar de que su escaneo de unión final utiliza8."
+        },
+        {
+          "label": "Treinta y cuatro transferencias.",
+          "correct": true,
+          "feedback": "r ordenación20+s lectura/escritura6+escaneo de fusión8 da34 transferencias."
+        },
+        {
+          "label": "Veintiocho porque la ordenación en memoria no necesita lectura/escritura.",
+          "correct": false,
+          "feedback": "La pregunta requiere explícitamente escribir mensajes ordenados después de leerla."
+        }
+      ]
+    },
+    {
+      "id": "lab-04-check-08",
+      "unit": "lab-04",
+      "lesson": "source-map-and-verification-boundaries",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuál es la verificación más sólida afirmada por esta clínica?",
+      "source": "Mapa de fuentes y límites de verificación: localizadores de fuentes en la lección revisada; cheque suplementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/lab-04/tutor",
+        "heading": "Mapa de origen y límites de verificación"
+      },
+      "options": [
+        {
+          "label": "Aprobación de marcado oficial.",
+          "correct": false,
+          "feedback": "La clave de respuestas oficial aún no se ha descargado ni verificado."
+        },
+        {
+          "label": "Dominio medido del estudiante.",
+          "correct": false,
+          "feedback": "Crear notas y comprobar la aritmética no mide el aprendizaje."
+        },
+        {
+          "label": "Aritmética recalculada y mapeos de fuentes.",
+          "correct": true,
+          "feedback": "Las tareas de origen y todas las subpartes se asignan al razonamiento trabajado local."
+        }
+      ]
     }
   ],
   "language": "es",
   "translation": {
     "method": "Machine translation with protected source syntax and computing glossary; original English is retained.",
-    "translatedAt": "2026-10-14T09:37:29.256113+00:00",
-    "sourceFingerprint": "492f741e86421481c6367d92d3bfb47fb9b544fae1fc92eb459753652f2a3c49",
+    "translatedAt": "2026-10-21T06:07:53.902903+00:00",
+    "sourceFingerprint": "a6cde2c7a6494d58e25f394a496817f8b62f60e2379267653e3ba690e6678afb",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }
