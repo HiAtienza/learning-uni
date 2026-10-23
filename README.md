@@ -1,7 +1,7 @@
 # Learning Uni
 
-Personal study workspace for SOE203, ADS205 and SOE201.
+Personal university study workspace.
 
-Open https://hiatienza.github.io/learning-uni/
+https://hiatienza.github.io/learning-uni/
 
-This repository contains the tested static deployment. The maintained source project is local. Progress and written attempts are stored in your browser, separately on each device; the site does not synchronize them.
+Progress stays in each browser; no automatic synchronization.

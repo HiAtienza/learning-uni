@@ -5,7 +5,7 @@
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
   "generatedAt": "2026-10-21T06:06:08.054Z",
   "evidence": {
-    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. La optimización de la Semana 6 y Lab5 son visibles el 21 de octubre pero están pendientes de adquisición; no hay reclamo de integridad actual. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
+    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. Las dos clases de optimización y Lab5 de la semana 6 se descargaron el 23 de octubre y están disponibles en la biblioteca de originales. Sus lecciones guiadas siguen pendientes. Coursework 2 se conserva de forma privada. No se afirma que toda la asignatura esté actualizada. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -2618,6 +2618,33 @@
       "unit": "lab-04",
       "hash": "6797714de0ab97a1d504fef33730b697c97ca617ceeadc48ab3ecbadfa328ced",
       "url": "/sources/soe201/16.pdf"
+    },
+    {
+      "id": "17",
+      "relative": "Original Sources/LM Core 2026-10-23/Lecture6a - Query Optimisation 1.pdf",
+      "origin": "course",
+      "title": "Week 6 · Lecture6a - Query Optimisation 1.pdf (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "8aafd49205b78b2cac0b73227ccaa2afc6828ea1394da800788297b3e781c5cf",
+      "url": "/sources/soe201/17.pdf"
+    },
+    {
+      "id": "18",
+      "relative": "Original Sources/LM Core 2026-10-23/Lecture6b - Query Optimisation 2.pdf",
+      "origin": "course",
+      "title": "Week 6 · Lecture6b - Query Optimisation 2.pdf (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "cecff911e6c51bf1b7613f60f1837bc2b177e396d9e4ac8236a9d0c48047877d",
+      "url": "/sources/soe201/18.pdf"
+    },
+    {
+      "id": "19",
+      "relative": "Original Sources/LM Core 2026-10-23/Lab5-Tutorial.pdf",
+      "origin": "course",
+      "title": "Week 6 · Lab5-Tutorial.pdf (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "f0de2f0f77f2fdbc78235b0450e897160d5f4c45f0f9cdab54963f0e01fdf543",
+      "url": "/sources/soe201/19.pdf"
     }
   ],
   "videos": [
@@ -6632,8 +6659,8 @@
   "language": "es",
   "translation": {
     "method": "Machine translation with protected source syntax and computing glossary; original English is retained.",
-    "translatedAt": "2026-10-21T06:07:53.902903+00:00",
-    "sourceFingerprint": "a6cde2c7a6494d58e25f394a496817f8b62f60e2379267653e3ba690e6678afb",
+    "translatedAt": "2026-10-23T14:30:05.594Z",
+    "sourceFingerprint": "27f3f11f110dad4b27bdba87927fcfa1022bc21035c35d878812dba326a3b337",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }

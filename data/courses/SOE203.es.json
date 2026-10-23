@@ -5,7 +5,7 @@
   "vaultPrefix": "10_UNIVERSITY_CS/Software Engineering 1/",
   "generatedAt": "2026-10-13T10:06:22.418Z",
   "evidence": {
-    "scope": "Alcance web: cinco unidades teóricas y la clínica de requisitos. Metadatos de la bóveda compartida conciliados con el 12 de octubre. Unidad 04 enseñanza web conciliada con la revisión de conferencia verificada 1.1 (74 páginas PDF). Las instantáneas de referencia anteriores y los localizadores de fuentes de recuperación siguen siendo explícitamente históricos; Se conservan las URL de origen originales y los ID de progreso. La lectura revisada (2) y ambas hojas de respuestas de la Semana 4 están verificadas e integradas; Se conservan las tareas originales y las identidades de progreso guardado. Los ejemplos de respuestas proporcionados son distintos de los comentarios locales y los esquemas de calificación de exámenes. El ejemplo bancario de la semana 5 y las cifras de respuestas de cinco ejercicios de conferencias se integran con discrepancias explícitas en las fuentes. La hoja de respuestas del tutorial de la Semana 5 programada por separado no se encuentra entre las fuentes suministradas localmente. El libro de texto más allá del PDF, págs. 1 a 17, sigue pendiente.",
+    "scope": "Alcance web: cinco unidades teóricas y la clínica de requisitos. Metadatos de la bóveda compartida conciliados con el 12 de octubre. Unidad 04 enseñanza web conciliada con la revisión de conferencia verificada 1.1 (74 páginas PDF). Las instantáneas de referencia anteriores y los localizadores de fuentes de recuperación siguen siendo explícitamente históricos; Se conservan las URL de origen originales y los ID de progreso. La lectura revisada (2) y ambas hojas de respuestas de la Semana 4 están verificadas e integradas; Se conservan las tareas originales y las identidades de progreso guardado. Los ejemplos de respuestas proporcionados son distintos de los comentarios locales y los esquemas de calificación de exámenes. El ejemplo bancario de la semana 5 y las cifras de respuestas de cinco ejercicios de conferencias se integran con discrepancias explícitas en las fuentes. La hoja de respuestas del tutorial de la Semana 5 programada por separado no se encuentra entre las fuentes suministradas localmente. El libro de texto más allá del PDF, págs. 1 a 17, sigue pendiente. Las tres clases de UML y los tres tutoriales de la semana 6 se descargaron el 23 de octubre y están en la biblioteca de originales; sus lecciones guiadas siguen pendientes. Las soluciones oficiales de la semana 6 están restringidas hasta el 24 de octubre.",
     "overviewSha256": "d596fac915da57f7e4b7603978f9e222fce2ce516b4f11c48c9febd86005ab46"
   },
   "units": [
@@ -2140,6 +2140,60 @@
       "unit": "05",
       "hash": "f60f96b56628613187da82ebdac2169aab9ebca8d14f1ae99b848674345664d5",
       "url": "/sources/soe203/24.pdf"
+    },
+    {
+      "id": "25",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Lecture.pdf",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Lecture.pdf (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "cce4462411f3d80c3641dd0ed789cc63960488e354ef6e15d967e73276db4d9c",
+      "url": "/sources/soe203/25.pdf"
+    },
+    {
+      "id": "26",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 - Activity Diagram.pdf",
+      "origin": "course",
+      "title": "Week 6 · Week 6 - Activity Diagram.pdf (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "fa5474d49e6415b610bac634aa46cd745bfcb31b0f20b7a6cff9d7ea6249b01b",
+      "url": "/sources/soe203/26.pdf"
+    },
+    {
+      "id": "27",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 - State Machine Diagram.pdf",
+      "origin": "course",
+      "title": "Week 6 · Week 6 - State Machine Diagram.pdf (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "797431a26aaaa9bd0168d95cfcbab2719d33dfdf847a3a09b55105e69535c4c7",
+      "url": "/sources/soe203/27.pdf"
+    },
+    {
+      "id": "28",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Tutorial - Class Diagram.docx",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Tutorial - Class Diagram.docx (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "5acb7f904fa34c48298cbf0a921d1b5bdfa22a6cf027e7e6d23865075988efde",
+      "url": "/sources/soe203/28.docx"
+    },
+    {
+      "id": "29",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Tutorial - Activity Diagram Exercise.docx",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Tutorial - Activity Diagram Exercise.docx (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "1a201816e21e0d6ba6a6dbb0c5f0ae0c6feb3e46f61e4421da4a945a6e2c8ba4",
+      "url": "/sources/soe203/29.docx"
+    },
+    {
+      "id": "30",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Tutorial - State Machine Diagram.docx",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Tutorial - State Machine Diagram.docx (teaching edition pending) (original en inglés)",
+      "unit": null,
+      "hash": "5b16d8344320dd16ac44ecd4b6a4a1d1252a36352739e63985e4ff192a0f04ee",
+      "url": "/sources/soe203/30.docx"
     }
   ],
   "videos": [
@@ -2519,8 +2573,8 @@
   "language": "es",
   "translation": {
     "method": "Machine translation with protected source syntax and computing glossary; original English is retained.",
-    "translatedAt": "2026-10-14T09:37:23.947978+00:00",
-    "sourceFingerprint": "20a898f2d843806d07fd43453c59df562f47559a07a19c7138853c5217f7ba4c",
+    "translatedAt": "2026-10-23T14:30:05.626Z",
+    "sourceFingerprint": "54259729dc1bd29c54215edcb242152482ed9c6767114230ba5b54dbf661745e",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }

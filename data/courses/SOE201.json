@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Advanced Database Development",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-21T06:06:08.054Z",
+  "generatedAt": "2026-10-23T14:28:38.803Z",
   "evidence": {
-    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation and Lab5 are visible on 21 October but pending acquisition; no current-completeness claim. Unreviewed textbook chapters remain pending.",
+    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation lectures and Lab5 were downloaded from the authenticated portal on 23 October and are now in the original-source library; guided teaching editions remain pending. Coursework2 is preserved privately, not published. No current-completeness claim. Unreviewed textbook chapters remain pending.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -1441,6 +1441,33 @@
       "unit": "lab-04",
       "hash": "6797714de0ab97a1d504fef33730b697c97ca617ceeadc48ab3ecbadfa328ced",
       "url": "/sources/soe201/16.pdf"
+    },
+    {
+      "id": "17",
+      "relative": "Original Sources/LM Core 2026-10-23/Lecture6a - Query Optimisation 1.pdf",
+      "origin": "course",
+      "title": "Week 6 · Lecture6a - Query Optimisation 1.pdf (teaching edition pending)",
+      "unit": null,
+      "hash": "8aafd49205b78b2cac0b73227ccaa2afc6828ea1394da800788297b3e781c5cf",
+      "url": "/sources/soe201/17.pdf"
+    },
+    {
+      "id": "18",
+      "relative": "Original Sources/LM Core 2026-10-23/Lecture6b - Query Optimisation 2.pdf",
+      "origin": "course",
+      "title": "Week 6 · Lecture6b - Query Optimisation 2.pdf (teaching edition pending)",
+      "unit": null,
+      "hash": "cecff911e6c51bf1b7613f60f1837bc2b177e396d9e4ac8236a9d0c48047877d",
+      "url": "/sources/soe201/18.pdf"
+    },
+    {
+      "id": "19",
+      "relative": "Original Sources/LM Core 2026-10-23/Lab5-Tutorial.pdf",
+      "origin": "course",
+      "title": "Week 6 · Lab5-Tutorial.pdf (teaching edition pending)",
+      "unit": null,
+      "hash": "f0de2f0f77f2fdbc78235b0450e897160d5f4c45f0f9cdab54963f0e01fdf543",
+      "url": "/sources/soe201/19.pdf"
     }
   ],
   "videos": [

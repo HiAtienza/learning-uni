@@ -3,9 +3,9 @@
   "code": "SOE203",
   "title": "Software Engineering I",
   "vaultPrefix": "10_UNIVERSITY_CS/Software Engineering 1/",
-  "generatedAt": "2026-10-13T10:06:22.418Z",
+  "generatedAt": "2026-10-23T14:28:39.174Z",
   "evidence": {
-    "scope": "Web scope: five theory units and the requirements clinic. Shared vault metadata reconciled to 12 October. Unit 04 web teaching reconciled to verified lecture revision 1.1 (74 PDF pages). Earlier reference snapshots and recall source locators remain explicitly historical; original source URLs and progress IDs are preserved. Revised reading (2) and both Week 4 answer sheets are verified and integrated; original tasks and saved-progress identities are retained. Supplied answer examples are distinct from local commentary and exam marking schemes. Week 5 banking example and five lecture-exercise answer figures are integrated with explicit source discrepancies. The separate scheduled Week 5 tutorial answer sheet is not among the locally supplied sources. Textbook beyond PDF pp. 1–17 remains pending.",
+    "scope": "Web scope: five theory units and the requirements clinic. Shared vault metadata reconciled to 12 October. Unit 04 web teaching reconciled to verified lecture revision 1.1 (74 PDF pages). Earlier reference snapshots and recall source locators remain explicitly historical; original source URLs and progress IDs are preserved. Revised reading (2) and both Week 4 answer sheets are verified and integrated; original tasks and saved-progress identities are retained. Supplied answer examples are distinct from local commentary and exam marking schemes. Week 5 banking example and five lecture-exercise answer figures are integrated with explicit source discrepancies. The separate scheduled Week 5 tutorial answer sheet is not among the locally supplied sources. Week6 class, activity and state-machine lectures and three tutorial DOCX originals were acquired on 23 October and added to the library; guided lessons remain pending. Official Week6 solutions remain restricted until 24 October. Textbook beyond PDF pp. 1–17 remains pending.",
     "overviewSha256": "d596fac915da57f7e4b7603978f9e222fce2ce516b4f11c48c9febd86005ab46"
   },
   "units": [
@@ -1117,6 +1117,60 @@
       "unit": "05",
       "hash": "f60f96b56628613187da82ebdac2169aab9ebca8d14f1ae99b848674345664d5",
       "url": "/sources/soe203/24.pdf"
+    },
+    {
+      "id": "25",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Lecture.pdf",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Lecture.pdf (teaching edition pending)",
+      "unit": null,
+      "hash": "cce4462411f3d80c3641dd0ed789cc63960488e354ef6e15d967e73276db4d9c",
+      "url": "/sources/soe203/25.pdf"
+    },
+    {
+      "id": "26",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 - Activity Diagram.pdf",
+      "origin": "course",
+      "title": "Week 6 · Week 6 - Activity Diagram.pdf (teaching edition pending)",
+      "unit": null,
+      "hash": "fa5474d49e6415b610bac634aa46cd745bfcb31b0f20b7a6cff9d7ea6249b01b",
+      "url": "/sources/soe203/26.pdf"
+    },
+    {
+      "id": "27",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 - State Machine Diagram.pdf",
+      "origin": "course",
+      "title": "Week 6 · Week 6 - State Machine Diagram.pdf (teaching edition pending)",
+      "unit": null,
+      "hash": "797431a26aaaa9bd0168d95cfcbab2719d33dfdf847a3a09b55105e69535c4c7",
+      "url": "/sources/soe203/27.pdf"
+    },
+    {
+      "id": "28",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Tutorial - Class Diagram.docx",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Tutorial - Class Diagram.docx (teaching edition pending)",
+      "unit": null,
+      "hash": "5acb7f904fa34c48298cbf0a921d1b5bdfa22a6cf027e7e6d23865075988efde",
+      "url": "/sources/soe203/28.docx"
+    },
+    {
+      "id": "29",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Tutorial - Activity Diagram Exercise.docx",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Tutorial - Activity Diagram Exercise.docx (teaching edition pending)",
+      "unit": null,
+      "hash": "1a201816e21e0d6ba6a6dbb0c5f0ae0c6feb3e46f61e4421da4a945a6e2c8ba4",
+      "url": "/sources/soe203/29.docx"
+    },
+    {
+      "id": "30",
+      "relative": "Original Sources/LM Core 2026-10-23/Week 6 Tutorial - State Machine Diagram.docx",
+      "origin": "course",
+      "title": "Week 6 · Week 6 Tutorial - State Machine Diagram.docx (teaching edition pending)",
+      "unit": null,
+      "hash": "5b16d8344320dd16ac44ecd4b6a4a1d1252a36352739e63985e4ff192a0f04ee",
+      "url": "/sources/soe203/30.docx"
     }
   ],
   "videos": [
