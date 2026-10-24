@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Desarrollo avanzado de bases de datos",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-21T06:06:08.054Z",
+  "generatedAt": "2026-10-24T02:04:31.043Z",
   "evidence": {
-    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. Las dos clases de optimización y Lab5 de la semana 6 se descargaron el 23 de octubre y están disponibles en la biblioteca de originales. Sus lecciones guiadas siguen pendientes. Coursework 2 se conserva de forma privada. No se afirma que toda la asignatura esté actualizada. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
+    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. Las dos clases de optimización y Lab5 de la semana 6 se descargaron el 23 de octubre y están disponibles en la biblioteca de originales. La unidad09 ya explica los planes, la materialización y el pipeline según Lecture6a pp.3–12. Siguen pendientes las reescrituras algebraicas, Lecture6b y la práctica guiada de Lab5. Coursework 2 se conserva de forma privada. No se afirma que toda la asignatura esté actualizada. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -166,6 +166,21 @@
           "Mantenga las transferencias y las búsquedas separadas y compare su costo ponderado.",
           "Memoria de estados, ordenamiento, selectividad y supuestos de escritura de resultados.",
           "Exponer inconsistencias en las fuentes y distinguir el razonamiento local de las respuestas oficiales."
+        ]
+      }
+    },
+    {
+      "id": "09",
+      "title": "Planes de consulta, materialización y pipeline",
+      "short": "Planes y canalización",
+      "folder": "Web 09",
+      "kind": "theory",
+      "guide": {
+        "goal": "Explica y calcula el coste de las fronteras permitidas entre operadores sin contar dos veces la E/S intermedia.",
+        "successCriteria": [
+          "Distinguir una expresión lógica de algoritmos y coordinación de ejecución.",
+          "Realice un seguimiento de las escrituras y lecturas intermedias según una convención de salida explícita.",
+          "Explique la ejecución push/pull y conserve las anotaciones del canal de la clase."
         ]
       }
     }
@@ -1769,6 +1784,65 @@
         "problem-5-q5-count-hash-cost-and-flag-the-conflict",
         "problem-6-q6-answer-every-materialised-sort-part"
       ]
+    },
+    {
+      "id": "content/reviewed/SOE201/09/tutor",
+      "relative": "content/reviewed/SOE201/09/tutor.md",
+      "kind": "tutor",
+      "unit": "09",
+      "origin": "project",
+      "hash": "178bdbef7b4b53d78666f0bebc13a459cde64c2f39565f682ccb304bc5aca269",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Planes de consulta, materialización y pipeline\n\n## En 60 segundos\n\n**Caso inicial inventado con fines didácticos.** Dos operadores forman un plan válido. El productor cuesta 500 transferencias de bloques y produce una relación intermedia de 40 bloques. Al consumidor le cuesta 200 transferencias, incluida la lectura de esos 40 bloques. Sus fórmulas excluyen las escrituras de salida. ¿Se puede comparar un frontera materializada con un pipeline permitida sin contar una lectura dos veces?\n\nSu objetivo es identificar el algoritmo, el límite entre operadores y la convención de costes antes de sumar números. Requisitos previos: Unidad 05 de álgebra relacional y Unidades 06–08 de evaluación física. Esta lección cubre las páginas 3 a 12 del PDF de Lecture6a, con identidad/resultados en las páginas 1 y 2. Las reglas de reescritura algebraica de las páginas 13 a 29, Lecture6b y Lab5 permanecen separadas en espera del trabajo docente. No se ha medido la ejecución de ninguna base de datos ni se presenta un resultado oficial de evaluación.\n\n## Separar una expresión lógica de su plan de evaluación\n\nUna expresión relacional especifica el resultado requerido. Un plan de evaluación también elige un algoritmo para cada operación y coordina su ejecución. Por tanto, una misma expresión lógica puede tener diferentes planes físicos. Por ejemplo, el resultado de una selección puede almacenarse antes de que su padre lo consuma o pasarse directamente a través de un pipeline permitido. Resultados equivalentes no implican un trabajo de disco idéntico. Fuente: Lecture6a págs. 3–4,9,11–12.\n\nPara cada arista del árbol de expresión, pregunte: ¿qué produce el hijo, qué requiere el padre y debe almacenarse el resultado intermedio? No asuma que cambiar una arista permite cambiar predicados o descartar tuplas.\n\n## Almacenar un resultado intermedio o pasar tuplas\n\n**Materialización** completa una operación intermedia, escribe su resultado como una relación temporal y luego deja que una operación posterior lo consuma. En el ejemplo de la clase, la selección alimenta una combinación (join) y esta alimenta una proyección. La materialización es generalmente aplicable en el modelo de evaluación suministrado, pero el almacenamiento temporal añade trabajo. **Pipelining** permite que un padre consuma tuplas mientras su hijo las produce, evitando una relación de disco temporal cuando esté permitido. Fuente: Lecture6a págs.4–7.\n\n```mermaid\nflowchart LR\n  A[Selection] -->|materialised boundary| T[Temporary disk relation]\n  T --> B[Parent operator]\n  C[Selection] -->|permitted pipeline| D[Parent operator]\n```\n\n**Figura 1: Límites alternativos, no resultados de consulta diferentes.** Léalo de izquierda a derecha: la ruta superior almacena una relación intermedia; el camino inferior pasa tuplas a su consumidor. Conclusión clave: eliminar un archivo temporal requiere un estrategia de ejecución permitida. Este diagrama de enseñanza resume el árbol fuente en PDF p.5; No es un ejercicio extra oficial.\n\n## Contar escrituras sin contar lecturas dos veces\n\nLas fórmulas del operador de la clase omiten las escrituras de salida. Para la evaluación materializada, agregue las escrituras intermedias a la suma de los costes del operador; Es posible que el coste del operador consumidor ya incluya las lecturas correspondientes. Las escrituras finales de salida de consultas permanecen excluidas a menos que se soliciten explícitamente. Fuente: Lecture6a p.6, con el contraste de transmisión en la p.7.\n\nRegrese al caso de apertura. Primero identifique el desglose de costes:\n\n| Concepto | Con materialización | Con pipeline |\n|---|---:|---:|\n| Trabajo del productor | 500 | 500 |\n| Trabajo del consumidor aparte de la lectura intermedia | 160 | 160 |\n| Leer relación intermedia desde el disco | 40 | 0 |\n| Escribir relación intermedia al disco | 40 | 0 |\n| Transferencias totales de bloques | 740 | 660 |\n\nEl coste con materialización es $500+200+40=740$. El 200 ya contiene la lectura de 40 bloques: agregar otros 40 para lectura daría incorrectamente 780. Bajo el supuesto sintético de que el resto del trabajo no cambia y el pipeline está permitido, el coste con pipeline es $500+(200-40)=660$. El ahorro es de 80 transferencias, una escritura intermedia y una lectura intermedia. Estos son recuentos de transferencias, no milisegundos; Los desplazamientos del cabezal (seeks) y el trabajo de CPU quedan fuera del modelo. Si los dos algoritmos cambian, vuelva a calcular sus costes en lugar de restar mecánicamente 80.\n\n## Explicar las fases de empujar, tirar y bloquear\n\nUna canalización **impulsada por el productor (push)** envía tuplas al padre a través de un búfer. Cuando ese buffer está lleno, el operador hijo espera por espacio. Una canalización **impulsada por la demanda (pull)** comienza con una solicitud para la siguiente tupla de salida; cada operador solicita tuplas de sus hijos según sea necesario y retiene el estado entre solicitudes. Por lo tanto, una canalización no significa que no se necesite memoria ni estado. Fuente: Lecture6a p.8.\n\nLa canalización no es posible en todas las fases. La clasificación externa puede necesitar un procesamiento preliminar de toda la entrada; una combinación hash tiene una fase de construcción preliminar. Esto evita afirmar que cada operador puede transmitir inmediatamente su resultado final desde su primera tupla de entrada. No establece que cada fase de cada algoritmo deba siempre materializar su resultado. Fuente: Lecture6a p.7; la distinción de fases es una aclaración local de esa limitación establecida.\n\n## Aplique la convención del curso antes de comparar planes\n\nLa lección 6a, página 10, ofrece una convención específica: una arista etiquetada como pipeline permite la canalización; se supone que una arista sin etiquetar no lo permite. Para las combinaciones (joins), a menos que se indique explícitamente lo contrario, la fuente selecciona la familia de bucles anidados para su tratamiento de canalización. Conserve estas anotaciones en los ejercicios del curso en lugar de reemplazarlas con suposiciones sobre un DBMS arbitrario. Esta es una regla de modelado de cursos, no una declaración universal de que todas las demás implementaciones de combinación nunca podrán canalizarse.\n\nUtilice este método: identifique el resultado lógico; elija los algoritmos de operador indicados; inspeccionar cada límite; lecturas y escrituras intermedias separadas; calcular costes en una unidad; luego verifique qué componentes del coste y política de escritura de la salida final están excluidos. Un optimizador basado en costes elige utilizando estimaciones, por lo que no se garantiza que el ganador estimado sea la ejecución medida más rápida. Fuente: Lecture6a págs.9-12. El ejemplo inicial establece un ahorro condicional de 80 transferencias, no una afirmación incondicional de que la canalización es siempre más rápida.\n",
+      "headingAliases": {
+        "Query Plans, Materialisation and Pipelining": "Planes de consulta, materialización y pipeline",
+        "In 60 Seconds": "En 60 segundos",
+        "Separate a Logical Expression From Its Evaluation Plan": "Separar una expresión lógica de su plan de evaluación",
+        "Store an Intermediate Result or Pass Tuples On": "Almacenar un resultado intermedio o pasar tuplas",
+        "Count Writes Without Counting Reads Twice": "Contar escrituras sin contar lecturas dos veces",
+        "Explain Push, Pull and Blocking Phases": "Explicar las fases de empujar, tirar y bloquear",
+        "Apply the Course Convention Before Comparing Plans": "Aplique la convención del curso antes de comparar planes"
+      },
+      "sectionIds": [
+        "in-60-seconds",
+        "separate-a-logical-expression-from-its-evaluation-plan",
+        "store-an-intermediate-result-or-pass-tuples-on",
+        "count-writes-without-counting-reads-twice",
+        "explain-push-pull-and-blocking-phases",
+        "apply-the-course-convention-before-comparing-plans"
+      ],
+      "problemIds": []
+    },
+    {
+      "id": "content/reviewed/SOE201/09/practice",
+      "relative": "content/reviewed/SOE201/09/practice.md",
+      "kind": "practice",
+      "unit": "09",
+      "origin": "project",
+      "hash": "100e08bd65c67ca72626c3595df6831898f3e4373ff1db2843287ac86597ac1f",
+      "markdown": "# Recordar y practicar\n\nPRÁCTICA COMPLEMENTARIA derivada de Lecture6a PDF pp.3–12. Los casos numéricos a continuación son construcciones didácticas, no tareas de Lab5 ni un esquema de calificación oficial. Las preguntas originales de Lab5 y los temas restantes de las clases aún están pendientes de revisión por separado.\n\n## Repaso activo atómico\n\n### Tarjeta 01 — ¿Qué agrega un plan de evaluación a una expresión lógica?\n\n> [!success]- Respuesta\n> Algoritmos para operaciones individuales y estrategia para coordinar su ejecución.\n>\n> Fuente: Lecture6a p.9.\n\n### Tarjeta 02 — ¿Qué almacena la materialización?\n\n> [!success]- Respuesta\n> Un resultado intermedio como relación temporal para que lo consuman operaciones posteriores.\n>\n> Fuente: Lecture6a págs.4–6.\n\n### Tarjeta 03 — ¿Qué coste se debe agregar a las sumas del operador de la clase?\n\n> [!success]- Respuesta\n> Escrituras de resultados intermedios; compruebe si sus lecturas ya están incluidas en los operadores consumidores.\n>\n> Fuente: Lecture6a p.6; aclaración de la contabilidad local.\n\n### Tarjeta 04: ¿Qué sucede cuando un búfer push está lleno?\n\n> [!success]- Respuesta\n> El productor espera hasta que el consumidor cree espacio.\n>\n> Fuente: Lecture6a p.8.\n\n### Tarjeta 05: ¿Qué debe retener un operador pull entre solicitudes?\n\n> [!success]- Respuesta\n> Estado que indica dónde reanudar cuando se solicita la siguiente tupla.\n>\n> Fuente: Lecture6a p.8.\n\n### Tarjeta 06: ¿Qué significa una arista del plan sin etiquetar en esta clase?\n\n> [!success]- Respuesta\n> Se supone que la canalización no está disponible en esa arista según la convención del curso.\n>\n> Fuente: Lecture6a p.10.\n\n## Práctica resuelta\n\n### Problema 1: auditar el desglose de transferencias\n\nPRÁCTICA COMPLEMENTARIA. Un productor cuesta 300 transferencias. Su resultado intermedio ocupa 25 bloques. Al consumidor le cuesta 90 transferencias incluyendo la lectura de esos 25 bloques. Ambas fórmulas omiten las escrituras de salida. Calcule los costes materializados y con pipeline permitido, asumiendo que el resto del trabajo no cambia. Excluir escrituras de salida final. Modelo fuente: Lecture6a págs.6–7.\n\n> [!tip]- Sugerencia\n> Dividir los 90 del consumidor en su lectura intermedia y su trabajo restante.\n\n> [!success]- Solución\n> El otro trabajo del consumidor es 90−25=65 transferencias. La materialización cuesta 300+65+25+25=415 transferencias: trabajo de productor, trabajo restante del consumidor, lectura intermedia y escritura intermedia. El pipeline cuesta 300+65=365 transferencias. Ahorra 50 transferencias. No vuelvas a sumar la lectura intermedia a 300+90: esa suma ya la incluye. Si la canalización está prohibida o cambia los algoritmos, el resultado de 365 transferencias no se aplica.\n\n### Problema 2: diagnosticar un búfer push lleno\n\nPRÁCTICA COMPLEMENTARIA. Un productor tiene una tupla lista, pero el búfer entre operadores está lleno. Un estudiante propone descartar una tupla antigua para que el productor siga funcionando. ¿Es esta una ejecución válida de la misma consulta? Contraste de control de empujar y tirar. Fuente: Lecture6a p.8.\n\n> [!tip]- Sugerencia\n> Separar quién inicia la producción de la obligación de preservar las tuplas requeridas.\n\n> [!success]- Solución\n> No. Eliminar una tupla requerida cambia el resultado. En el modelo push descrito, el productor espera hasta que el consumidor elimina tuplas y hay espacio disponible. En el modelo pull, las solicitudes se propagan de padre a hijo a medida que se necesitan resultados; los operadores mantienen su posición entre solicitudes. Ninguno de los enfoques permite descartar resultados válidos. Esperar es control de flujo, no evidencia de que no existe un pipeline.\n\n### Problema 3: detectar una afirmación injustificada sobre pipeline\n\nPRÁCTICA COMPLEMENTARIA. Un ejercicio muestra una arista sin etiquetar desde una combinación hash hasta su padre. Un estudiante dice: \"El pipeline siempre ahorra E/S de disco, por lo que eliminaré la escritura intermedia\". ¿Qué hay que comprobar antes de aceptar ese cálculo? Fuente: Lecture6a págs.7,10.\n\n> [!tip]- Sugerencia\n> Consulta tanto la anotación del ejercicio como las fases del algoritmo.\n\n> [!success]- Solución\n> Según la convención de la clase, una arista sin etiquetar no permite asumir un pipeline. La combinación hash también tiene un procesamiento preliminar, por lo que la capacidad de transmisión no se puede inferir únicamente del nombre de la operación. Conservar la frontera materializada a menos que el ejercicio permita explícitamente otra estrategia. Si se proporciona permiso, identifique qué fases fluyen y si el padre puede consumirlas, luego vuelva a calcular el desglose de costes. Esta no es una prohibición universal para todas las implementaciones de hash-join canalizadas.\n",
+      "headingAliases": {
+        "Recall and Practice": "Recordar y practicar",
+        "Atomic recall": "Repaso activo atómico",
+        "Card 01 — What does an evaluation plan add to a logical expression?": "Tarjeta 01 — ¿Qué agrega un plan de evaluación a una expresión lógica?",
+        "Card 02 — What does materialisation store?": "Tarjeta 02 — ¿Qué almacena la materialización?",
+        "Card 03 — Which cost must be added to the lecture's operator sums?": "Tarjeta 03 — ¿Qué coste se debe agregar a las sumas del operador de la clase?",
+        "Card 04 — What happens when a push buffer is full?": "Tarjeta 04: ¿Qué sucede cuando un búfer push está lleno?",
+        "Card 05 — What must a pull operator retain between requests?": "Tarjeta 05: ¿Qué debe retener un operador pull entre solicitudes?",
+        "Card 06 — What does an unlabelled plan edge mean in this lecture?": "Tarjeta 06: ¿Qué significa una arista del plan sin etiquetar en esta clase?",
+        "Worked practice": "Práctica resuelta",
+        "Problem 1 — Audit the transfer ledger": "Problema 1: auditar el desglose de transferencias",
+        "Problem 2 — Diagnose a full push buffer": "Problema 2: diagnosticar un búfer push lleno",
+        "Problem 3 — Challenge an unjustified streaming claim": "Problema 3: detectar una afirmación injustificada sobre pipeline"
+      },
+      "sectionIds": [
+        "atomic-recall",
+        "worked-practice"
+      ],
+      "problemIds": [
+        "problem-1-audit-the-transfer-ledger",
+        "problem-2-diagnose-a-full-push-buffer",
+        "problem-3-challenge-an-unjustified-streaming-claim"
+      ]
     }
   ],
   "cards": [
@@ -2436,6 +2510,48 @@
       "question": "¿Qué inconsistencia debe reportar Q5?",
       "answer": "El M=100 heredado no puede contener 51 buffers de 20 marcos de memoria cada uno; la premisa de un solo paso necesita aclaración.",
       "source": "Fuente: Lab4 págs.6–7."
+    },
+    {
+      "id": "09-01",
+      "unit": "09",
+      "question": "¿Qué añade un plan de evaluación a una expresión lógica?",
+      "answer": "Algoritmos para operaciones individuales y estrategia para coordinar su ejecución.",
+      "source": "Fuente: Lecture6a p.9."
+    },
+    {
+      "id": "09-02",
+      "unit": "09",
+      "question": "¿Qué almacena la materialización?",
+      "answer": "Un resultado intermedio como relación temporal para que lo consuman operaciones posteriores.",
+      "source": "Fuente: Lecture6a págs.4–6."
+    },
+    {
+      "id": "09-03",
+      "unit": "09",
+      "question": "¿Qué coste se debe agregar a las sumas del operador de la clase?",
+      "answer": "Escrituras de resultados intermedios; compruebe si sus lecturas ya están incluidas en los operadores consumidores.",
+      "source": "Fuente: Lecture6a p.6; aclaración de la contabilidad local."
+    },
+    {
+      "id": "09-04",
+      "unit": "09",
+      "question": "¿Qué sucede cuando un búfer push está lleno?",
+      "answer": "El productor espera hasta que el consumidor cree espacio.",
+      "source": "Fuente: Lecture6a p.8."
+    },
+    {
+      "id": "09-05",
+      "unit": "09",
+      "question": "¿Qué debe retener un operador pull entre solicitudes?",
+      "answer": "Estado que indica dónde reanudar cuando se solicita la siguiente tupla.",
+      "source": "Fuente: Lecture6a p.8."
+    },
+    {
+      "id": "09-06",
+      "unit": "09",
+      "question": "¿Qué significa una arista del plan sin etiquetar en esta clase?",
+      "answer": "Se supone que la canalización no está disponible en esa arista según la convención del curso.",
+      "source": "Fuente: Lecture6a p.10."
     }
   ],
   "assets": {
@@ -2960,6 +3076,31 @@
           "label": "Dominio medido del estudiante.",
           "correct": false,
           "feedback": "Crear notas y comprobar la aritmética no mide el aprendizaje."
+        }
+      ]
+    },
+    {
+      "id": "09-activity",
+      "unit": "09",
+      "kind": "quiz",
+      "title": "Auditar un desglose de transferencias",
+      "prompt": "El productor cuesta 300 transferencias; el consumidor cuesta 90, incluidas 25 lecturas intermedias. Las fórmulas excluyen escrituras de salida. Un pipeline permitido deja el resto del trabajo sin cambios. ¿Qué par es correcto?",
+      "source": "Lecture6a pp.6–7; valores inventados con fines didácticos, no una evaluación oficial.",
+      "options": [
+        {
+          "label": "Materialización: 415; pipeline: 365 transferencias.",
+          "correct": true,
+          "feedback": "Añade 25 escrituras a 390; para el pipeline, resta de 390 las 25 lecturas intermedias. El ahorro es de 50 transferencias."
+        },
+        {
+          "label": "Materialización: 440; pipeline: 390 transferencias.",
+          "correct": false,
+          "feedback": "440 cuenta dos veces la lectura; 390 todavía incluye lecturas de disco que la canalización supuesta evita."
+        },
+        {
+          "label": "Materialización: 390; pipeline: 365 transferencias.",
+          "correct": false,
+          "feedback": "390 omite la escritura intermedia requerida por la materialización."
         }
       ]
     }
@@ -6654,13 +6795,193 @@
           "feedback": "Las tareas de origen y todas las subpartes se asignan al razonamiento trabajado local."
         }
       ]
+    },
+    {
+      "id": "09-check-01",
+      "unit": "09",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué total materializado utiliza los supuestos iniciales?",
+      "source": "Lecture6a PDF págs. 3–12; En 60 segundos. Comprobación de aprendizaje complementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "En 60 segundos"
+      },
+      "options": [
+        {
+          "label": "Transferencias 780: agregue la lectura y escritura intermedias a 700.",
+          "correct": false,
+          "feedback": "El coste para el consumidor ya contiene la lectura de 40 bloques. Agregarlo nuevamente lo cuenta dos veces."
+        },
+        {
+          "label": "Transferencias 740: agregue solo la escritura de 40 bloques omitida a 700.",
+          "correct": true,
+          "feedback": "La suma del operador 500+200 incluye la lectura del consumidor pero excluye la escritura intermedia."
+        },
+        {
+          "label": "660 transferencias, independientemente de las anotaciones de límites.",
+          "correct": false,
+          "feedback": "660 supone un pipeline permitido que elimina ambas operaciones de disco temporales."
+        }
+      ]
+    },
+    {
+      "id": "09-check-02",
+      "unit": "09",
+      "lesson": "separate-a-logical-expression-from-its-evaluation-plan",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué distingue un plan de evaluación de una expresión lógica?",
+      "source": "Lecture6a PDF págs. 3–12; Separar una expresión lógica de su plan de evaluación. Comprobación de aprendizaje complementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Separar una expresión lógica de su plan de evaluación"
+      },
+      "options": [
+        {
+          "label": "Debe utilizar un predicado diferente.",
+          "correct": false,
+          "feedback": "Cambiar un predicado puede cambiar el resultado requerido."
+        },
+        {
+          "label": "Garantiza el tiempo de ejecución real más bajo.",
+          "correct": false,
+          "feedback": "Los costes son estimaciones y pueden diferir de la ejecución real."
+        },
+        {
+          "label": "Selecciona algoritmos y coordina la ejecución del operador.",
+          "correct": true,
+          "feedback": "Un plan físico especifica cómo se ejecutan las operaciones y sus límites."
+        }
+      ]
+    },
+    {
+      "id": "09-check-03",
+      "unit": "09",
+      "lesson": "store-an-intermediate-result-or-pass-tuples-on",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué cambia en un frontera con pipeline permitido?",
+      "source": "Lecture6a PDF págs. 3–12; Almacene un resultado intermedio o pase tuplas. Comprobación de aprendizaje complementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Almacenar un resultado intermedio o pasar tuplas"
+      },
+      "options": [
+        {
+          "label": "Las tuplas pueden llegar al padre mientras el hijo las produce.",
+          "correct": true,
+          "feedback": "El padre puede consumir una secuencia en lugar de una relación de disco temporal completa."
+        },
+        {
+          "label": "La consulta puede descartar tuplas para reducir su coste.",
+          "correct": false,
+          "feedback": "Una estrategia de ejecución diferente debe preservar el resultado requerido."
+        },
+        {
+          "label": "Todos los operadores terminan antes de que comience cualquier padre.",
+          "correct": false,
+          "feedback": "Esto describe una evaluación intermedia completa en lugar de un límite canalizado."
+        }
+      ]
+    },
+    {
+      "id": "09-check-04",
+      "unit": "09",
+      "lesson": "count-writes-without-counting-reads-twice",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuántas transferencias ahorra el pipeline del caso inicial si el resto del trabajo no cambia?",
+      "source": "Lecture6a PDF págs. 3–12; Contar escrituras sin contar lecturas dos veces. Comprobación de aprendizaje complementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Contar escrituras sin contar lecturas dos veces"
+      },
+      "options": [
+        {
+          "label": "40 transferencias: sólo desaparece la escritura.",
+          "correct": false,
+          "feedback": "El consumidor también evita leer la relación temporal del disco."
+        },
+        {
+          "label": "80 transferencias: una escritura de 40 bloques y una lectura de 40 bloques.",
+          "correct": true,
+          "feedback": "740−660=80. La lectura eliminada ya estaba dentro de las 200 transferencias originales del consumidor."
+        },
+        {
+          "label": "120 transferencias: contar dos veces la lectura del consumidor.",
+          "correct": false,
+          "feedback": "Cada lectura de disco se cuenta una vez en un desglose de costes consistente."
+        }
+      ]
+    },
+    {
+      "id": "09-check-05",
+      "unit": "09",
+      "lesson": "explain-push-pull-and-blocking-phases",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "Un búfer push está lleno. ¿Qué debería pasar en el modelo suministrado?",
+      "source": "Lecture6a PDF págs. 3–12; Explicar las fases de empujar, tirar y bloquear. Comprobación de aprendizaje complementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Explicar las fases de empujar, tirar y bloquear"
+      },
+      "options": [
+        {
+          "label": "El productor descarta una tupla requerida.",
+          "correct": false,
+          "feedback": "Descartar las tuplas requeridas cambia el resultado de la consulta."
+        },
+        {
+          "label": "La canalización no necesita memoria ni estado.",
+          "correct": false,
+          "feedback": "El búfer ocupa memoria y los operadores pull también conservan el estado."
+        },
+        {
+          "label": "El productor espera hasta que haya espacio.",
+          "correct": true,
+          "feedback": "El consumidor debe eliminar tuplas antes de que el operador hijo pueda agregar más."
+        }
+      ]
+    },
+    {
+      "id": "09-check-06",
+      "unit": "09",
+      "lesson": "apply-the-course-convention-before-comparing-plans",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cómo se debe tratar una arista sin etiquetar en la clase 6a p.10?",
+      "source": "Lecture6a PDF págs. 3–12; Aplique la convención del curso antes de comparar planos. Comprobación de aprendizaje complementario.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Aplique la convención del curso antes de comparar planes"
+      },
+      "options": [
+        {
+          "label": "No asuma que hay pipelines en esa arista.",
+          "correct": true,
+          "feedback": "La convención del curso requiere un permiso explícito de canalización en la arista."
+        },
+        {
+          "label": "Canalice siempre cualquier combinación.",
+          "correct": false,
+          "feedback": "La fuente restringe explícitamente esta suposición y distingue familias de combinaciones."
+        },
+        {
+          "label": "Supongamos que ningún DBMS puede canalizar combinaciones hash.",
+          "correct": false,
+          "feedback": "Una regla de anotación de curso no es una prohibición universal de todas las implementaciones o fases."
+        }
+      ]
     }
   ],
   "language": "es",
   "translation": {
-    "method": "Machine translation with protected source syntax and computing glossary; original English is retained.",
-    "translatedAt": "2026-10-23T14:30:05.594Z",
-    "sourceFingerprint": "27f3f11f110dad4b27bdba87927fcfa1022bc21035c35d878812dba326a3b337",
+    "method": "Existing reviewed Spanish records preserved; new unit translated with protected source syntax and technical terminology reviewed on 2026-10-24.",
+    "translatedAt": "2026-10-24T02:05:09.862354+00:00",
+    "sourceFingerprint": "b2bba98dadba49f5a04bd89c6b667c000384541397e9eea0cb1f2e4b74c3c021",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }

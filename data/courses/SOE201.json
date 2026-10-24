@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Advanced Database Development",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-23T14:28:38.803Z",
+  "generatedAt": "2026-10-24T02:04:31.043Z",
   "evidence": {
-    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation lectures and Lab5 were downloaded from the authenticated portal on 23 October and are now in the original-source library; guided teaching editions remain pending. Coursework2 is preserved privately, not published. No current-completeness claim. Unreviewed textbook chapters remain pending.",
+    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation lectures and Lab5 were downloaded from the authenticated portal on 23 October and are now in the original-source library; Unit09 now teaches query plans, materialisation and pipelining from Lecture6a pp.3–12; algebraic rewrites, Lecture6b and Lab5 guided teaching remain pending. Coursework2 is preserved privately, not published. No current-completeness claim. Unreviewed textbook chapters remain pending.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -166,6 +166,21 @@
           "Keep transfers and seeks separate and compare their weighted cost.",
           "State memory, ordering, selectivity and output-writing assumptions.",
           "Expose source inconsistencies and distinguish local reasoning from official answers."
+        ]
+      }
+    },
+    {
+      "id": "09",
+      "title": "Query Plans, Materialisation and Pipelining",
+      "short": "Plans & pipelining",
+      "folder": "Web 09",
+      "kind": "theory",
+      "guide": {
+        "goal": "Explain and cost legal query-evaluation boundaries without double-counting intermediate I/O.",
+        "successCriteria": [
+          "Distinguish a logical expression from algorithms and execution coordination.",
+          "Trace intermediate writes and reads under one explicit output convention.",
+          "Explain push/pull execution and preserve the lecture’s pipeline annotations."
         ]
       }
     }
@@ -592,6 +607,24 @@
       "origin": "project",
       "hash": "7239a329ac31e574f1d933fc5a7ce1ac6860f3a54a7efc8092f835f39c4cad04",
       "markdown": "# Recall and Practice\n\nSource-based practice with local worked reasoning, not an official marking scheme. Original source tasks are identified individually. No database execution or student mastery is claimed.\n\n## Atomic recall\n\n### Card 01 — What dataset belongs to Lab4 Q1?\n\n> [!success]- Answer\n> Customer1,000,000 records/8,000 blocks; depositor500,000 records/1,000 blocks.\n>\n> Source: Lab4 p.2.\n\n### Card 02 — What makes Q2 numerically underdetermined?\n\n> [!success]- Answer\n> Physical ordering and per-key matching-block distribution are not fully established by the totals.\n>\n> Source: Lab4 pp.3–4.\n\n### Card 03 — How many merge passes sort12 blocks with3 frames?\n\n> [!success]- Answer\n> Two:4 initial runs become2 then1 with fan-in2.\n>\n> Source: Lab4 p.5.\n\n### Card 04 — Why is an in-memory sort not necessarily free in Q6?\n\n> [!success]- Answer\n> The question requires sorted data written to disk, so include reading and writing those3 blocks.\n>\n> Source: Lab4 p.8.\n\n### Card 05 — What inconsistency must Q5 report?\n\n> [!success]- Answer\n> The inherited M=100 cannot hold51 buffers of20 frames each; the one-pass premise needs clarification.\n>\n> Source: Lab4 pp.6–7.\n\n## Worked practice\n\n### Problem 1 — Q1 — Compare three join algorithms\n\nORIGINAL TASK. Customer1,000,000 records/8,000 blocks; depositor500,000/1,000 as outer; inner key B+ index n=100. Find transfers,seeks,time and compare NL,BNL,INL using0.1ms/4ms weights. Source: Lab4 p.2.\n\n> [!tip]- Hint\n> Use h=4 under the source bound, then5 key-lookup accesses.\n\n> [!success]- Solution\n> INL:B=S=1,000+500,000×5=2,501,000,T=10,254,100ms. NL:B=1,000+500,000×8,000=4,000,001,000,S=501,000,T=402,004,100ms. BNL:B=1,000+1,000×8,000=8,001,000,S=2,000,T=808,100ms. BNL is cheapest among these under the source model.\n\n### Problem 2 — Q2 — Compare while exposing uncertainty\n\nORIGINAL TASK. Compare BNL and indexed nested loops for customer5,000 tuples/500 blocks and transaction80,000/7,000, with the stated sparse primary N=7 index on customer_Number. Source: Lab4 pp.3–4.\n\n> [!tip]- Hint\n> First resolve the ordering description, then retain matching data blocks as a parameter.\n\n> [!success]- Solution\n> Customer-outer BNL:B=3,500,500,S=1,000,T=354,050ms. Conditional clustered INL with h=7:B=35,500+5,000b,S=40,500,T=165,550+500b ms. If uniform packing suggests b=2,T=166,550ms, below BNL. But the physical-ordering inconsistency and unknown match distribution prevent an unconditional exact answer; state both assumptions.\n\n### Problem 3 — Q3 — Count the external sort\n\nORIGINAL TASK. b=12,M=3,b_b=1; give transfers and seeks. Source: Lab4 p.5.\n\n> [!tip]- Hint\n> Four initial runs, two merge passes; declare final-output writing.\n\n> [!success]- Solution\n> Streamed source formula:B=12×(2×2+1)=60,S=2×4+12×(4−1)=44. Materialised output:B=72,S=56. The run trace is4→2→1.\n\n### Problem 4 — Q4 — Audit merge-join accounting\n\nORIGINAL TASK. Unsorted8,000/1,000-block inputs,M=100,b_b=5. Find sorting-plus-merge transfers/seeks. Source: Lab4 p.6.\n\n> [!tip]- Hint\n> Fan-in19; sort passes2 and1. Decide whether final sorted files are materialised.\n\n> [!success]- Solution\n> Materialised sorting:48,000+4,000 transfers and6,560+420 seeks. Subsequent merge:9,000 transfers/1,800 seeks. Total61,000/8,780, result-write omitted. The source streamed-sort arithmetic plus a separate scan yields52,000/6,980 but leaves missing persistence writes. True fusion avoids rereading those final streams and requires a separate buffer-feasibility check; it must not silently combine both conventions.\n\n### Problem 5 — Q5 — Count hash cost and flag the conflict\n\nORIGINAL TASK. Use50 partitions,b_b=20 and include partially filled blocks for the Q4 relations. Source: Lab4 p.7.\n\n> [!tip]- Hint\n> Apply the supplied partial-block formula, then count buffers.\n\n> [!success]- Solution\n> Conditional source cost:B=27,200,S=1,000,T=6,720ms with0.1/4ms weights. However one input and50 output buffers of20 frames require1,020 frames, exceeding Q4 M=100. This arithmetic does not establish a feasible one-pass execution. Clarify the inherited memory or revise the allocation/pass assumptions.\n\n### Problem 6 — Q6 — Answer every materialised-sort part\n\nORIGINAL TASK. b_r=5,b_s=3,M=3,b_b=1; final sorted results must be written before merge join. Answer(a)–(e). Source: Lab4 p.8.\n\n> [!tip]- Hint\n> Handle the in-memory input separately and include its final write.\n\n> [!success]- Solution\n> (a)r:2 initial external runs;s:one in-memory sorted sequence,no external runs required. (b)r:1 merge pass;s:0. (c)r:20 transfers;s:6 transfers for read+write. (d)merge scan:8 transfers under group-fit assumption. (e)20+6+8=34 total transfers. Join-result writing is excluded because its size is unspecified.\n\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/09/tutor",
+      "relative": "content/reviewed/SOE201/09/tutor.md",
+      "kind": "tutor",
+      "unit": "09",
+      "origin": "project",
+      "hash": "178bdbef7b4b53d78666f0bebc13a459cde64c2f39565f682ccb304bc5aca269",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Query Plans, Materialisation and Pipelining\n\n## In 60 Seconds\n\n**Synthetic opening case.** Two operators form a legal plan. The producer costs 500 block transfers and produces a 40-block intermediate relation. The consumer costs 200 transfers, including reading those 40 blocks. Their formulas exclude output writes. Can you compare a materialised boundary with a permitted pipeline without counting a read twice?\n\nYour goal is to identify the algorithm, the boundary between operators and the cost convention before adding numbers. Prerequisites: Unit 05 relational algebra and Units 06–08 physical evaluation. This lesson covers Lecture6a PDF pp.3–12, with identity/outcomes on pp.1–2. Algebraic rewrite rules on pp.13–29, Lecture6b and Lab5 remain separate pending teaching work. No database timing or official assessment result is claimed.\n\n## Separate a Logical Expression From Its Evaluation Plan\n\nA relational expression specifies the required result. An evaluation plan also chooses an algorithm for each operation and coordinates their execution. The same logical expression can therefore have different physical plans. For example, a selection result may be stored before its parent consumes it, or passed directly along a legal pipeline. Equivalent results do not imply identical disk work. Source: Lecture6a pp.3–4,9,11–12.\n\nFor each edge in the expression tree, ask: what does the child produce, what does the parent require, and must the intermediate result be stored? Do not assume that changing an edge permits changing predicates or discarding tuples.\n\n## Store an Intermediate Result or Pass Tuples On\n\n**Materialisation** completes an intermediate operation, writes its result as a temporary relation, then lets a later operation consume it. In the lecture's example, selection feeds a join and the join feeds projection. Materialisation is generally applicable in the supplied evaluation model, but temporary storage adds work. **Pipelining** lets a parent consume tuples while its child is producing them, avoiding a temporary disk relation where permitted. Source: Lecture6a pp.4–7.\n\n```mermaid\nflowchart LR\n  A[Selection] -->|materialised boundary| T[Temporary disk relation]\n  T --> B[Parent operator]\n  C[Selection] -->|permitted pipeline| D[Parent operator]\n```\n\n**Figure 1 — Alternative boundaries, not different query results.** Read it from left to right: the upper path stores an intermediate relation; the lower path passes tuples to its consumer. Key takeaway: removing a temporary file requires a legal execution arrangement. This teaching diagram abstracts the source tree on PDF p.5; it is not an extra official exercise.\n\n## Count Writes Without Counting Reads Twice\n\nThe lecture's operator formulas omit output writes. For materialised evaluation, add the intermediate writes to the sum of operator costs; the consuming operator's cost may already include the corresponding reads. Final query-output writes remain excluded unless explicitly requested. Source: Lecture6a p.6, with the streaming contrast on p.7.\n\nReturn to the opening case. First identify the ledger:\n\n| Item | Materialised | Pipelined |\n|---|---:|---:|\n| Producer work | 500 | 500 |\n| Consumer work other than the intermediate read | 160 | 160 |\n| Read intermediate relation from disk | 40 | 0 |\n| Write intermediate relation to disk | 40 | 0 |\n| Total block transfers | 740 | 660 |\n\nMaterialised cost is $500+200+40=740$. The 200 already contains the 40-block read: adding another 40 for reading would incorrectly give 780. Under the synthetic assumption that all other work is unchanged and streaming is legal, pipelined cost is $500+(200-40)=660$. The saving is 80 transfers, one intermediate write and one intermediate read. These are transfer counts, not milliseconds; seeks and CPU are not modelled. If the two algorithms change, recompute their costs instead of mechanically subtracting 80.\n\n## Explain Push, Pull and Blocking Phases\n\nA **producer-driven (push)** pipeline sends tuples to the parent through a buffer. When that buffer is full, the child waits for space. A **demand-driven (pull)** pipeline starts with a request for the next output tuple; each operator requests tuples from its children as needed and retains state between requests. A pipeline therefore does not mean that no memory or state is needed. Source: Lecture6a p.8.\n\nPipelining is not possible across every phase. External sorting may need preliminary processing of the whole input; a hash join has a preliminary build phase. This prevents a claim that every operator can immediately stream its final result from its first input tuple. It does not establish that every phase of every such algorithm must always materialise its output. Source: Lecture6a p.7; the phase distinction is a local clarification of that stated limitation.\n\n## Apply the Course Convention Before Comparing Plans\n\nLecture6a p.10 gives a specific convention: an edge labelled pipeline permits pipelining; an unlabelled edge is assumed not to permit it. For joins, unless explicitly stated otherwise, the source singles out the nested-loop family for its pipelining treatment. Preserve these annotations in course exercises rather than replacing them with assumptions about an arbitrary DBMS. This is a course modelling rule, not a universal statement that all other join implementations can never pipeline.\n\nUse this method: identify the logical result; choose the stated operator algorithms; inspect every boundary; separate intermediate reads and writes; calculate costs in one unit; then check which cost components and final-output policy are excluded. A cost-based optimiser chooses using estimates, so the estimated winner is not guaranteed to be the fastest measured execution. Source: Lecture6a pp.9–12. The opening example establishes a conditional 80-transfer saving, not an unconditional claim that pipelining is always faster.\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/09/practice",
+      "relative": "content/reviewed/SOE201/09/practice.md",
+      "kind": "practice",
+      "unit": "09",
+      "origin": "project",
+      "hash": "100e08bd65c67ca72626c3595df6831898f3e4373ff1db2843287ac86597ac1f",
+      "markdown": "# Recall and Practice\n\nSUPPLEMENTARY PRACTICE derived from Lecture6a PDF pp.3–12. The numerical cases below are teaching constructions, not Lab5 tasks or an official marking scheme. Original Lab5 questions and remaining lecture topics are still pending separate review.\n\n## Atomic recall\n\n### Card 01 — What does an evaluation plan add to a logical expression?\n\n> [!success]- Answer\n> Algorithms for individual operations and a strategy for coordinating their execution.\n>\n> Source: Lecture6a p.9.\n\n### Card 02 — What does materialisation store?\n\n> [!success]- Answer\n> An intermediate result as a temporary relation for later operations to consume.\n>\n> Source: Lecture6a pp.4–6.\n\n### Card 03 — Which cost must be added to the lecture's operator sums?\n\n> [!success]- Answer\n> Intermediate-result writes; check whether their reads are already included in the consuming operators.\n>\n> Source: Lecture6a p.6; local bookkeeping clarification.\n\n### Card 04 — What happens when a push buffer is full?\n\n> [!success]- Answer\n> The producer waits until the consumer creates space.\n>\n> Source: Lecture6a p.8.\n\n### Card 05 — What must a pull operator retain between requests?\n\n> [!success]- Answer\n> State indicating where to resume when the next tuple is requested.\n>\n> Source: Lecture6a p.8.\n\n### Card 06 — What does an unlabelled plan edge mean in this lecture?\n\n> [!success]- Answer\n> Pipelining is assumed unavailable on that edge under the course convention.\n>\n> Source: Lecture6a p.10.\n\n## Worked practice\n\n### Problem 1 — Audit the transfer ledger\n\nSUPPLEMENTARY PRACTICE. A producer costs 300 transfers. Its intermediate result occupies 25 blocks. The consumer costs 90 transfers including reading those 25 blocks. Both formulas omit output writes. Compute materialised and legal pipelined costs, assuming all other work is unchanged. Exclude final-output writes. Source model: Lecture6a pp.6–7.\n\n> [!tip]- Hint\n> Split the consumer's 90 into its intermediate read and its remaining work.\n\n> [!success]- Solution\n> The consumer's other work is 90−25=65 transfers. Materialisation costs 300+65+25+25=415 transfers: producer, other consumer work, intermediate read and intermediate write. The pipeline costs 300+65=365 transfers. It saves 50 transfers. Do not add the intermediate read again to 300+90: that sum already includes it. If pipelining is forbidden or changes the algorithms, the 365 comparison does not apply.\n\n### Problem 2 — Diagnose a full push buffer\n\nSUPPLEMENTARY PRACTICE. A producer has a tuple ready, but the inter-operator buffer is full. A student proposes discarding an old tuple to keep the producer running. Is this a valid execution of the same query? Contrast push and pull control. Source: Lecture6a p.8.\n\n> [!tip]- Hint\n> Separate who initiates production from the obligation to preserve required tuples.\n\n> [!success]- Solution\n> No. Dropping a required tuple changes the result. In the described push model, the producer waits until the consumer removes tuples and space becomes available. In the pull model, requests propagate from parent to child as outputs are needed; operators retain their position between requests. Neither approach licenses discarding valid results. Waiting is flow control, not evidence that no pipeline exists.\n\n### Problem 3 — Challenge an unjustified streaming claim\n\nSUPPLEMENTARY PRACTICE. An exercise shows an unlabelled edge from a hash join to its parent. A student says, “Pipelining always saves disk I/O, so I will remove the intermediate write.” What must be checked before accepting that calculation? Source: Lecture6a pp.7,10.\n\n> [!tip]- Hint\n> Check both the exercise annotation and the algorithm's phases.\n\n> [!success]- Solution\n> Under the lecture's convention, an unlabelled edge does not permit assuming a pipeline. The hash join also has preliminary processing, so streaming capability cannot be inferred from the operation name alone. Retain the materialised boundary unless the exercise explicitly permits another strategy. If permission is supplied, identify which phases stream and whether the parent can consume them, then recompute the ledger. This is not a universal prohibition on all pipelined hash-join implementations.\n"
     }
   ],
   "cards": [
@@ -1259,6 +1292,48 @@
       "question": "What inconsistency must Q5 report?",
       "answer": "The inherited M=100 cannot hold51 buffers of20 frames each; the one-pass premise needs clarification.",
       "source": "Source: Lab4 pp.6–7."
+    },
+    {
+      "id": "09-01",
+      "unit": "09",
+      "question": "What does an evaluation plan add to a logical expression?",
+      "answer": "Algorithms for individual operations and a strategy for coordinating their execution.",
+      "source": "Source: Lecture6a p.9."
+    },
+    {
+      "id": "09-02",
+      "unit": "09",
+      "question": "What does materialisation store?",
+      "answer": "An intermediate result as a temporary relation for later operations to consume.",
+      "source": "Source: Lecture6a pp.4–6."
+    },
+    {
+      "id": "09-03",
+      "unit": "09",
+      "question": "Which cost must be added to the lecture's operator sums?",
+      "answer": "Intermediate-result writes; check whether their reads are already included in the consuming operators.",
+      "source": "Source: Lecture6a p.6; local bookkeeping clarification."
+    },
+    {
+      "id": "09-04",
+      "unit": "09",
+      "question": "What happens when a push buffer is full?",
+      "answer": "The producer waits until the consumer creates space.",
+      "source": "Source: Lecture6a p.8."
+    },
+    {
+      "id": "09-05",
+      "unit": "09",
+      "question": "What must a pull operator retain between requests?",
+      "answer": "State indicating where to resume when the next tuple is requested.",
+      "source": "Source: Lecture6a p.8."
+    },
+    {
+      "id": "09-06",
+      "unit": "09",
+      "question": "What does an unlabelled plan edge mean in this lecture?",
+      "answer": "Pipelining is assumed unavailable on that edge under the course convention.",
+      "source": "Source: Lecture6a p.10."
     }
   ],
   "assets": {
@@ -1783,6 +1858,31 @@
           "label": "Measured student mastery.",
           "correct": false,
           "feedback": "Creating notes and checking arithmetic does not measure learning."
+        }
+      ]
+    },
+    {
+      "id": "09-activity",
+      "unit": "09",
+      "kind": "quiz",
+      "title": "Audit a transfer ledger",
+      "prompt": "Producer cost300; consumer cost90 including25 intermediate reads. Output writes excluded. A legal pipeline leaves all other work unchanged. Which pair is correct?",
+      "source": "Lecture6a pp.6–7; synthetic values, not an official assessment.",
+      "options": [
+        {
+          "label": "Materialised415; pipelined365 transfers.",
+          "correct": true,
+          "feedback": "Add25 writes to390; remove25 reads from390 for the pipeline. The saving is50 transfers."
+        },
+        {
+          "label": "Materialised440; pipelined390 transfers.",
+          "correct": false,
+          "feedback": "440 double-counts the read;390 still includes disk reads that the assumed pipeline avoids."
+        },
+        {
+          "label": "Materialised390; pipelined365 transfers.",
+          "correct": false,
+          "feedback": "390 omits the intermediate write required by materialisation."
         }
       ]
     }
@@ -5475,6 +5575,186 @@
           "label": "Recomputed arithmetic and source mappings.",
           "correct": true,
           "feedback": "The source tasks and all subparts are mapped to local worked reasoning."
+        }
+      ]
+    },
+    {
+      "id": "09-check-01",
+      "unit": "09",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which materialised total uses the opening assumptions?",
+      "source": "Lecture6a PDF pp.3–12; In 60 Seconds. Supplementary learning check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "In 60 Seconds"
+      },
+      "options": [
+        {
+          "label": "780 transfers: add the intermediate read and write to 700.",
+          "correct": false,
+          "feedback": "The consumer cost already contains the 40-block read. Adding it again double-counts it."
+        },
+        {
+          "label": "740 transfers: add only the omitted 40-block write to 700.",
+          "correct": true,
+          "feedback": "The 500+200 operator sum includes the consumer read but excludes the intermediate write."
+        },
+        {
+          "label": "660 transfers, regardless of boundary annotations.",
+          "correct": false,
+          "feedback": "660 assumes a legal pipeline removing both temporary disk operations."
+        }
+      ]
+    },
+    {
+      "id": "09-check-02",
+      "unit": "09",
+      "lesson": "separate-a-logical-expression-from-its-evaluation-plan",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What distinguishes an evaluation plan from a logical expression?",
+      "source": "Lecture6a PDF pp.3–12; Separate a Logical Expression From Its Evaluation Plan. Supplementary learning check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Separate a Logical Expression From Its Evaluation Plan"
+      },
+      "options": [
+        {
+          "label": "It must use a different predicate.",
+          "correct": false,
+          "feedback": "Changing a predicate can change the required result."
+        },
+        {
+          "label": "It guarantees the lowest actual runtime.",
+          "correct": false,
+          "feedback": "Costs are estimates and may differ from actual execution."
+        },
+        {
+          "label": "It selects algorithms and coordinates operator execution.",
+          "correct": true,
+          "feedback": "A physical plan specifies how operations and their boundaries execute."
+        }
+      ]
+    },
+    {
+      "id": "09-check-03",
+      "unit": "09",
+      "lesson": "store-an-intermediate-result-or-pass-tuples-on",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What changes at a permitted pipelined boundary?",
+      "source": "Lecture6a PDF pp.3–12; Store an Intermediate Result or Pass Tuples On. Supplementary learning check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Store an Intermediate Result or Pass Tuples On"
+      },
+      "options": [
+        {
+          "label": "Tuples can reach the parent while the child is producing them.",
+          "correct": true,
+          "feedback": "The parent can consume a stream rather than a completed temporary disk relation."
+        },
+        {
+          "label": "The query may discard tuples to reduce its cost.",
+          "correct": false,
+          "feedback": "A different execution strategy must preserve the required result."
+        },
+        {
+          "label": "All operators finish before any parent starts.",
+          "correct": false,
+          "feedback": "This describes complete intermediate evaluation rather than a pipelined boundary."
+        }
+      ]
+    },
+    {
+      "id": "09-check-04",
+      "unit": "09",
+      "lesson": "count-writes-without-counting-reads-twice",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What is saved by the opening legal pipeline, with all other work unchanged?",
+      "source": "Lecture6a PDF pp.3–12; Count Writes Without Counting Reads Twice. Supplementary learning check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Count Writes Without Counting Reads Twice"
+      },
+      "options": [
+        {
+          "label": "40 transfers: only the write disappears.",
+          "correct": false,
+          "feedback": "The consumer also avoids reading the temporary relation from disk."
+        },
+        {
+          "label": "80 transfers: one 40-block write and one 40-block read.",
+          "correct": true,
+          "feedback": "740−660=80. The removed read was already inside the original 200 consumer transfers."
+        },
+        {
+          "label": "120 transfers: count the consumer read twice.",
+          "correct": false,
+          "feedback": "Each disk read is counted once in a consistent ledger."
+        }
+      ]
+    },
+    {
+      "id": "09-check-05",
+      "unit": "09",
+      "lesson": "explain-push-pull-and-blocking-phases",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "A push buffer is full. What should happen in the supplied model?",
+      "source": "Lecture6a PDF pp.3–12; Explain Push, Pull and Blocking Phases. Supplementary learning check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Explain Push, Pull and Blocking Phases"
+      },
+      "options": [
+        {
+          "label": "The producer discards a required tuple.",
+          "correct": false,
+          "feedback": "Discarding required tuples changes the query result."
+        },
+        {
+          "label": "The pipeline has no need for memory or state.",
+          "correct": false,
+          "feedback": "The buffer occupies memory and pull operators retain state as well."
+        },
+        {
+          "label": "The producer waits until there is space.",
+          "correct": true,
+          "feedback": "The consumer must remove tuples before the child can add more."
+        }
+      ]
+    },
+    {
+      "id": "09-check-06",
+      "unit": "09",
+      "lesson": "apply-the-course-convention-before-comparing-plans",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "How should an unlabelled edge be treated under Lecture6a p.10?",
+      "source": "Lecture6a PDF pp.3–12; Apply the Course Convention Before Comparing Plans. Supplementary learning check.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/09/tutor",
+        "heading": "Apply the Course Convention Before Comparing Plans"
+      },
+      "options": [
+        {
+          "label": "Do not assume pipelining on that edge.",
+          "correct": true,
+          "feedback": "The course convention requires explicit pipeline permission on the edge."
+        },
+        {
+          "label": "Always pipeline any join.",
+          "correct": false,
+          "feedback": "The source explicitly restricts this assumption and distinguishes join families."
+        },
+        {
+          "label": "Assume no DBMS can ever pipeline hash joins.",
+          "correct": false,
+          "feedback": "A course annotation rule is not a universal prohibition on all implementations or phases."
         }
       ]
     }
