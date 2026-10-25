@@ -3,9 +3,9 @@
   "code": "SOE203",
   "title": "Ingeniería de Software I",
   "vaultPrefix": "10_UNIVERSITY_CS/Software Engineering 1/",
-  "generatedAt": "2026-10-13T10:06:22.418Z",
+  "generatedAt": "2026-10-25T05:53:03.738Z",
   "evidence": {
-    "scope": "Alcance web: cinco unidades teóricas y la clínica de requisitos. Metadatos de la bóveda compartida conciliados con el 12 de octubre. Unidad 04 enseñanza web conciliada con la revisión de conferencia verificada 1.1 (74 páginas PDF). Las instantáneas de referencia anteriores y los localizadores de fuentes de recuperación siguen siendo explícitamente históricos; Se conservan las URL de origen originales y los ID de progreso. La lectura revisada (2) y ambas hojas de respuestas de la Semana 4 están verificadas e integradas; Se conservan las tareas originales y las identidades de progreso guardado. Los ejemplos de respuestas proporcionados son distintos de los comentarios locales y los esquemas de calificación de exámenes. El ejemplo bancario de la semana 5 y las cifras de respuestas de cinco ejercicios de conferencias se integran con discrepancias explícitas en las fuentes. La hoja de respuestas del tutorial de la Semana 5 programada por separado no se encuentra entre las fuentes suministradas localmente. El libro de texto más allá del PDF, págs. 1 a 17, sigue pendiente. Las tres clases de UML y los tres tutoriales de la semana 6 se descargaron el 23 de octubre y están en la biblioteca de originales; sus lecciones guiadas siguen pendientes. Las soluciones oficiales de la semana 6 están restringidas hasta el 24 de octubre.",
+    "scope": "Alcance web: cinco unidades teóricas y la clínica de requisitos. Metadatos de la bóveda compartida conciliados con el 12 de octubre. Unidad 04 enseñanza web conciliada con la revisión de conferencia verificada 1.1 (74 páginas PDF). Las instantáneas de referencia anteriores y los localizadores de fuentes de recuperación siguen siendo explícitamente históricos; Se conservan las URL de origen originales y los ID de progreso. La lectura revisada (2) y ambas hojas de respuestas de la Semana 4 están verificadas e integradas; Se conservan las tareas originales y las identidades de progreso guardado. Los ejemplos de respuestas proporcionados son distintos de los comentarios locales y los esquemas de calificación de exámenes. El ejemplo bancario de la semana 5 y las cifras de respuestas de cinco ejercicios de conferencias se integran con discrepancias explícitas en las fuentes. La hoja de respuestas del tutorial de la Semana 5 programada por separado no se encuentra entre las fuentes suministradas localmente. El libro de texto más allá del PDF, págs. 1 a 17, sigue pendiente. Las tres clases de UML y los tres tutoriales de la semana 6 se descargaron el 23 de octubre y están en la biblioteca de originales; sus lecciones guiadas siguen pendientes. En la consulta del portal del 23 de octubre, la publicación de las soluciones oficiales de la semana 6 estaba prevista para el 24 de octubre; su disponibilidad actual y descarga siguen sin verificarse.",
     "overviewSha256": "d596fac915da57f7e4b7603978f9e222fce2ce516b4f11c48c9febd86005ab46"
   },
   "units": [
@@ -2574,7 +2574,7 @@
   "translation": {
     "method": "Machine translation with protected source syntax and computing glossary; original English is retained.",
     "translatedAt": "2026-10-23T14:30:05.626Z",
-    "sourceFingerprint": "54259729dc1bd29c54215edcb242152482ed9c6767114230ba5b54dbf661745e",
+    "sourceFingerprint": "d964c8a831a850fb51e0e0a3f193a42e14eb913ee7e738d3ab6490870aab6997",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }
