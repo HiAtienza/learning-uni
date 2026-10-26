@@ -3,7 +3,7 @@
   "code": "SOE201",
   "title": "Advanced Database Development",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-26T02:22:54.661Z",
+  "generatedAt": "2026-10-26T02:29:37.294Z",
   "evidence": {
     "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation lectures and Lab5 were downloaded from the authenticated portal on 23 October and are now in the original-source library; Units09/10 teach query plans, materialisation, pipelining and algebraic rewrites from Lecture6a pp.3–28; the p.23/p.24 inequality discrepancy is explicit. Lecture6b and Lab5 guided teaching remain pending. Coursework2 is preserved privately, not published. No current-completeness claim. Unreviewed textbook chapters remain pending.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
@@ -1596,7 +1596,7 @@
       "id": "17",
       "relative": "Original Sources/LM Core 2026-10-23/Lecture6a - Query Optimisation 1.pdf",
       "origin": "course",
-      "title": "Week 6 · Lecture6a - Query Optimisation 1.pdf (teaching edition pending)",
+      "title": "Week 6 · Lecture6a - Query Optimisation 1.pdf",
       "unit": null,
       "hash": "8aafd49205b78b2cac0b73227ccaa2afc6828ea1394da800788297b3e781c5cf",
       "url": "/sources/soe201/17.pdf"
