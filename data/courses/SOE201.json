@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Advanced Database Development",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-25T05:49:51.495Z",
+  "generatedAt": "2026-10-26T02:22:54.661Z",
   "evidence": {
-    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation lectures and Lab5 were downloaded from the authenticated portal on 23 October and are now in the original-source library; Unit09 now teaches query plans, materialisation and pipelining from Lecture6a pp.3–12; algebraic rewrites, Lecture6b and Lab5 guided teaching remain pending. Coursework2 is preserved privately, not published. No current-completeness claim. Unreviewed textbook chapters remain pending.",
+    "scope": "Six supplied theory units and two JDBC study segments. New relational algebra, query evaluation and released Task 2 are local web editions; older source snapshots retain their historical coverage statements. Lecture5a/5b and Lab4 from the hash-verified 12 October archive are now integrated as Units07/08 and Lab04. Week6 optimisation lectures and Lab5 were downloaded from the authenticated portal on 23 October and are now in the original-source library; Units09/10 teach query plans, materialisation, pipelining and algebraic rewrites from Lecture6a pp.3–28; the p.23/p.24 inequality discrepancy is explicit. Lecture6b and Lab5 guided teaching remain pending. Coursework2 is preserved privately, not published. No current-completeness claim. Unreviewed textbook chapters remain pending.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -181,6 +181,21 @@
           "Distinguish a logical expression from algorithms and execution coordination.",
           "Trace intermediate writes and reads under one explicit output convention.",
           "Explain push/pull execution and preserve the lecture’s pipeline annotations."
+        ]
+      }
+    },
+    {
+      "id": "10",
+      "title": "Equivalent Expressions and Safe Query Rewrites",
+      "short": "Equivalent rewrites",
+      "folder": "Web 10",
+      "kind": "theory",
+      "guide": {
+        "goal": "Rewrite inner-join expressions while preserving predicates, attribute availability and result semantics.",
+        "successCriteria": [
+          "Explain equivalence on every legal database instance and distinguish sets from SQL multisets.",
+          "Push selections and projections with their schema and join-key conditions intact.",
+          "Disprove unsafe transformations and distinguish expected intermediate size from measured runtime."
         ]
       }
     }
@@ -614,8 +629,8 @@
       "kind": "tutor",
       "unit": "09",
       "origin": "project",
-      "hash": "178bdbef7b4b53d78666f0bebc13a459cde64c2f39565f682ccb304bc5aca269",
-      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Query Plans, Materialisation and Pipelining\n\n## In 60 Seconds\n\n**Synthetic opening case.** Two operators form a legal plan. The producer costs 500 block transfers and produces a 40-block intermediate relation. The consumer costs 200 transfers, including reading those 40 blocks. Their formulas exclude output writes. Can you compare a materialised boundary with a permitted pipeline without counting a read twice?\n\nYour goal is to identify the algorithm, the boundary between operators and the cost convention before adding numbers. Prerequisites: Unit 05 relational algebra and Units 06–08 physical evaluation. This lesson covers Lecture6a PDF pp.3–12, with identity/outcomes on pp.1–2. Algebraic rewrite rules on pp.13–29, Lecture6b and Lab5 remain separate pending teaching work. No database timing or official assessment result is claimed.\n\n## Separate a Logical Expression From Its Evaluation Plan\n\nA relational expression specifies the required result. An evaluation plan also chooses an algorithm for each operation and coordinates their execution. The same logical expression can therefore have different physical plans. For example, a selection result may be stored before its parent consumes it, or passed directly along a legal pipeline. Equivalent results do not imply identical disk work. Source: Lecture6a pp.3–4,9,11–12.\n\nFor each edge in the expression tree, ask: what does the child produce, what does the parent require, and must the intermediate result be stored? Do not assume that changing an edge permits changing predicates or discarding tuples.\n\n## Store an Intermediate Result or Pass Tuples On\n\n**Materialisation** completes an intermediate operation, writes its result as a temporary relation, then lets a later operation consume it. In the lecture's example, selection feeds a join and the join feeds projection. Materialisation is generally applicable in the supplied evaluation model, but temporary storage adds work. **Pipelining** lets a parent consume tuples while its child is producing them, avoiding a temporary disk relation where permitted. Source: Lecture6a pp.4–7.\n\n```mermaid\nflowchart LR\n  A[Selection] -->|materialised boundary| T[Temporary disk relation]\n  T --> B[Parent operator]\n  C[Selection] -->|permitted pipeline| D[Parent operator]\n```\n\n**Figure 1 — Alternative boundaries, not different query results.** Read it from left to right: the upper path stores an intermediate relation; the lower path passes tuples to its consumer. Key takeaway: removing a temporary file requires a legal execution arrangement. This teaching diagram abstracts the source tree on PDF p.5; it is not an extra official exercise.\n\n## Count Writes Without Counting Reads Twice\n\nThe lecture's operator formulas omit output writes. For materialised evaluation, add the intermediate writes to the sum of operator costs; the consuming operator's cost may already include the corresponding reads. Final query-output writes remain excluded unless explicitly requested. Source: Lecture6a p.6, with the streaming contrast on p.7.\n\nReturn to the opening case. First identify the ledger:\n\n| Item | Materialised | Pipelined |\n|---|---:|---:|\n| Producer work | 500 | 500 |\n| Consumer work other than the intermediate read | 160 | 160 |\n| Read intermediate relation from disk | 40 | 0 |\n| Write intermediate relation to disk | 40 | 0 |\n| Total block transfers | 740 | 660 |\n\nMaterialised cost is $500+200+40=740$. The 200 already contains the 40-block read: adding another 40 for reading would incorrectly give 780. Under the synthetic assumption that all other work is unchanged and streaming is legal, pipelined cost is $500+(200-40)=660$. The saving is 80 transfers, one intermediate write and one intermediate read. These are transfer counts, not milliseconds; seeks and CPU are not modelled. If the two algorithms change, recompute their costs instead of mechanically subtracting 80.\n\n## Explain Push, Pull and Blocking Phases\n\nA **producer-driven (push)** pipeline sends tuples to the parent through a buffer. When that buffer is full, the child waits for space. A **demand-driven (pull)** pipeline starts with a request for the next output tuple; each operator requests tuples from its children as needed and retains state between requests. A pipeline therefore does not mean that no memory or state is needed. Source: Lecture6a p.8.\n\nPipelining is not possible across every phase. External sorting may need preliminary processing of the whole input; a hash join has a preliminary build phase. This prevents a claim that every operator can immediately stream its final result from its first input tuple. It does not establish that every phase of every such algorithm must always materialise its output. Source: Lecture6a p.7; the phase distinction is a local clarification of that stated limitation.\n\n## Apply the Course Convention Before Comparing Plans\n\nLecture6a p.10 gives a specific convention: an edge labelled pipeline permits pipelining; an unlabelled edge is assumed not to permit it. For joins, unless explicitly stated otherwise, the source singles out the nested-loop family for its pipelining treatment. Preserve these annotations in course exercises rather than replacing them with assumptions about an arbitrary DBMS. This is a course modelling rule, not a universal statement that all other join implementations can never pipeline.\n\nUse this method: identify the logical result; choose the stated operator algorithms; inspect every boundary; separate intermediate reads and writes; calculate costs in one unit; then check which cost components and final-output policy are excluded. A cost-based optimiser chooses using estimates, so the estimated winner is not guaranteed to be the fastest measured execution. Source: Lecture6a pp.9–12. The opening example establishes a conditional 80-transfer saving, not an unconditional claim that pipelining is always faster.\n"
+      "hash": "03610070cb2cf0754ce35d240a7ff48dffdf2486e97ddce22d7411fa0debf8ad",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Query Plans, Materialisation and Pipelining\n\n## In 60 Seconds\n\n**Synthetic opening case.** Two operators form a legal plan. The producer costs 500 block transfers and produces a 40-block intermediate relation. The consumer costs 200 transfers, including reading those 40 blocks. Their formulas exclude output writes. Can you compare a materialised boundary with a permitted pipeline without counting a read twice?\n\nYour goal is to identify the algorithm, the boundary between operators and the cost convention before adding numbers. Prerequisites: Unit 05 relational algebra and Units 06–08 physical evaluation. This lesson covers Lecture6a PDF pp.3–12, with identity/outcomes on pp.1–2. Algebraic rewrite rules on pp.13–28 are taught separately in [[content/reviewed/SOE201/10/tutor|Unit10]]. Page29 lists reading; Lecture6b and Lab5 guided teaching remain pending. No database timing or official assessment result is claimed.\n\n## Separate a Logical Expression From Its Evaluation Plan\n\nA relational expression specifies the required result. An evaluation plan also chooses an algorithm for each operation and coordinates their execution. The same logical expression can therefore have different physical plans. For example, a selection result may be stored before its parent consumes it, or passed directly along a legal pipeline. Equivalent results do not imply identical disk work. Source: Lecture6a pp.3–4,9,11–12.\n\nFor each edge in the expression tree, ask: what does the child produce, what does the parent require, and must the intermediate result be stored? Do not assume that changing an edge permits changing predicates or discarding tuples.\n\n## Store an Intermediate Result or Pass Tuples On\n\n**Materialisation** completes an intermediate operation, writes its result as a temporary relation, then lets a later operation consume it. In the lecture's example, selection feeds a join and the join feeds projection. Materialisation is generally applicable in the supplied evaluation model, but temporary storage adds work. **Pipelining** lets a parent consume tuples while its child is producing them, avoiding a temporary disk relation where permitted. Source: Lecture6a pp.4–7.\n\n```mermaid\nflowchart LR\n  A[Selection] -->|materialised boundary| T[Temporary disk relation]\n  T --> B[Parent operator]\n  C[Selection] -->|permitted pipeline| D[Parent operator]\n```\n\n**Figure 1 — Alternative boundaries, not different query results.** Read it from left to right: the upper path stores an intermediate relation; the lower path passes tuples to its consumer. Key takeaway: removing a temporary file requires a legal execution arrangement. This teaching diagram abstracts the source tree on PDF p.5; it is not an extra official exercise.\n\n## Count Writes Without Counting Reads Twice\n\nThe lecture's operator formulas omit output writes. For materialised evaluation, add the intermediate writes to the sum of operator costs; the consuming operator's cost may already include the corresponding reads. Final query-output writes remain excluded unless explicitly requested. Source: Lecture6a p.6, with the streaming contrast on p.7.\n\nReturn to the opening case. First identify the ledger:\n\n| Item | Materialised | Pipelined |\n|---|---:|---:|\n| Producer work | 500 | 500 |\n| Consumer work other than the intermediate read | 160 | 160 |\n| Read intermediate relation from disk | 40 | 0 |\n| Write intermediate relation to disk | 40 | 0 |\n| Total block transfers | 740 | 660 |\n\nMaterialised cost is $500+200+40=740$. The 200 already contains the 40-block read: adding another 40 for reading would incorrectly give 780. Under the synthetic assumption that all other work is unchanged and streaming is legal, pipelined cost is $500+(200-40)=660$. The saving is 80 transfers, one intermediate write and one intermediate read. These are transfer counts, not milliseconds; seeks and CPU are not modelled. If the two algorithms change, recompute their costs instead of mechanically subtracting 80.\n\n## Explain Push, Pull and Blocking Phases\n\nA **producer-driven (push)** pipeline sends tuples to the parent through a buffer. When that buffer is full, the child waits for space. A **demand-driven (pull)** pipeline starts with a request for the next output tuple; each operator requests tuples from its children as needed and retains state between requests. A pipeline therefore does not mean that no memory or state is needed. Source: Lecture6a p.8.\n\nPipelining is not possible across every phase. External sorting may need preliminary processing of the whole input; a hash join has a preliminary build phase. This prevents a claim that every operator can immediately stream its final result from its first input tuple. It does not establish that every phase of every such algorithm must always materialise its output. Source: Lecture6a p.7; the phase distinction is a local clarification of that stated limitation.\n\n## Apply the Course Convention Before Comparing Plans\n\nLecture6a p.10 gives a specific convention: an edge labelled pipeline permits pipelining; an unlabelled edge is assumed not to permit it. For joins, unless explicitly stated otherwise, the source singles out the nested-loop family for its pipelining treatment. Preserve these annotations in course exercises rather than replacing them with assumptions about an arbitrary DBMS. This is a course modelling rule, not a universal statement that all other join implementations can never pipeline.\n\nUse this method: identify the logical result; choose the stated operator algorithms; inspect every boundary; separate intermediate reads and writes; calculate costs in one unit; then check which cost components and final-output policy are excluded. A cost-based optimiser chooses using estimates, so the estimated winner is not guaranteed to be the fastest measured execution. Source: Lecture6a pp.9–12. The opening example establishes a conditional 80-transfer saving, not an unconditional claim that pipelining is always faster.\n"
     },
     {
       "id": "content/reviewed/SOE201/09/practice",
@@ -625,6 +640,24 @@
       "origin": "project",
       "hash": "100e08bd65c67ca72626c3595df6831898f3e4373ff1db2843287ac86597ac1f",
       "markdown": "# Recall and Practice\n\nSUPPLEMENTARY PRACTICE derived from Lecture6a PDF pp.3–12. The numerical cases below are teaching constructions, not Lab5 tasks or an official marking scheme. Original Lab5 questions and remaining lecture topics are still pending separate review.\n\n## Atomic recall\n\n### Card 01 — What does an evaluation plan add to a logical expression?\n\n> [!success]- Answer\n> Algorithms for individual operations and a strategy for coordinating their execution.\n>\n> Source: Lecture6a p.9.\n\n### Card 02 — What does materialisation store?\n\n> [!success]- Answer\n> An intermediate result as a temporary relation for later operations to consume.\n>\n> Source: Lecture6a pp.4–6.\n\n### Card 03 — Which cost must be added to the lecture's operator sums?\n\n> [!success]- Answer\n> Intermediate-result writes; check whether their reads are already included in the consuming operators.\n>\n> Source: Lecture6a p.6; local bookkeeping clarification.\n\n### Card 04 — What happens when a push buffer is full?\n\n> [!success]- Answer\n> The producer waits until the consumer creates space.\n>\n> Source: Lecture6a p.8.\n\n### Card 05 — What must a pull operator retain between requests?\n\n> [!success]- Answer\n> State indicating where to resume when the next tuple is requested.\n>\n> Source: Lecture6a p.8.\n\n### Card 06 — What does an unlabelled plan edge mean in this lecture?\n\n> [!success]- Answer\n> Pipelining is assumed unavailable on that edge under the course convention.\n>\n> Source: Lecture6a p.10.\n\n## Worked practice\n\n### Problem 1 — Audit the transfer ledger\n\nSUPPLEMENTARY PRACTICE. A producer costs 300 transfers. Its intermediate result occupies 25 blocks. The consumer costs 90 transfers including reading those 25 blocks. Both formulas omit output writes. Compute materialised and legal pipelined costs, assuming all other work is unchanged. Exclude final-output writes. Source model: Lecture6a pp.6–7.\n\n> [!tip]- Hint\n> Split the consumer's 90 into its intermediate read and its remaining work.\n\n> [!success]- Solution\n> The consumer's other work is 90−25=65 transfers. Materialisation costs 300+65+25+25=415 transfers: producer, other consumer work, intermediate read and intermediate write. The pipeline costs 300+65=365 transfers. It saves 50 transfers. Do not add the intermediate read again to 300+90: that sum already includes it. If pipelining is forbidden or changes the algorithms, the 365 comparison does not apply.\n\n### Problem 2 — Diagnose a full push buffer\n\nSUPPLEMENTARY PRACTICE. A producer has a tuple ready, but the inter-operator buffer is full. A student proposes discarding an old tuple to keep the producer running. Is this a valid execution of the same query? Contrast push and pull control. Source: Lecture6a p.8.\n\n> [!tip]- Hint\n> Separate who initiates production from the obligation to preserve required tuples.\n\n> [!success]- Solution\n> No. Dropping a required tuple changes the result. In the described push model, the producer waits until the consumer removes tuples and space becomes available. In the pull model, requests propagate from parent to child as outputs are needed; operators retain their position between requests. Neither approach licenses discarding valid results. Waiting is flow control, not evidence that no pipeline exists.\n\n### Problem 3 — Challenge an unjustified streaming claim\n\nSUPPLEMENTARY PRACTICE. An exercise shows an unlabelled edge from a hash join to its parent. A student says, “Pipelining always saves disk I/O, so I will remove the intermediate write.” What must be checked before accepting that calculation? Source: Lecture6a pp.7,10.\n\n> [!tip]- Hint\n> Check both the exercise annotation and the algorithm's phases.\n\n> [!success]- Solution\n> Under the lecture's convention, an unlabelled edge does not permit assuming a pipeline. The hash join also has preliminary processing, so streaming capability cannot be inferred from the operation name alone. Retain the materialised boundary unless the exercise explicitly permits another strategy. If permission is supplied, identify which phases stream and whether the parent can consume them, then recompute the ledger. This is not a universal prohibition on all pipelined hash-join implementations.\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/10/tutor",
+      "relative": "content/reviewed/SOE201/10/tutor.md",
+      "kind": "tutor",
+      "unit": "10",
+      "origin": "project",
+      "hash": "a22ee758dda1ffd1c0a4c319c30882661f30709e230419d37edd655e9ffd7c2e",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Equivalent Expressions and Safe Query Rewrites\n\n## In 60 Seconds\n\n**Source opening query.** Find customer names for accounts at Brooklyn branches with balance greater than 1000. Can you filter and narrow the intermediate relations without changing which names are returned?\n\nLecture6a p.21 supplies `branch(branch_name, branch_city, assets)`, `account(account_number, branch_name, balance)` and `depositor(customer_name, account_number)`. Natural joins connect the shared names. The starting expression is $\\pi_{customer\\_name}(\\sigma_{branch\\_city=Brooklyn\\land balance>1000}(branch\\bowtie(account\\bowtie depositor)))$.\n\nPrerequisites: Unit05 relational algebra; Unit09 logical versus physical plans. This lesson covers Lecture6a PDF pp.13–28. The opening query follows the text on p.23: **balance > 1000**. The p.24 diagram instead prints **balance < 1000**. Those predicates give different results; preserve this source discrepancy and use the p.23 target throughout this lesson. Page25 illustrates projection with a simpler Brooklyn-only query; the combined example here is a supplementary derivation, not a copied official solution. Lecture6b and Lab5 remain separate pending teaching work; p.29 lists reading not imported here.\n\n## Establish Equivalence Before Moving Operators\n\nEquivalent expressions return the same set of tuples for **every legal database instance**, not merely today's sample. Tuple order does not matter in this set model. SQL normally uses multisets: equal distinct values alone do not prove equivalence when duplicate counts differ. The following rule map uses set relational algebra and inner joins; it is not a license to rewrite outer joins or arbitrary SQL. Source: pp.14–16.\n\n| Rule | Safe transformation | Condition to check |\n|---|---|---|\n| 1 | Split a conjunctive selection into two selections. | Preserve both conjuncts. |\n| 2 | Exchange the order of two selections. | Both predicates remain evaluable. |\n| 3 | Collapse nested projections to the outer projection. | Every outer attribute must survive every inner projection. |\n| 4 | Replace selection over Cartesian product with theta join; fold selection over theta join into its predicate. | Keep the complete conjunction of predicates. |\n| 5 | Exchange inner theta-join or natural-join inputs. | Retain attribute identities and the same condition. |\n| 6 | Reassociate natural joins; reassociate theta joins with predicates moved to valid boundaries. | Each predicate's referenced attributes must exist at its new boundary. |\n\nFor Rule3, $\\pi_A(\\pi_{A,B}(R))=\\pi_A(R)$, but $\\pi_A(\\pi_B(R))$ is not a well-typed expression when A and B differ. The retained-schema condition makes explicit the assumption behind the lecture's shorthand.\n\nFor Rule6b, $(E_1\\bowtie_{\\theta_1}E_2)\\bowtie_{\\theta_2\\land\\theta_3}E_3=E_1\\bowtie_{\\theta_1\\land\\theta_3}(E_2\\bowtie_{\\theta_2}E_3)$, where $\\theta_2$ refers only to E2/E3 and the other predicates are evaluable at their displayed boundaries. Reassociation preserves conditions; it does not erase a link to E1.\n\n## Push Selections Where Their Attributes Exist\n\nRule7 permits a predicate referring only to one join input to move onto that input. A conjunction can split when each conjunct belongs to its respective input. Source: p.17; visual tree on p.18; banking examples pp.22–24.\n\nFor the opening query, move `branch_city = Brooklyn` onto branch and `balance > 1000` onto account. Reassociate the inner natural joins to combine the two filtered inputs before depositor. The join still uses `branch_name`, and the later join still uses `account_number`.\n\nA predicate comparing attributes from two inputs must wait until both are present. For a supplementary theta join of `R(x)` and `S(y)`, `x < y` cannot be evaluated on R alone. Writing it under R does not mean “filter earlier”; it produces an invalid expression.\n\nEarly selection can reduce the number of intermediate tuples. It does not by itself establish a measured runtime saving: selectivity, access paths and physical algorithms still matter.\n\n## Keep Join Keys When Pushing Projections\n\nRule8 permits early projection when it retains the final output attributes **and every attribute needed by the remaining join predicates**. If an input needs extra join attributes, keep them temporarily and remove them with a final projection. Source: p.19; banking schema p.21; worked projection p.25.\n\nAfter the filtered branch joins the filtered account, its schema includes `branch_name`, `branch_city`, `assets`, `account_number`, `balance`. Only `account_number` must cross this boundary to join depositor; depositor supplies `customer_name`. Dropping account_number before that join would remove its required link. The combined opening plan is:\n\n```mermaid\nflowchart BT\n  B[branch] --> SB[Select Brooklyn]\n  A[account] --> SA[Select balance greater than 1000]\n  SB --> J[Join on branch_name]\n  SA --> J\n  J --> P[Keep account_number]\n  D[depositor] --> K[Join on account_number]\n  P --> K\n  K --> O[Keep customer_name]\n```\n\n**Figure 1 — Preserve the next join's key.** Read bottom to top: selections remove unwanted rows, the first join links branches and accounts, then projection removes unneeded columns while retaining account_number. The last join supplies names and the final projection removes its auxiliary key. This is a supplementary combination of the p.23 predicate and p.25 projection pattern, not the inconsistent p.24 diagram. In this set model, merging identical intermediate account_number values does not change the final set of names; SQL duplicate multiplicities require a separate check.\n\n## Check Set Operations and Counterexamples\n\n| Rule | Valid set-algebra identity | Boundary |\n|---|---|---|\n| 9 | Union and intersection commute. | Difference does not commute. |\n| 10 | Union and intersection associate. | Difference does not associate. |\n| 11 | Selection distributes over union, intersection and difference. | Inputs must have compatible schemas; predicate must be valid on both. |\n| 12 | Projection distributes over union. | Do not extend this rule to intersection or difference. |\n\nSource: p.20. For example, $\\sigma_p(R-S)=\\sigma_p(R)-\\sigma_p(S)$ and $\\pi_A(R\\cup S)=\\pi_A(R)\\cup\\pi_A(S)$. Union compatibility requires matching attribute domains/schema, not simply the same number of rows.\n\n**Supplementary counterexample.** On schema (a,b), let R={(1,x)} and S={(1,y)}, with x different from y. R intersect S is empty, so projecting it onto a is empty. But both separate projections are {1}, whose intersection is {1}. Projection therefore does not distribute over intersection. Likewise, projecting R minus S gives {1}, while subtracting the separate projections gives the empty set. One legal counterexample disproves a purported universal equivalence.\n\n## Compare Join Orders Without Inventing Costs\n\nFor the opening query, a valid result-preserving plan is: filter branch to Brooklyn; filter account to balance >1000; join them on branch_name; retain account_number; join depositor on account_number; project customer_name. Each moved predicate has its attributes, each join has its key, and both conditions from p.23 remain present.\n\nThe lecture's join-order example compares `(r1 join r2) join r3` with `r1 join (r2 join r3)`: choosing a smaller first intermediate can reduce later work. For Brooklyn, pp.26–27 suggest that filtered branch joined with account may be smaller than account joined with depositor. This is a stated expectation, not measured statistics or proof that one physical plan always wins. Projection narrows tuples; selection can reduce their count. Neither supplies an I/O cost without sizes, algorithms and the output convention from Unit09.\n\nUse a repeatable method: state the target predicate and set/multiset semantics; list attributes; apply a named valid rule; preserve keys and conditions; compare intermediate sizes; only then estimate physical costs. Optimisers systematically enumerate alternatives, but time and space limit that search (p.28). Before declaring equivalence, also resolve source inconsistencies: p.23's >1000 and p.24's <1000 cannot be interchangeable targets.\n"
+    },
+    {
+      "id": "content/reviewed/SOE201/10/practice",
+      "relative": "content/reviewed/SOE201/10/practice.md",
+      "kind": "practice",
+      "unit": "10",
+      "origin": "project",
+      "hash": "f58b269e7e032458707693e0bf2271a647057497fd3b51673fae34062a08fb20",
+      "markdown": "# Recall and Practice\n\nAll checks, cards and problems below are supplementary teaching practice derived from Lecture6a pp.13–28. They are not Lab5 questions, an official answer scheme or evidence of mastery. Use the p.23 balance >1000 query; p.24 prints the opposite inequality.\n\n## Atomic recall\n\n### Card 01 — What must equivalent set-algebra expressions return?\n> [!success]- Answer\n> The same set of tuples on every legal database instance; tuple order is irrelevant.\n>\n> Source: Lecture6a p.14.\n\n### Card 02 — When can selection move to one join input?\n> [!success]- Answer\n> When its predicate refers only to attributes available in that input.\n>\n> Source: Lecture6a p.17, Rule7.\n\n### Card 03 — What must an early projection retain?\n> [!success]- Answer\n> Final output attributes and attributes required by every remaining join or predicate.\n>\n> Source: Lecture6a p.19, Rule8; p.25.\n\n### Card 04 — Over which set operation does projection distribute here?\n> [!success]- Answer\n> Union; it does not generally distribute over intersection or difference.\n>\n> Source: Lecture6a p.20, Rule12; supplementary counterexamples.\n\n### Card 05 — Why is one matching sample insufficient to prove equivalence?\n> [!success]- Answer\n> Equivalence requires matching results on every legal instance; a single counterexample disproves it.\n>\n> Source: Lecture6a p.14.\n\n### Card 06 — Does a smaller intermediate prove the fastest physical plan?\n> [!success]- Answer\n> No. Compare estimated costs using relation sizes, algorithms and execution conventions; estimates do not establish measured runtime.\n>\n> Source: Lecture6a pp.11–12,26–28.\n\n## Worked practice\n\n### Problem 1 — Preserve the link to depositor\nSUPPLEMENTARY PRACTICE. Rewrite the opening Brooklyn/balance >1000 query. After joining filtered branch and account, which attributes must survive for the remaining natural join and final output? Explain each rewrite.\n\n> [!tip]- Hint\n> Locate branch_city, balance, branch_name, account_number and customer_name in the source schema. A value absent from the final output may still be essential to a join.\n\n> [!success]- Solution\n> Rule6 reassociates the inner natural joins. Rule7 moves branch_city=Brooklyn onto branch and balance>1000 onto account. Join those inputs on branch_name. Rule8 permits keeping account_number from this intermediate because the next join uses it; depositor supplies customer_name. Join on account_number, then project customer_name. Keeping only branch_name would lose the account/depositor link. Retaining extra columns is correct but less narrow. This combined derivation uses p.23's predicate and p.25's projection pattern; it does not assert a measured speedup or SQL multiset equivalence.\n\n### Problem 2 — Disprove an overgeneralised projection rule\nSUPPLEMENTARY PRACTICE. R={(1,x)} and S={(1,y)} have schema (a,b), with x different from y. Compare projection onto a before and after intersection and difference.\n\n> [!tip]- Hint\n> Compare full tuples first. Then compare the projected one-column relations.\n\n> [!success]- Solution\n> R intersect S is empty; its projection is empty. Both separate projections are {1}; their intersection is {1}. R minus S is R, whose projection is {1}. The separate projections' difference is {1} minus {1}, hence empty. Both proposed distributions fail. Rule12 promises distribution over union, not these operations. The examples use set semantics and compatible schemas.\n\n### Problem 3 — Detect the source inequality discrepancy\nSUPPLEMENTARY PRACTICE. A Brooklyn branch B has account A_high with balance1500 and account A_low with balance500. Depositor links C_high to A_high and C_low to A_low. Compare the p.23 text target with the p.24 diagram's inequality. What if both balances were exactly1000?\n\n> [!tip]- Hint\n> Evaluate strict > and strict < separately. An account at the boundary satisfies neither predicate.\n\n> [!success]- Solution\n> With balance>1000, the final name set is {C_high}. With balance<1000, it is {C_low}. They differ, so replacing one predicate with the other is not an equivalence rewrite. If both balances were1000, both results would be empty; this single agreement would not prove universal equivalence. The lesson explicitly uses p.23's >1000 target and records p.24's conflicting diagram. These rows are invented to expose the discrepancy, not downloaded official test data.\n"
     }
   ],
   "cards": [
@@ -1334,6 +1367,48 @@
       "question": "What does an unlabelled plan edge mean in this lecture?",
       "answer": "Pipelining is assumed unavailable on that edge under the course convention.",
       "source": "Source: Lecture6a p.10."
+    },
+    {
+      "id": "10-01",
+      "unit": "10",
+      "question": "What must equivalent set-algebra expressions return?",
+      "answer": "The same set of tuples on every legal database instance; tuple order is irrelevant.",
+      "source": "Source: Lecture6a p.14."
+    },
+    {
+      "id": "10-02",
+      "unit": "10",
+      "question": "When can selection move to one join input?",
+      "answer": "When its predicate refers only to attributes available in that input.",
+      "source": "Source: Lecture6a p.17, Rule7."
+    },
+    {
+      "id": "10-03",
+      "unit": "10",
+      "question": "What must an early projection retain?",
+      "answer": "Final output attributes and attributes required by every remaining join or predicate.",
+      "source": "Source: Lecture6a p.19, Rule8; p.25."
+    },
+    {
+      "id": "10-04",
+      "unit": "10",
+      "question": "Over which set operation does projection distribute here?",
+      "answer": "Union; it does not generally distribute over intersection or difference.",
+      "source": "Source: Lecture6a p.20, Rule12; supplementary counterexamples."
+    },
+    {
+      "id": "10-05",
+      "unit": "10",
+      "question": "Why is one matching sample insufficient to prove equivalence?",
+      "answer": "Equivalence requires matching results on every legal instance; a single counterexample disproves it.",
+      "source": "Source: Lecture6a p.14."
+    },
+    {
+      "id": "10-06",
+      "unit": "10",
+      "question": "Does a smaller intermediate prove the fastest physical plan?",
+      "answer": "No. Compare estimated costs using relation sizes, algorithms and execution conventions; estimates do not establish measured runtime.",
+      "source": "Source: Lecture6a pp.11–12,26–28."
     }
   ],
   "assets": {
@@ -1883,6 +1958,31 @@
           "label": "Materialised390; pipelined365 transfers.",
           "correct": false,
           "feedback": "390 omits the intermediate write required by materialisation."
+        }
+      ]
+    },
+    {
+      "id": "10-activity",
+      "unit": "10",
+      "kind": "quiz",
+      "title": "Audit a rewrite",
+      "prompt": "A plan filters Brooklyn branches and balance >1000 accounts, joins them, discards account_number, then joins depositor. What is the first necessary repair?",
+      "source": "Lecture6a pp.19,21,23,25; supplementary combined example.",
+      "options": [
+        {
+          "label": "Keep account_number until after joining depositor.",
+          "correct": true,
+          "feedback": "It is the shared key for the remaining join; the final projection may remove it afterward."
+        },
+        {
+          "label": "Replace >1000 by <1000 to follow the p.24 diagram.",
+          "correct": false,
+          "feedback": "That changes the explicitly chosen p.23 target and does not restore the missing join key."
+        },
+        {
+          "label": "Choose a faster physical join without restoring the attribute.",
+          "correct": false,
+          "feedback": "A physical algorithm cannot repair an invalid logical expression whose required key was discarded."
         }
       ]
     }
@@ -5755,6 +5855,186 @@
           "label": "Assume no DBMS can ever pipeline hash joins.",
           "correct": false,
           "feedback": "A course annotation rule is not a universal prohibition on all implementations or phases."
+        }
+      ]
+    },
+    {
+      "id": "10-check-01",
+      "unit": "10",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "Which target does this lesson preserve?",
+      "source": "Lecture6a PDF pp.13–28; In 60 Seconds. Supplementary learning check, not an official assessment.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "In 60 Seconds"
+      },
+      "options": [
+        {
+          "label": "Brooklyn accounts with balance >1000, following p.23.",
+          "correct": true,
+          "feedback": "The p.24 diagram prints <1000; that discrepancy is recorded rather than silently changing the target."
+        },
+        {
+          "label": "Brooklyn accounts with balance <1000, regardless of the text.",
+          "correct": false,
+          "feedback": "The p.23 text and p.24 diagram disagree. This lesson explicitly selects the p.23 target."
+        },
+        {
+          "label": "Any Brooklyn account, because the balance test can be dropped.",
+          "correct": false,
+          "feedback": "Dropping a required predicate changes the result."
+        }
+      ]
+    },
+    {
+      "id": "10-check-02",
+      "unit": "10",
+      "lesson": "establish-equivalence-before-moving-operators",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "When is collapsing nested projections safe?",
+      "source": "Lecture6a PDF pp.13–28; Establish Equivalence Before Moving Operators. Supplementary learning check, not an official assessment.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Establish Equivalence Before Moving Operators"
+      },
+      "options": [
+        {
+          "label": "Whenever their attribute lists have the same length.",
+          "correct": false,
+          "feedback": "List length cannot recover an attribute already discarded."
+        },
+        {
+          "label": "When all outer attributes survive the inner projections.",
+          "correct": true,
+          "feedback": "The expression must remain well typed; projection cannot restore removed attributes."
+        },
+        {
+          "label": "Only when the sample results happen to agree.",
+          "correct": false,
+          "feedback": "Equivalence requires all legal instances, not one agreeing sample."
+        }
+      ]
+    },
+    {
+      "id": "10-check-03",
+      "unit": "10",
+      "lesson": "push-selections-where-their-attributes-exist",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "For R(x) joined with S(y), where can x<y be evaluated?",
+      "source": "Lecture6a PDF pp.13–28; Push Selections Where Their Attributes Exist. Supplementary learning check, not an official assessment.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Push Selections Where Their Attributes Exist"
+      },
+      "options": [
+        {
+          "label": "On R alone before any join.",
+          "correct": false,
+          "feedback": "R does not contain y, so the predicate is not evaluable there."
+        },
+        {
+          "label": "On S alone before any join.",
+          "correct": false,
+          "feedback": "S does not contain x, so the comparison cannot be evaluated on S alone."
+        },
+        {
+          "label": "At a boundary where both x and y exist.",
+          "correct": true,
+          "feedback": "Mixed-input predicates must retain access to both referenced attributes."
+        }
+      ]
+    },
+    {
+      "id": "10-check-04",
+      "unit": "10",
+      "lesson": "keep-join-keys-when-pushing-projections",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "What must the first banking join retain before joining depositor?",
+      "source": "Lecture6a PDF pp.13–28; Keep Join Keys When Pushing Projections. Supplementary learning check, not an official assessment.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Keep Join Keys When Pushing Projections"
+      },
+      "options": [
+        {
+          "label": "account_number, even though final output is customer_name.",
+          "correct": true,
+          "feedback": "account_number connects the intermediate accounts to depositor; remove it only after that join."
+        },
+        {
+          "label": "Only branch_name; every natural join uses branch names.",
+          "correct": false,
+          "feedback": "depositor has account_number and customer_name, not branch_name."
+        },
+        {
+          "label": "No attributes, since customer_name comes from depositor.",
+          "correct": false,
+          "feedback": "Without account_number the remaining join loses its intended link."
+        }
+      ]
+    },
+    {
+      "id": "10-check-05",
+      "unit": "10",
+      "lesson": "check-set-operations-and-counterexamples",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "R={(1,x)}, S={(1,y)} with x different from y. What are projection-a(R intersection S) and projection-a(R) intersection projection-a(S)?",
+      "source": "Lecture6a PDF pp.13–28; Check Set Operations and Counterexamples. Supplementary learning check, not an official assessment.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Check Set Operations and Counterexamples"
+      },
+      "options": [
+        {
+          "label": "Both are {1}.",
+          "correct": false,
+          "feedback": "The full tuples differ, so their intersection is empty before projection."
+        },
+        {
+          "label": "Empty set, then {1}.",
+          "correct": true,
+          "feedback": "Projection removes b, merging the distinct full tuples into the same a value."
+        },
+        {
+          "label": "{1}, then empty set.",
+          "correct": false,
+          "feedback": "This reverses the two calculations."
+        }
+      ]
+    },
+    {
+      "id": "10-check-06",
+      "unit": "10",
+      "lesson": "compare-join-orders-without-inventing-costs",
+      "kind": "quiz",
+      "title": "Check your reasoning",
+      "prompt": "A filtered join is expected to create fewer intermediate tuples. What follows?",
+      "source": "Lecture6a PDF pp.13–28; Compare Join Orders Without Inventing Costs. Supplementary learning check, not an official assessment.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Compare Join Orders Without Inventing Costs"
+      },
+      "options": [
+        {
+          "label": "It guarantees the fastest measured execution.",
+          "correct": false,
+          "feedback": "No runtime was measured and physical algorithms still matter."
+        },
+        {
+          "label": "The p.24 inequality may replace p.23 to shrink output.",
+          "correct": false,
+          "feedback": "An optimiser must preserve the target result, including its inequality."
+        },
+        {
+          "label": "It is a candidate plan; estimate physical costs before choosing.",
+          "correct": true,
+          "feedback": "Smaller intermediates can help, but sizes, algorithms and execution conventions determine estimated cost."
         }
       ]
     }

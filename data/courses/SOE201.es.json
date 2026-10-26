@@ -3,9 +3,9 @@
   "code": "SOE201",
   "title": "Desarrollo avanzado de bases de datos",
   "vaultPrefix": "10_UNIVERSITY_CS/SOE201/",
-  "generatedAt": "2026-10-25T05:49:51.495Z",
+  "generatedAt": "2026-10-26T02:22:54.661Z",
   "evidence": {
-    "scope": "Se suministraron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. Las dos clases de optimización y Lab5 de la semana 6 se descargaron el 23 de octubre y están disponibles en la biblioteca de originales. La unidad09 ya explica los planes, la materialización y el pipeline según Lecture6a pp.3–12. Siguen pendientes las reescrituras algebraicas, Lecture6b y la práctica guiada de Lab5. Coursework 2 se conserva de forma privada. No se afirma que toda la asignatura esté actualizada. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
+    "scope": "Se proporcionaron seis unidades teóricas y dos segmentos de estudio JDBC. El nuevo álgebra relacional, la evaluación de consultas y la Tarea 2 publicada son ediciones web locales; Las instantáneas de fuentes más antiguas conservan sus declaraciones de cobertura histórica. Lecture5a/5b y Lab4 del archivo del 12 de octubre con verificación de hash ahora están integrados como Units07/08 y Lab04. Las clases de optimización de la Semana 6 y Lab5 se descargaron del portal autenticado el 23 de octubre y ahora se encuentran en la biblioteca de origen original; Las Unidades 09/10 enseñan planes de consulta, materialización, canalización y reescrituras algebraicas de Lecture6a pp.3–28; la discrepancia de desigualdad p.23/p.24 es explícita. Quedan pendientes la docencia guiada Lecture6b y Lab5. Coursework2 se conserva de forma privada, no se publica. No hay reclamo de integridad actual. Los capítulos de libros de texto no revisados ​​siguen pendientes.",
     "overviewSha256": "e94aebf34a34f397828251f24123a9905246c0ff9bc4125271c0f64649383076"
   },
   "units": [
@@ -181,6 +181,21 @@
           "Distinguir una expresión lógica de algoritmos y coordinación de ejecución.",
           "Realice un seguimiento de las escrituras y lecturas intermedias según una convención de salida explícita.",
           "Explique la ejecución push/pull y conserve las anotaciones del canal de la clase."
+        ]
+      }
+    },
+    {
+      "id": "10",
+      "title": "Expresiones equivalentes y reescrituras seguras de consultas",
+      "short": "Reescrituras equivalentes",
+      "folder": "Web 10",
+      "kind": "theory",
+      "guide": {
+        "goal": "Reescribe expresiones de combinación interna conservando los predicados, los atributos necesarios y la semántica del resultado.",
+        "successCriteria": [
+          "Explica la equivalencia en cada instancia válida y distingue conjuntos de multiconjuntos SQL.",
+          "Adelanta selecciones y proyecciones conservando sus atributos y claves necesarias.",
+          "Refuta transformaciones incorrectas y distingue los tamaños esperados del tiempo de ejecución medido."
         ]
       }
     }
@@ -1791,8 +1806,8 @@
       "kind": "tutor",
       "unit": "09",
       "origin": "project",
-      "hash": "178bdbef7b4b53d78666f0bebc13a459cde64c2f39565f682ccb304bc5aca269",
-      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Planes de consulta, materialización y pipeline\n\n## En 60 segundos\n\n**Caso inicial inventado con fines didácticos.** Dos operadores forman un plan válido. El productor cuesta 500 transferencias de bloques y produce una relación intermedia de 40 bloques. Al consumidor le cuesta 200 transferencias, incluida la lectura de esos 40 bloques. Sus fórmulas excluyen las escrituras de salida. ¿Se puede comparar un frontera materializada con un pipeline permitida sin contar una lectura dos veces?\n\nSu objetivo es identificar el algoritmo, el límite entre operadores y la convención de costes antes de sumar números. Requisitos previos: Unidad 05 de álgebra relacional y Unidades 06–08 de evaluación física. Esta lección cubre las páginas 3 a 12 del PDF de Lecture6a, con identidad/resultados en las páginas 1 y 2. Las reglas de reescritura algebraica de las páginas 13 a 29, Lecture6b y Lab5 permanecen separadas en espera del trabajo docente. No se ha medido la ejecución de ninguna base de datos ni se presenta un resultado oficial de evaluación.\n\n## Separar una expresión lógica de su plan de evaluación\n\nUna expresión relacional especifica el resultado requerido. Un plan de evaluación también elige un algoritmo para cada operación y coordina su ejecución. Por tanto, una misma expresión lógica puede tener diferentes planes físicos. Por ejemplo, el resultado de una selección puede almacenarse antes de que su padre lo consuma o pasarse directamente a través de un pipeline permitido. Resultados equivalentes no implican un trabajo de disco idéntico. Fuente: Lecture6a págs. 3–4,9,11–12.\n\nPara cada arista del árbol de expresión, pregunte: ¿qué produce el hijo, qué requiere el padre y debe almacenarse el resultado intermedio? No asuma que cambiar una arista permite cambiar predicados o descartar tuplas.\n\n## Almacenar un resultado intermedio o pasar tuplas\n\n**Materialización** completa una operación intermedia, escribe su resultado como una relación temporal y luego deja que una operación posterior lo consuma. En el ejemplo de la clase, la selección alimenta una combinación (join) y esta alimenta una proyección. La materialización es generalmente aplicable en el modelo de evaluación suministrado, pero el almacenamiento temporal añade trabajo. **Pipelining** permite que un padre consuma tuplas mientras su hijo las produce, evitando una relación de disco temporal cuando esté permitido. Fuente: Lecture6a págs.4–7.\n\n```mermaid\nflowchart LR\n  A[Selection] -->|materialised boundary| T[Temporary disk relation]\n  T --> B[Parent operator]\n  C[Selection] -->|permitted pipeline| D[Parent operator]\n```\n\n**Figura 1: Límites alternativos, no resultados de consulta diferentes.** Léalo de izquierda a derecha: la ruta superior almacena una relación intermedia; el camino inferior pasa tuplas a su consumidor. Conclusión clave: eliminar un archivo temporal requiere un estrategia de ejecución permitida. Este diagrama de enseñanza resume el árbol fuente en PDF p.5; No es un ejercicio extra oficial.\n\n## Contar escrituras sin contar lecturas dos veces\n\nLas fórmulas del operador de la clase omiten las escrituras de salida. Para la evaluación materializada, agregue las escrituras intermedias a la suma de los costes del operador; Es posible que el coste del operador consumidor ya incluya las lecturas correspondientes. Las escrituras finales de salida de consultas permanecen excluidas a menos que se soliciten explícitamente. Fuente: Lecture6a p.6, con el contraste de transmisión en la p.7.\n\nRegrese al caso de apertura. Primero identifique el desglose de costes:\n\n| Concepto | Con materialización | Con pipeline |\n|---|---:|---:|\n| Trabajo del productor | 500 | 500 |\n| Trabajo del consumidor aparte de la lectura intermedia | 160 | 160 |\n| Leer relación intermedia desde el disco | 40 | 0 |\n| Escribir relación intermedia al disco | 40 | 0 |\n| Transferencias totales de bloques | 740 | 660 |\n\nEl coste con materialización es $500+200+40=740$. El 200 ya contiene la lectura de 40 bloques: agregar otros 40 para lectura daría incorrectamente 780. Bajo el supuesto sintético de que el resto del trabajo no cambia y el pipeline está permitido, el coste con pipeline es $500+(200-40)=660$. El ahorro es de 80 transferencias, una escritura intermedia y una lectura intermedia. Estos son recuentos de transferencias, no milisegundos; Los desplazamientos del cabezal (seeks) y el trabajo de CPU quedan fuera del modelo. Si los dos algoritmos cambian, vuelva a calcular sus costes en lugar de restar mecánicamente 80.\n\n## Explicar las fases de empujar, tirar y bloquear\n\nUna canalización **impulsada por el productor (push)** envía tuplas al padre a través de un búfer. Cuando ese buffer está lleno, el operador hijo espera por espacio. Una canalización **impulsada por la demanda (pull)** comienza con una solicitud para la siguiente tupla de salida; cada operador solicita tuplas de sus hijos según sea necesario y retiene el estado entre solicitudes. Por lo tanto, una canalización no significa que no se necesite memoria ni estado. Fuente: Lecture6a p.8.\n\nLa canalización no es posible en todas las fases. La clasificación externa puede necesitar un procesamiento preliminar de toda la entrada; una combinación hash tiene una fase de construcción preliminar. Esto evita afirmar que cada operador puede transmitir inmediatamente su resultado final desde su primera tupla de entrada. No establece que cada fase de cada algoritmo deba siempre materializar su resultado. Fuente: Lecture6a p.7; la distinción de fases es una aclaración local de esa limitación establecida.\n\n## Aplique la convención del curso antes de comparar planes\n\nLa lección 6a, página 10, ofrece una convención específica: una arista etiquetada como pipeline permite la canalización; se supone que una arista sin etiquetar no lo permite. Para las combinaciones (joins), a menos que se indique explícitamente lo contrario, la fuente selecciona la familia de bucles anidados para su tratamiento de canalización. Conserve estas anotaciones en los ejercicios del curso en lugar de reemplazarlas con suposiciones sobre un DBMS arbitrario. Esta es una regla de modelado de cursos, no una declaración universal de que todas las demás implementaciones de combinación nunca podrán canalizarse.\n\nUtilice este método: identifique el resultado lógico; elija los algoritmos de operador indicados; inspeccionar cada límite; lecturas y escrituras intermedias separadas; calcular costes en una unidad; luego verifique qué componentes del coste y política de escritura de la salida final están excluidos. Un optimizador basado en costes elige utilizando estimaciones, por lo que no se garantiza que el ganador estimado sea la ejecución medida más rápida. Fuente: Lecture6a págs.9-12. El ejemplo inicial establece un ahorro condicional de 80 transferencias, no una afirmación incondicional de que la canalización es siempre más rápida.\n",
+      "hash": "03610070cb2cf0754ce35d240a7ff48dffdf2486e97ddce22d7411fa0debf8ad",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Planes de consulta, materialización y pipeline\n\n## En 60 segundos\n\n**Caso inicial inventado con fines didácticos.** Dos operadores forman un plan válido. El productor cuesta 500 transferencias de bloques y produce una relación intermedia de 40 bloques. Al consumidor le cuesta 200 transferencias, incluida la lectura de esos 40 bloques. Sus fórmulas excluyen las escrituras de salida. ¿Se puede comparar un frontera materializada con un pipeline permitida sin contar una lectura dos veces?\n\nTu objetivo es identificar el algoritmo, la frontera entre operadores y la convención de costes antes de sumar. Requisitos previos: álgebra relacional de la unidad05 y evaluación física de las unidades06–08. Esta lección cubre Lecture6a PDF pp.3–12; la identidad y los objetivos están en pp.1–2. Las reglas de reescritura de pp.13–28 se explican por separado en [[content/reviewed/SOE201/10/tutor|Unidad10]]. La p.29 enumera lecturas; siguen pendientes Lecture6b y la práctica guiada de Lab5. No se afirma haber medido ninguna base de datos ni obtenido un resultado oficial de evaluación.\n\n## Separar una expresión lógica de su plan de evaluación\n\nUna expresión relacional especifica el resultado requerido. Un plan de evaluación también elige un algoritmo para cada operación y coordina su ejecución. Por tanto, una misma expresión lógica puede tener diferentes planes físicos. Por ejemplo, el resultado de una selección puede almacenarse antes de que su padre lo consuma o pasarse directamente a través de un pipeline permitido. Resultados equivalentes no implican un trabajo de disco idéntico. Fuente: Lecture6a págs. 3–4,9,11–12.\n\nPara cada arista del árbol de expresión, pregunte: ¿qué produce el hijo, qué requiere el padre y debe almacenarse el resultado intermedio? No asuma que cambiar una arista permite cambiar predicados o descartar tuplas.\n\n## Almacenar un resultado intermedio o pasar tuplas\n\n**Materialización** completa una operación intermedia, escribe su resultado como una relación temporal y luego deja que una operación posterior lo consuma. En el ejemplo de la clase, la selección alimenta una combinación (join) y esta alimenta una proyección. La materialización es generalmente aplicable en el modelo de evaluación suministrado, pero el almacenamiento temporal añade trabajo. **Pipelining** permite que un padre consuma tuplas mientras su hijo las produce, evitando una relación de disco temporal cuando esté permitido. Fuente: Lecture6a págs.4–7.\n\n```mermaid\nflowchart LR\n  A[Selection] -->|materialised boundary| T[Temporary disk relation]\n  T --> B[Parent operator]\n  C[Selection] -->|permitted pipeline| D[Parent operator]\n```\n\n**Figura 1: Límites alternativos, no resultados de consulta diferentes.** Léalo de izquierda a derecha: la ruta superior almacena una relación intermedia; el camino inferior pasa tuplas a su consumidor. Conclusión clave: eliminar un archivo temporal requiere un estrategia de ejecución permitida. Este diagrama de enseñanza resume el árbol fuente en PDF p.5; No es un ejercicio extra oficial.\n\n## Contar escrituras sin contar lecturas dos veces\n\nLas fórmulas del operador de la clase omiten las escrituras de salida. Para la evaluación materializada, agregue las escrituras intermedias a la suma de los costes del operador; Es posible que el coste del operador consumidor ya incluya las lecturas correspondientes. Las escrituras finales de salida de consultas permanecen excluidas a menos que se soliciten explícitamente. Fuente: Lecture6a p.6, con el contraste de transmisión en la p.7.\n\nRegrese al caso de apertura. Primero identifique el desglose de costes:\n\n| Concepto | Con materialización | Con pipeline |\n|---|---:|---:|\n| Trabajo del productor | 500 | 500 |\n| Trabajo del consumidor aparte de la lectura intermedia | 160 | 160 |\n| Leer relación intermedia desde el disco | 40 | 0 |\n| Escribir relación intermedia al disco | 40 | 0 |\n| Transferencias totales de bloques | 740 | 660 |\n\nEl coste con materialización es $500+200+40=740$. El 200 ya contiene la lectura de 40 bloques: agregar otros 40 para lectura daría incorrectamente 780. Bajo el supuesto sintético de que el resto del trabajo no cambia y el pipeline está permitido, el coste con pipeline es $500+(200-40)=660$. El ahorro es de 80 transferencias, una escritura intermedia y una lectura intermedia. Estos son recuentos de transferencias, no milisegundos; Los desplazamientos del cabezal (seeks) y el trabajo de CPU quedan fuera del modelo. Si los dos algoritmos cambian, vuelva a calcular sus costes en lugar de restar mecánicamente 80.\n\n## Explicar las fases de empujar, tirar y bloquear\n\nUna canalización **impulsada por el productor (push)** envía tuplas al padre a través de un búfer. Cuando ese buffer está lleno, el operador hijo espera por espacio. Una canalización **impulsada por la demanda (pull)** comienza con una solicitud para la siguiente tupla de salida; cada operador solicita tuplas de sus hijos según sea necesario y retiene el estado entre solicitudes. Por lo tanto, una canalización no significa que no se necesite memoria ni estado. Fuente: Lecture6a p.8.\n\nLa canalización no es posible en todas las fases. La clasificación externa puede necesitar un procesamiento preliminar de toda la entrada; una combinación hash tiene una fase de construcción preliminar. Esto evita afirmar que cada operador puede transmitir inmediatamente su resultado final desde su primera tupla de entrada. No establece que cada fase de cada algoritmo deba siempre materializar su resultado. Fuente: Lecture6a p.7; la distinción de fases es una aclaración local de esa limitación establecida.\n\n## Aplique la convención del curso antes de comparar planes\n\nLa lección 6a, página 10, ofrece una convención específica: una arista etiquetada como pipeline permite la canalización; se supone que una arista sin etiquetar no lo permite. Para las combinaciones (joins), a menos que se indique explícitamente lo contrario, la fuente selecciona la familia de bucles anidados para su tratamiento de canalización. Conserve estas anotaciones en los ejercicios del curso en lugar de reemplazarlas con suposiciones sobre un DBMS arbitrario. Esta es una regla de modelado de cursos, no una declaración universal de que todas las demás implementaciones de combinación nunca podrán canalizarse.\n\nUtilice este método: identifique el resultado lógico; elija los algoritmos de operador indicados; inspeccionar cada límite; lecturas y escrituras intermedias separadas; calcular costes en una unidad; luego verifique qué componentes del coste y política de escritura de la salida final están excluidos. Un optimizador basado en costes elige utilizando estimaciones, por lo que no se garantiza que el ganador estimado sea la ejecución medida más rápida. Fuente: Lecture6a págs.9-12. El ejemplo inicial establece un ahorro condicional de 80 transferencias, no una afirmación incondicional de que la canalización es siempre más rápida.\n",
       "headingAliases": {
         "Query Plans, Materialisation and Pipelining": "Planes de consulta, materialización y pipeline",
         "In 60 Seconds": "En 60 segundos",
@@ -1842,6 +1857,65 @@
         "problem-1-audit-the-transfer-ledger",
         "problem-2-diagnose-a-full-push-buffer",
         "problem-3-challenge-an-unjustified-streaming-claim"
+      ]
+    },
+    {
+      "id": "content/reviewed/SOE201/10/tutor",
+      "relative": "content/reviewed/SOE201/10/tutor.md",
+      "kind": "tutor",
+      "unit": "10",
+      "origin": "project",
+      "hash": "a22ee758dda1ffd1c0a4c319c30882661f30709e230419d37edd655e9ffd7c2e",
+      "markdown": "---\ncourse: SOE201\nlanguage: en\nstudy_status: untested\n---\n\n# Expresiones equivalentes y reescrituras de consultas seguras\n\n## En 60 segundos\n\n**Consulta inicial de la fuente.** Encuentra nombres de clientes para cuentas en sucursales de Brooklyn con saldo superior a 1000. ¿Puedes filtrar y estrechar las relaciones intermedias sin cambiar los nombres que se devuelven?\n\nLecture6a p.21 proporciona `branch(branch_name, branch_city, assets)`, `account(account_number, branch_name, balance)` y `depositor(customer_name, account_number)`. Las combinaciones naturales conectan los nombres compartidos. La expresión inicial es $\\pi_{customer\\_name}(\\sigma_{branch\\_city=Brooklyn\\land balance>1000}(branch\\bowtie(account\\bowtie depositor)))$.\n\nRequisitos previos: Unidad 05 álgebra relacional; Unidad09: planes lógicos y físicos. Esta lección cubre Lecture6a PDF, páginas 13 a 28. La consulta de apertura sigue el texto de la página 23: **saldo > 1000**. En cambio, el diagrama de la página 24 imprime **saldo < 1000**. Esos predicados dan resultados diferentes; preserve esta discrepancia de fuente y utilice el objetivo de la página 23 a lo largo de esta lección. La página 25 ilustra la proyección con una consulta más sencilla exclusiva de Brooklyn; el ejemplo combinado aquí es una derivación complementaria, no una solución oficial copiada. Lecture6b y Lab5 permanecen separados como trabajo docente pendiente; la página 29 enumera las lecturas no importadas aquí.\n\n## Establecer la equivalencia antes de mover operadores\n\nLas expresiones equivalentes devuelven el mismo conjunto de tuplas para **cada instancia de base de datos válida**, no solo para la muestra de hoy. El orden de las tuplas no importa en este modelo de conjunto. SQL normalmente utiliza multiconjuntos: los valores distintos iguales por sí solos no prueban la equivalencia cuando los recuentos duplicados difieren. El siguiente mapa de reglas utiliza álgebra relacional de conjuntos y combinaciones internas; no es una licencia para reescribir combinaciones externas o SQL arbitrario. Fuente: págs. 14-16.\n\n| Regla | Transformación segura | Condición que comprobar |\n|---|---|---|\n| 1 | Divida una selección conjuntiva en dos selecciones. | Conserva ambos predicados de la conjunción. |\n| 2 | Intercambia el orden de dos selecciones. | Ambos predicados siguen siendo evaluables. |\n| 3 | Contraiga las proyecciones anidadas a la proyección exterior. | Cada atributo externo debe sobrevivir a cada proyección interna. |\n| 4 | Sustituye la selección sobre un producto cartesiano por una combinación theta; incorpora la selección sobre una combinación theta a su predicado. | Mantenga la conjunción completa de predicados. |\n| 5 | Intercambie entradas de combinación theta interna o de combinación natural. | Conservar las identidades de los atributos y la misma condición. |\n| 6 | Reasociar combinaciones naturales; reasociar combinaciones theta con predicados movidos a límites válidos. | Los atributos a los que se hace referencia de cada predicado deben existir en su nuevo límite. |\n\nPara la regla 3, $\\pi_A(\\pi_{A,B}(R))=\\pi_A(R)$, pero $\\pi_A(\\pi_B(R))$ no es una expresión bien tipada cuando A y B difieren. La condición de esquema retenido hace explícita la suposición detrás de la notación abreviada de la clase.\n\nPara la regla 6b, $(E_1\\bowtie_{\\theta_1}E_2)\\bowtie_{\\theta_2\\land\\theta_3}E_3=E_1\\bowtie_{\\theta_1\\land\\theta_3}(E_2\\bowtie_{\\theta_2}E_3)$, donde $\\theta_2$ se refiere solo a E2/E3 y los otros predicados son evaluables en sus límites mostrados. La reasociación preserva las condiciones; no borra un enlace a E1.\n\n## Adelantar selecciones donde existan sus atributos\n\nLa regla 7 permite que un predicado que se refiere sólo a una entrada de una combinación pase a esa entrada. Una conjunción puede dividirse cuando cada predicado pertenece a su respectiva entrada. Fuente: p.17; árbol visual en la p.18; ejemplos bancarios págs. 22-24.\n\nPara la consulta de apertura, mueva `branch_city = Brooklyn` a la sucursal y `balance > 1000` a la cuenta. Vuelva a asociar las combinaciones naturales internas para combinar las dos entradas filtradas antes del depositante. La combinación todavía usa `branch_name` y la combinación posterior todavía usa `account_number`.\n\nUn predicado que compara atributos de dos entradas debe esperar hasta que ambas estén presentes. Para una combinación theta complementaria de `R(x)` y `S(y)`, `x < y` no se puede evaluar solo en R. Escribirlo bajo R no significa \"filtrar antes\"; produce una expresión no válida.\n\nLa selección temprana puede reducir el número de tuplas intermedias. Por sí solo no establece un ahorro medido de tiempo de ejecución: la selectividad, las rutas de acceso y los algoritmos físicos siguen siendo importantes.\n\n## Conservar las claves al adelantar proyecciones\n\nLa regla8 permite la proyección temprana cuando conserva los atributos de salida final **y todos los atributos necesarios para los predicados de combinación restantes**. Si una entrada necesita atributos de combinación adicionales, manténgalos temporalmente y elimínelos con una proyección final. Fuente: p.19; esquema bancario p.21; ejemplo resuelto de proyección pág.25.\n\nDespués de que la sucursal filtrada se une a la cuenta filtrada, su esquema incluye `branch_name`, `branch_city`, `assets`, `account_number`, `balance`. Sólo `account_number` debe cruzar esta frontera para combinarse con depositor; depositor proporciona `customer_name`. Eliminar el account_number antes de esa combinación eliminaría el enlace requerido. El plan de apertura combinado es:\n\n```mermaid\nflowchart BT\n  B[branch] --> SB[Select Brooklyn]\n  A[account] --> SA[Select balance greater than 1000]\n  SB --> J[Join on branch_name]\n  SA --> J\n  J --> P[Keep account_number]\n  D[depositor] --> K[Join on account_number]\n  P --> K\n  K --> O[Keep customer_name]\n```\n\n**Figura 1: Preservar la clave de la siguiente combinación.** Lea de abajo hacia arriba: las selecciones eliminan filas no deseadas, la primera combinación vincula sucursales y cuentas, luego la proyección elimina las columnas innecesarias manteniendo el account_number. La última combinación proporciona nombres y la proyección final elimina su clave auxiliar. Esta es una combinación suplementaria del predicado de la página 23 y el patrón de proyección de la página 25, no el diagrama inconsistente de la página 24. En este modelo de conjunto, fusionar valores intermedios idénticos de account_number no cambia el conjunto final de nombres; las multiplicidades duplicadas de SQL requieren una verificación por separado.\n\n## Comprobar operaciones de conjuntos y contraejemplos\n\n| Regla | Identidad válida de álgebra de conjuntos | Límite |\n|---|---|---|\n| 9 | La unión y la intersección son conmutativas. | La diferencia no conmuta. |\n| 10 | La unión y la intersección son asociativas. | La diferencia no es asociativa. |\n| 11 | La selección se distribuye entre unión, intersección y diferencia. | Las entradas deben tener esquemas compatibles; el predicado debe ser válido en ambos. |\n| 12 | La proyección distribuye sobre la unión. | No extienda esta regla a la intersección o diferencia. |\n\nFuente: p.20. Por ejemplo, $\\sigma_p(R-S)=\\sigma_p(R)-\\sigma_p(S)$ y $\\pi_A(R\\cup S)=\\pi_A(R)\\cup\\pi_A(S)$. La compatibilidad de la unión requiere dominios/esquemas de atributos coincidentes, no simplemente el mismo número de filas.\n\n**Contraejemplo complementario.** En el esquema (a,b), sean R={(1,x)} y S={(1,y)}, con x diferente de y. La intersección de R y S está vacía, por lo que su proyección sobre a también está vacía. Pero ambas proyecciones separadas son {1}, cuya intersección es {1}. Por lo tanto, la proyección no se distribuye sobre la intersección. Asimismo, proyectar R menos S da {1}, mientras que restar las proyecciones separadas da el conjunto vacío. Un contraejemplo válido refuta una supuesta equivalencia universal.\n\n## Comparar órdenes de combinación sin inventar costes\n\nPara la consulta inicial, un plan que conserva el resultado es: filtrar branch por Brooklyn; filtrar account por balance >1000; combinar ambas relaciones por branch_name; conservar account_number; combinar con depositor por account_number; proyectar customer_name. Cada predicado movido tiene sus atributos, cada combinación tiene su clave y ambas condiciones de la página 23 permanecen presentes.\n\nEl ejemplo de orden de combinación de la clase compara `(r1 join r2) join r3` con `r1 join (r2 join r3)`: elegir un primer intermedio más pequeño puede reducir el trabajo posterior. Para Brooklyn, las páginas 26 y 27 sugieren que la sucursal filtrada unida a la cuenta puede ser más pequeña que la cuenta unida al depositante. Esta es una expectativa declarada, no estadísticas medidas ni prueba de que un plan físico siempre gana. La proyección estrecha las tuplas; la selección puede reducir su recuento. Ninguno proporciona un coste de E/S sin tamaños, algoritmos y la convención de salida de la Unidad09.\n\nUtilice un método repetible: indique el predicado objetivo y la semántica de conjunto o multiconjunto; enumerar atributos; aplicar una regla válida nombrada; conservar claves y condiciones; comparar tamaños intermedios; Sólo entonces estime los costes físicos. Los optimizadores enumeran sistemáticamente alternativas, pero el tiempo y el espacio limitan esa búsqueda (p.28). Antes de declarar la equivalencia, resuelva también las inconsistencias de fuente: el >1000 de la p.23 y el <1000 de la p.24 no pueden ser objetivos intercambiables.\n",
+      "headingAliases": {
+        "Equivalent Expressions and Safe Query Rewrites": "Expresiones equivalentes y reescrituras de consultas seguras",
+        "In 60 Seconds": "En 60 segundos",
+        "Establish Equivalence Before Moving Operators": "Establecer la equivalencia antes de mover operadores",
+        "Push Selections Where Their Attributes Exist": "Adelantar selecciones donde existan sus atributos",
+        "Keep Join Keys When Pushing Projections": "Conservar las claves al adelantar proyecciones",
+        "Check Set Operations and Counterexamples": "Comprobar operaciones de conjuntos y contraejemplos",
+        "Compare Join Orders Without Inventing Costs": "Comparar órdenes de combinación sin inventar costes"
+      },
+      "sectionIds": [
+        "in-60-seconds",
+        "establish-equivalence-before-moving-operators",
+        "push-selections-where-their-attributes-exist",
+        "keep-join-keys-when-pushing-projections",
+        "check-set-operations-and-counterexamples",
+        "compare-join-orders-without-inventing-costs"
+      ],
+      "problemIds": []
+    },
+    {
+      "id": "content/reviewed/SOE201/10/practice",
+      "relative": "content/reviewed/SOE201/10/practice.md",
+      "kind": "practice",
+      "unit": "10",
+      "origin": "project",
+      "hash": "f58b269e7e032458707693e0bf2271a647057497fd3b51673fae34062a08fb20",
+      "markdown": "# Recordar y practicar\n\nTodas las comprobaciones, tarjetas y problemas que aparecen a continuación son prácticas docentes complementarias derivadas de Lecture6a, páginas 13 a 28. No son preguntas de Lab5, un esquema de respuestas oficial o evidencia de dominio. Utilice la consulta p.23 saldo >1000; p.24 imprime la desigualdad opuesta.\n\n## Repaso activo atómico\n\n### Tarjeta 01: ¿Qué deben devolver las expresiones de álgebra de conjuntos equivalentes?\n> [!success]- Respuesta\n> El mismo conjunto de tuplas en cada instancia de base de datos válida; el orden de las tuplas es irrelevante.\n>\n> Fuente: Lecture6a p.14.\n\n### Tarjeta 02: ¿Cuándo puede pasar la selección a una entrada de una combinación?\n> [!success]- Respuesta\n> Cuando su predicado se refiere sólo a atributos disponibles en esa entrada.\n>\n> Fuente: Lecture6a p.17, Regla7.\n\n### Tarjeta 03 — ¿Qué debe retener una proyección temprana?\n> [!success]- Respuesta\n> Atributos de salida final y atributos requeridos por cada combinación o predicado restante.\n>\n> Fuente: Lecture6a p.19, Regla8; pág.25.\n\n### Tarjeta 04: ¿Sobre qué operación de conjunto se distribuye la proyección aquí?\n> [!success]- Respuesta\n> Unión; generalmente no se distribuye sobre la intersección o la diferencia.\n>\n> Fuente: Lecture6a p.20, Regla 12; contraejemplos complementarios.\n\n### Tarjeta 05: ¿Por qué una muestra coincidente es insuficiente para demostrar la equivalencia?\n> [!success]- Respuesta\n> La equivalencia requiere resultados coincidentes en cada instancia válida; un solo contraejemplo lo desmiente.\n>\n> Fuente: Lecture6a p.14.\n\n### Tarjeta 06: ¿Un resultado intermedio más pequeño demuestra que el plan físico es el más rápido?\n> [!success]- Respuesta\n> No. Compara los costes estimados utilizando tamaños de relación, algoritmos y convenciones de ejecución; las estimaciones no establecen el tiempo de ejecución medido.\n>\n> Fuente: Lecture6a págs. 11–12,26–28.\n\n## Práctica resuelta\n\n### Problema 1: conservar el vínculo con el depositante\nPRÁCTICA COMPLEMENTARIA. Vuelva a escribir la consulta de apertura Brooklyn/saldo >1000. Después de unir la sucursal y la cuenta filtradas, ¿qué atributos deben sobrevivir para la combinación natural restante y el resultado final? Explica cada reescritura.\n\n> [!tip]- Sugerencia\n> Ubica branch_city, balance, branch_name, account_number y customer_name en el esquema de origen. Un valor ausente en el resultado final aún puede ser esencial para una unión.\n\n> [!success]- Solución\n> La regla6 reasocia las combinaciones naturales internas. La regla7 mueve branch_city=Brooklyn a branch y balance>1000 a account. Combina estas entradas por branch_name. La regla8 permite conservar account_number en el resultado intermedio para la siguiente combinación; depositor proporciona customer_name. Combina por account_number y después proyecta customer_name. Mantener solo branch_name perdería el vínculo cuenta/depositante. Mantener columnas adicionales es correcto pero menos estrecho. Esta derivación combinada utiliza el predicado de la página 23 y el patrón de proyección de la página 25; no afirma una aceleración medida ni una equivalencia de multiconjuntos de SQL.\n\n### Problema 2: refutar una regla de proyección sobregeneralizada\nPRÁCTICA COMPLEMENTARIA. R={(1,x)} y S={(1,y)} tienen esquema (a,b), con x diferente de y. Compare la proyección sobre a antes y después de la intersección y diferencia.\n\n> [!tip]- Sugerencia\n> Compara primero las tuplas completas. Luego compare las relaciones proyectadas de una columna.\n\n> [!success]- Solución\n> La intersección de R y S está vacía; su proyección está vacía. Ambas proyecciones separadas son {1}; su intersección es {1}. R menos S es R, cuya proyección es {1}. La diferencia de las proyecciones separadas es {1} menos {1}, por lo tanto, vacía. Ambas distribuciones propuestas fracasan. La regla 12 promete distribución sobre la unión, no estas operaciones. Los ejemplos utilizan semántica de conjuntos y esquemas compatibles.\n\n### Problema 3: Detectar la discrepancia de desigualdad de origen\nPRÁCTICA COMPLEMENTARIA. Una sucursal B de Brooklyn tiene la cuenta A_high con saldo 1500 y la cuenta A_low con saldo 500. El depositante vincula C_high con A_high y C_low con A_low. Compara el objetivo del texto de la página 23 con la desigualdad del diagrama de la página 24. ¿Qué pasaría si ambos saldos fueran exactamente 1000?\n\n> [!tip]- Sugerencia\n> Evalúe estricto > y estricto < por separado. Una cuenta en el límite no satisface ninguno de los dos predicados.\n\n> [!success]- Solución\n> Con saldo>1000, el conjunto final de nombres es {C_high}. Con saldo <1000, es {C_low}. Difieren, por lo que reemplazar un predicado por otro no es una reescritura de equivalencia. Si ambos saldos fueran 1000, ambos resultados estarían vacíos; este acuerdo único no demostraría una equivalencia universal. La lección utiliza explícitamente el objetivo >1000 de la página 23 y registra el diagrama conflictivo de la página 24. Estas filas se inventaron para exponer la discrepancia, no se descargaron datos de prueba oficiales.\n",
+      "headingAliases": {
+        "Recall and Practice": "Recordar y practicar",
+        "Atomic recall": "Repaso activo atómico",
+        "Card 01 — What must equivalent set-algebra expressions return?": "Tarjeta 01: ¿Qué deben devolver las expresiones de álgebra de conjuntos equivalentes?",
+        "Card 02 — When can selection move to one join input?": "Tarjeta 02: ¿Cuándo puede pasar la selección a una entrada de una combinación?",
+        "Card 03 — What must an early projection retain?": "Tarjeta 03 — ¿Qué debe retener una proyección temprana?",
+        "Card 04 — Over which set operation does projection distribute here?": "Tarjeta 04: ¿Sobre qué operación de conjunto se distribuye la proyección aquí?",
+        "Card 05 — Why is one matching sample insufficient to prove equivalence?": "Tarjeta 05: ¿Por qué una muestra coincidente es insuficiente para demostrar la equivalencia?",
+        "Card 06 — Does a smaller intermediate prove the fastest physical plan?": "Tarjeta 06: ¿Un resultado intermedio más pequeño demuestra que el plan físico es el más rápido?",
+        "Worked practice": "Práctica resuelta",
+        "Problem 1 — Preserve the link to depositor": "Problema 1: conservar el vínculo con el depositante",
+        "Problem 2 — Disprove an overgeneralised projection rule": "Problema 2: refutar una regla de proyección sobregeneralizada",
+        "Problem 3 — Detect the source inequality discrepancy": "Problema 3: Detectar la discrepancia de desigualdad de origen"
+      },
+      "sectionIds": [
+        "atomic-recall",
+        "worked-practice"
+      ],
+      "problemIds": [
+        "problem-1-preserve-the-link-to-depositor",
+        "problem-2-disprove-an-overgeneralised-projection-rule",
+        "problem-3-detect-the-source-inequality-discrepancy"
       ]
     }
   ],
@@ -2552,6 +2626,48 @@
       "question": "¿Qué significa una arista del plan sin etiquetar en esta clase?",
       "answer": "Se supone que la canalización no está disponible en esa arista según la convención del curso.",
       "source": "Fuente: Lecture6a p.10."
+    },
+    {
+      "id": "10-01",
+      "unit": "10",
+      "question": "¿Qué deben devolver las expresiones equivalentes de álgebra de conjuntos?",
+      "answer": "El mismo conjunto de tuplas en cada instancia de base de datos válida; el orden de las tuplas es irrelevante.",
+      "source": "Fuente: Lecture6a p.14."
+    },
+    {
+      "id": "10-02",
+      "unit": "10",
+      "question": "¿Cuándo puede la selección pasar a una entrada de una combinación?",
+      "answer": "Cuando su predicado se refiere sólo a atributos disponibles en esa entrada.",
+      "source": "Fuente: Lecture6a p.17, Regla7."
+    },
+    {
+      "id": "10-03",
+      "unit": "10",
+      "question": "¿Qué debe retener una proyección temprana?",
+      "answer": "Atributos de salida final y atributos requeridos por cada combinación o predicado restante.",
+      "source": "Fuente: Lecture6a p.19, Regla8; pág.25."
+    },
+    {
+      "id": "10-04",
+      "unit": "10",
+      "question": "¿Sobre qué operación de conjunto se distribuye la proyección aquí?",
+      "answer": "Unión; generalmente no se distribuye sobre la intersección o la diferencia.",
+      "source": "Fuente: Lecture6a p.20, Regla 12; contraejemplos complementarios."
+    },
+    {
+      "id": "10-05",
+      "unit": "10",
+      "question": "¿Por qué una muestra coincidente es insuficiente para demostrar la equivalencia?",
+      "answer": "La equivalencia requiere resultados coincidentes en cada instancia válida; un solo contraejemplo lo desmiente.",
+      "source": "Fuente: Lecture6a p.14."
+    },
+    {
+      "id": "10-06",
+      "unit": "10",
+      "question": "¿Un resultado intermedio más pequeño demuestra que el plan físico es el más rápido?",
+      "answer": "No. Compare los costes estimados utilizando tamaños de relación, algoritmos y convenciones de ejecución; las estimaciones no establecen el tiempo de ejecución medido.",
+      "source": "Fuente: Lecture6a págs. 11–12,26–28."
     }
   ],
   "assets": {
@@ -3101,6 +3217,31 @@
           "label": "Materialización: 390; pipeline: 365 transferencias.",
           "correct": false,
           "feedback": "390 omite la escritura intermedia requerida por la materialización."
+        }
+      ]
+    },
+    {
+      "id": "10-activity",
+      "unit": "10",
+      "kind": "quiz",
+      "title": "Auditar una reescritura",
+      "prompt": "Un plan filtra branch por Brooklyn y account por balance >1000, combina ambas relaciones, descarta account_number y después intenta combinar con depositor. ¿Qué debe repararse primero?",
+      "source": "Lecture6a págs.19,21,23,25; Ejemplo combinado complementario.",
+      "options": [
+        {
+          "label": "Conservar account_number hasta después de la combinación con depositor.",
+          "correct": true,
+          "feedback": "Es la clave compartida para la combinación restante; la proyección final puede eliminarlo después."
+        },
+        {
+          "label": "Reemplace >1000 por <1000 para seguir el diagrama de la página 24.",
+          "correct": false,
+          "feedback": "Eso cambia el objetivo p.23 elegido explícitamente y no restaura la clave de combinación que falta."
+        },
+        {
+          "label": "Elija una combinación física más rápida sin restaurar el atributo.",
+          "correct": false,
+          "feedback": "Un algoritmo físico no puede reparar una expresión lógica no válida cuya clave requerida fue descartada."
         }
       ]
     }
@@ -6975,13 +7116,193 @@
           "feedback": "Una regla de anotación de curso no es una prohibición universal de todas las implementaciones o fases."
         }
       ]
+    },
+    {
+      "id": "10-check-01",
+      "unit": "10",
+      "lesson": "in-60-seconds",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué objetivo preserva esta lección?",
+      "source": "Lecture6a PDF pp.13–28; En 60 segundos. Comprobación complementaria de aprendizaje; no es una evaluación oficial.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "En 60 segundos"
+      },
+      "options": [
+        {
+          "label": "Cuentas de Brooklyn con saldo >1000, siguiendo la p.23.",
+          "correct": true,
+          "feedback": "El diagrama de la página 24 imprime <1000; esa discrepancia se registra en lugar de cambiar silenciosamente el objetivo."
+        },
+        {
+          "label": "Cuentas de Brooklyn con saldo <1000, independientemente del texto.",
+          "correct": false,
+          "feedback": "El texto de la página 23 y el diagrama de la página 24 no están de acuerdo. Esta lección selecciona explícitamente el objetivo de la página 23."
+        },
+        {
+          "label": "Cualquier cuenta de Brooklyn, porque se puede descartar la prueba de saldo.",
+          "correct": false,
+          "feedback": "Eliminar un predicado requerido cambia el resultado."
+        }
+      ]
+    },
+    {
+      "id": "10-check-02",
+      "unit": "10",
+      "lesson": "establish-equivalence-before-moving-operators",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Cuándo es seguro contraer proyecciones anidadas?",
+      "source": "Lecture6a PDF pp.13–28; Establecer la equivalencia antes de mover operadores. Comprobación complementaria de aprendizaje; no es una evaluación oficial.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Establecer la equivalencia antes de mover operadores"
+      },
+      "options": [
+        {
+          "label": "Siempre que sus listas de atributos tengan la misma longitud.",
+          "correct": false,
+          "feedback": "La longitud de la lista no puede recuperar un atributo ya descartado."
+        },
+        {
+          "label": "Cuando todos los atributos externos sobreviven a las proyecciones internas.",
+          "correct": true,
+          "feedback": "La expresión debe quedar bien tipada; la proyección no puede restaurar los atributos eliminados."
+        },
+        {
+          "label": "Sólo cuando los resultados de la muestra coinciden.",
+          "correct": false,
+          "feedback": "La equivalencia requiere todas las instancias válidas, no una muestra concordante."
+        }
+      ]
+    },
+    {
+      "id": "10-check-03",
+      "unit": "10",
+      "lesson": "push-selections-where-their-attributes-exist",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "Para R(x) unido con S(y), ¿dónde se puede evaluar x<y?",
+      "source": "Lecture6a PDF pp.13–28; Adelantar selecciones donde existan sus atributos. Comprobación complementaria de aprendizaje; no es una evaluación oficial.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Adelantar selecciones donde existan sus atributos"
+      },
+      "options": [
+        {
+          "label": "Solo en R antes de cualquier unión.",
+          "correct": false,
+          "feedback": "R no contiene y, por lo que el predicado no es evaluable allí."
+        },
+        {
+          "label": "Solo en S antes de cualquier unión.",
+          "correct": false,
+          "feedback": "S no contiene x, por lo que la comparación no puede evaluarse sólo sobre S."
+        },
+        {
+          "label": "En un límite donde existen tanto x como y.",
+          "correct": true,
+          "feedback": "Los predicados de entrada mixta deben conservar el acceso a ambos atributos a los que se hace referencia."
+        }
+      ]
+    },
+    {
+      "id": "10-check-04",
+      "unit": "10",
+      "lesson": "keep-join-keys-when-pushing-projections",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "¿Qué debe conservar la primera combinación antes de combinarse con depositor?",
+      "source": "Lecture6a PDF pp.13–28; Conservar las claves al adelantar proyecciones. Comprobación complementaria de aprendizaje; no es una evaluación oficial.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Conservar las claves al adelantar proyecciones"
+      },
+      "options": [
+        {
+          "label": "account_number, aunque la salida final sea customer_name.",
+          "correct": true,
+          "feedback": "account_number conecta las cuentas intermedias con depositor; elimínalo sólo después de esa combinación."
+        },
+        {
+          "label": "Sólo branch_name; cada combinación natural utiliza nombres de sucursales.",
+          "correct": false,
+          "feedback": "el depositante tiene account_number y customer_name, no branch_name."
+        },
+        {
+          "label": "Sin atributos, ya que customer_name proviene del depositante.",
+          "correct": false,
+          "feedback": "Sin account_number, la combinación restante pierde su vínculo previsto."
+        }
+      ]
+    },
+    {
+      "id": "10-check-05",
+      "unit": "10",
+      "lesson": "check-set-operations-and-counterexamples",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "R={(1,x)}, S={(1,y)} con x diferente de y. ¿Qué son la proyección-a(R intersección S) y la proyección-a(R) intersección proyección-a(S)?",
+      "source": "Lecture6a PDF pp.13–28; Comprobar operaciones de conjuntos y contraejemplos. Comprobación complementaria de aprendizaje; no es una evaluación oficial.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Comprobar operaciones de conjuntos y contraejemplos"
+      },
+      "options": [
+        {
+          "label": "Ambos son {1}.",
+          "correct": false,
+          "feedback": "Las tuplas completas difieren, por lo que su intersección está vacía antes de la proyección."
+        },
+        {
+          "label": "Conjunto vacío, luego {1}.",
+          "correct": true,
+          "feedback": "La proyección elimina b, fusionando las distintas tuplas completas en el mismo valor a."
+        },
+        {
+          "label": "{1}, luego conjunto vacío.",
+          "correct": false,
+          "feedback": "Esto invierte los dos cálculos."
+        }
+      ]
+    },
+    {
+      "id": "10-check-06",
+      "unit": "10",
+      "lesson": "compare-join-orders-without-inventing-costs",
+      "kind": "quiz",
+      "title": "Comprueba tu razonamiento",
+      "prompt": "Se espera que una unión filtrada cree menos tuplas intermedias. ¿Qué sigue?",
+      "source": "Lecture6a PDF pp.13–28; Comparar órdenes de combinación sin inventar costes. Comprobación complementaria de aprendizaje; no es una evaluación oficial.",
+      "basis": {
+        "docId": "content/reviewed/SOE201/10/tutor",
+        "heading": "Comparar órdenes de combinación sin inventar costes"
+      },
+      "options": [
+        {
+          "label": "Garantiza la ejecución medida más rápida.",
+          "correct": false,
+          "feedback": "No se midió el tiempo de ejecución y los algoritmos físicos siguen siendo importantes."
+        },
+        {
+          "label": "La desigualdad p.24 puede reemplazar a la p.23 para reducir la salida.",
+          "correct": false,
+          "feedback": "Un optimizador debe preservar el resultado objetivo, incluida su desigualdad."
+        },
+        {
+          "label": "Es un plan candidato; estima los costes físicos antes de elegir.",
+          "correct": true,
+          "feedback": "Los resultados intermedios más pequeños pueden ayudar, pero los tamaños, los algoritmos y las convenciones de ejecución determinan el coste estimado."
+        }
+      ]
     }
   ],
   "language": "es",
   "translation": {
-    "method": "Existing reviewed Spanish records preserved; new unit translated with protected source syntax and technical terminology reviewed on 2026-10-24.",
-    "translatedAt": "2026-10-24T02:05:09.862354+00:00",
-    "sourceFingerprint": "64cebb0efa5fc051de6b1149d9918053f98dbcfa8fa51837ae653cf7c981f287",
+    "method": "Reviewed prior Spanish records preserved; new Unit10 terminology, source discrepancy, schemas, examples and checks technically reviewed on 2026-10-26.",
+    "translatedAt": "2026-10-26T02:17:12.580107+00:00",
+    "sourceFingerprint": "5113b99e69b5750646f864b284a30d33680f274e900a89951af340fae8d7d35e",
     "sourceLanguage": "en",
     "targetLanguage": "es"
   }
